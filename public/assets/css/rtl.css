@@ -1,0 +1,197 @@
+/* Set direction for the entire body */
+body {
+    direction: rtl;
+  }
+  
+  /* Text alignment */
+  .text-left {
+    text-align: right !important;
+  }
+  
+  .text-right {
+    text-align: left !important;
+  }
+  
+  /* Margin and Padding adjustments */
+  .ml-auto {
+    margin-right: auto !important;
+    margin-left: 0 !important;
+  }
+  
+  .mr-auto {
+    margin-left: auto !important;
+    margin-right: 0 !important;
+  }
+  
+  .pl-3, .px-3 {
+    padding-right: 1rem !important;
+    padding-left: 0 !important;
+  }
+  
+  .pr-3, .px-3 {
+    padding-left: 1rem !important;
+    padding-right: 0 !important;
+  }
+  
+  /* Header adjustments */
+  .header-logo {
+    margin-right: auto;
+    margin-left: 0;
+  }
+  
+  .main-menu > ul {
+    flex-direction: row-reverse;
+  }
+  
+  .main-menu > ul > li > a {
+    padding-left: 0;
+    padding-right: 35px; /* Adjust padding for RTL */
+  }
+  
+  .sub-menu {
+    left: auto;
+    right: 0;
+  }
+  
+  .mega-menu {
+    left: auto;
+    right: 0;
+    text-align: right;
+  }
+  
+  .header-action {
+    flex-direction: row-reverse;
+  }
+  
+  /* Hero Section */
+  .hero-slide-3-content {
+    text-align: right;
+  }
+  
+  .hero-slide-3-title {
+    margin-left: 0;
+    margin-right: 25px;
+  }
+  
+  /* Feature Section */
+  .feature-content {
+    text-align: right;
+  }
+  
+  .feature-title {
+    margin-left: 0;
+    margin-right: 15px;
+  }
+  
+  /* Footer adjustments */
+  .footer-widget-list li i {
+    margin-left: 0;
+    margin-right: 15px;
+  }
+  
+  .footer-widget-subscribe input[type="email"] {
+    padding-left: 140px;
+    padding-right: 30px;
+  }
+  
+  .footer-widget {
+    text-align: right;
+  }
+  
+  /* Slider and Swiper adjustments */
+  .swiper-button-next {
+    right: auto;
+    left: 10px;
+  }
+  
+  .swiper-button-prev {
+    left: auto;
+    right: 10px;
+  }
+  
+  /* Adjustments for specific sections */
+  .section-title-center .text {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .banner .horizontal-img {
+    transform: scaleX(-1); /* Flip image horizontally for RTL */
+  }
+  
+  .testimonial {
+    text-align: right;
+  }
+  
+  .testimonial-text {
+    margin-left: 0;
+    margin-right: 15px;
+  }
+  
+  /* Blog Area */
+  .blog .blog-content {
+    text-align: right;
+  }
+  
+  .blog-title a {
+    margin-left: 0;
+    margin-right: 10px;
+  }
+  
+  .blog .btn {
+    float: left;
+  }
+  
+  /* Subscribe Section */
+  .subscribe-newsletter input[type="email"] {
+    text-align: right;
+    padding-left: 20px;
+    padding-right: 140px;
+  }
+  
+  /* Pagination adjustments */
+  .pagination {
+    direction: ltr; /* Revert pagination direction */
+  }
+  
+  .pagination .page-link {
+    margin-left: 0;
+    margin-right: 10px;
+  }
+  
+  /* Utility Classes */
+  .float-left {
+    float: right !important;
+  }
+  
+  .float-right {
+    float: left !important;
+  }
+  
+  .d-flex {
+    flex-direction: row-reverse !important;
+  }
+  
+  .align-items-start {
+    align-items: flex-end !important;
+  }
+  
+  .align-items-end {
+    align-items: flex-start !important;
+  }
+  
+  /* Miscellaneous */
+  .scroll-to-top {
+    right: auto;
+    left: 10px;
+  }
+  
+  .swiper-pagination {
+    text-align: right !important;
+  }
+  .mobile-sub-menu-toggle {
+
+    right: auto !important;
+    left: 0 !important;
+
+}

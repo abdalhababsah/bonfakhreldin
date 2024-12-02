@@ -1,0 +1,160 @@
+
+/* Ensure all product images have a fixed size */
+.fixed-size-image {
+    width: 100%;
+    height: 306px;
+    object-fit: contain;
+}
+
+/* Additional margin-top for product cards */
+.products-card {
+    margin-top: 20px;
+}
+
+/* Badge Styling */
+.product-badge-new,
+.product-badge-soldout {
+    position: absolute;
+    top: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.product-badge-new {
+    left: 10px;
+    background-color: #28a745;
+    /* Green for 'New' */
+}
+
+.product-badge-soldout {
+    right: 10px;
+    background-color: #dc3545;
+    /* Red for 'Sold Out' */
+}
+
+/* Product Action Buttons */
+.product-action {
+    position: absolute;
+    top: 10px;
+    right: 40px;
+    display: flex;
+    gap: 5px;
+}
+
+.product-action-btn {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: none;
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.product-action-btn:hover {
+    background-color: rgba(255, 255, 255, 1);
+}
+
+/* Product Variation Buttons */
+.product-variation-type-btn {
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.product-variation-type-btn img {
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    transition: border 0.3s;
+}
+
+.product-variation-type-btn:hover img {
+    border-color: #000;
+}
+
+/* Pagination Styling */
+.pagination .page-item .page-link {
+    color: #000;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #000;
+    border-color: #000;
+    color: #fff;
+}
+
+.pagination .page-item.disabled .page-link {
+    color: #6c757d;
+    pointer-events: none;
+    cursor: auto;
+    background-color: #fff;
+    border-color: #dee2e6;
+}
+
+/* Optional: Adjust arrow icon sizes */
+.pagination .page-link i {
+    font-size: 1rem;
+}
+#category-filter{
+    border: #000 1px solid;
+}
+
+/* Slide-in Animations */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.animate-slide-in-left {
+    animation: slideInLeft 0.5s ease-out forwards;
+}
+
+.animate-slide-in-right {
+    animation: slideInRight 0.5s ease-out forwards;
+}
+
+/* Loader Styling */
+#loader {
+    /* Center the loader within the container */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    /* Adjust based on preference */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 576px) {
+    .product-action {
+        right: 20px;
+    }
+
+    .product-badge-new,
+    .product-badge-soldout {
+        font-size: 10px;
+        padding: 4px 8px;
+    }
+}
