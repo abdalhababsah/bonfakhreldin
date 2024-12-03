@@ -829,13 +829,20 @@ hr {
 
 /* Footre Top Section */
 .footer-top {
-  padding: 80px 0;
+  padding: 0px 0px 0px;
 }
 
 @media only screen and (max-width: 767px) {
-  .footer-top {
-    padding: 60px 0;
+  #footer-top-container{
+    justify-content: center !important;
   }
+}
+  @media only screen and (max-width: 767px) {
+  .footer-top {
+    padding: 0px 0px 20px;
+    justify-content: center;
+  }
+
 }
 
 /* Widget */
@@ -846,7 +853,7 @@ hr {
 
 .footer-widget img {
   margin-bottom: 30px;
-  height: 150px;
+  height: 100px;
 }
 
 .footer-widget p:not(:last-child) {
@@ -1743,11 +1750,6 @@ only screen and (min-width: 992px) and (max-width: 1199px) {
 .blog-carousel:hover .swiper-button-prev,
 .team-carousel:hover .swiper-button-prev {
   left: 0;
-}
-
-.blog-carousel:hover .swiper-button-next,
-.team-carousel:hover .swiper-button-next {
-  right: 0;
 }
 
 /* Ion Range Slider */
@@ -5813,9 +5815,9 @@ only screen and (max-width: 767px) {
 .product-section-bottom {
   border-bottom-left-radius: 50px;
   background-color: #126442;
-  border: 1px solid;
+  border: 1px solid #126442;
   padding: 30px;
-  height: 106px;
+  height: 116px;
   overflow: hidden;
   /* Ensures the content does not spill */
 }

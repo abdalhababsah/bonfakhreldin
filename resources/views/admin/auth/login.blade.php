@@ -3,8 +3,8 @@
 @include('admin.layout.partials.head')
 <body class="bg-gray-200">
     <main class="main-content mt-0">
-        <div class="page-header align-items-start min-vh-100" style="background-image: url('https://images.unsplash.com/photo-1497294815431-9365093b7331');">
-            <span class="mask bg-gradient-dark opacity-6"></span>
+        <div class="page-header align-items-start min-vh-100">
+            <span class="mask  opacity-6"></span>
             <div class="container my-auto">
                 <div class="row">
                     <div class="col-lg-4 col-md-8 col-12 mx-auto">

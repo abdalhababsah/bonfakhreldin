@@ -264,8 +264,7 @@
         </div>
 
         <!-- Product Section Start -->
-        <div style="   position: relative;
-    z-index: 10;" class="h3-feature-section product-section section section-padding">
+        <div style="position: relative; z-index: 10;" class="h3-feature-section product-section section section-padding">
             <div class="container">
                 <div class="section-title section-title-center">
                     <p class="title">@lang('home.our_products')</p>
@@ -287,90 +286,43 @@
                         </div>
                         <div class="group-product-slider swiper" data-nav-target="group-product-1">
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <div class="product-small">
-                                        <div class="product-small-thumb">
-                                            <a href="product-details.html" class="product-small-image"><img
-                                                    loading="lazy"
-                                                    src="{{ asset('assets/images/products/small/product-1.png') }}"
-                                                    alt="{{ __('home.product_name1') }}" width="110"
-                                                    height="126"></a>
-                                        </div>
-                                        <div class="product-small-content">
-                                            <h5 class="product-small-title"><a
-                                                    href="product-details.html">@lang('home.product_name1')</a></h5>
-                                            <div class="product-small-action">
-                                                <button class="product-small-action-btn"
-                                                    data-tooltip-text="@lang('home.quick_view')" data-bs-toggle="modal"
-                                                    data-bs-target="#exampleProductModal"><i
-                                                        class="sli-magnifier"></i></button>
+                                @foreach ($coffeeProducts->products as $product)
+                                    <div class="swiper-slide">
+                                        <div class="product-small">
+                                            <div class="product-small-thumb">
+                                                <a href="{{ route('products.show', $product->slug) }}"
+                                                    class="product-small-image">
+                                                    @if ($product->images->isNotEmpty())
+                                                        <img loading="lazy"
+                                                            src="{{ asset('storage/' . $product->images->first()->image_url) }}"
+                                                            alt="{{ $product->{'name_' . app()->getLocale()} }}"
+                                                            width="110" height="126">
+                                                    @else
+                                                        <img loading="lazy"
+                                                            src="{{ asset('storage/default_image.png') }}"
+                                                            alt="{{ $product->{'name_' . app()->getLocale()} }}"
+                                                            width="110" height="126">
+                                                    @endif
+                                                </a>
+                                            </div>
+                                            <div class="product-small-content">
+                                                <h5 class="product-small-title">
+                                                    <a href="{{ route('products.show', $product->slug) }}">
+                                                        {{ $product->{'name_' . app()->getLocale()} }}
+                                                    </a>
+                                                </h5>
+                                                <div class="product-small-action">
+                                                    <button class="product-small-action-btn"
+                                                        data-tooltip-text="@lang('home.quick_view')" data-bs-toggle="modal"
+                                                        data-bs-target="#exampleProductModal">
+                                                        <i class="sli-magnifier"></i>
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="product-small">
-                                        <div class="product-small-thumb">
-                                            <a href="product-details.html" class="product-small-image"><img
-                                                    loading="lazy"
-                                                    src="{{ asset('assets/images/products/small/product-1.png') }}"
-                                                    alt="{{ __('home.product_name1') }}" width="110"
-                                                    height="126"></a>
-                                        </div>
-                                        <div class="product-small-content">
-                                            <h5 class="product-small-title"><a
-                                                    href="product-details.html">@lang('home.product_name1')</a></h5>
-                                            <div class="product-small-action">
-                                                <button class="product-small-action-btn"
-                                                    data-tooltip-text="@lang('home.quick_view')" data-bs-toggle="modal"
-                                                    data-bs-target="#exampleProductModal"><i
-                                                        class="sli-magnifier"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="product-small">
-                                        <div class="product-small-thumb">
-                                            <a href="product-details.html" class="product-small-image"><img
-                                                    loading="lazy"
-                                                    src="{{ asset('assets/images/products/small/product-1.png') }}"
-                                                    alt="{{ __('home.product_name1') }}" width="110"
-                                                    height="126"></a>
-                                        </div>
-                                        <div class="product-small-content">
-                                            <h5 class="product-small-title"><a
-                                                    href="product-details.html">@lang('home.product_name1')</a></h5>
-                                            <div class="product-small-action">
-                                                <button class="product-small-action-btn"
-                                                    data-tooltip-text="@lang('home.quick_view')" data-bs-toggle="modal"
-                                                    data-bs-target="#exampleProductModal"><i
-                                                        class="sli-magnifier"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="product-small">
-                                        <div class="product-small-thumb">
-                                            <a href="product-details.html" class="product-small-image"><img
-                                                    loading="lazy"
-                                                    src="{{ asset('assets/images/products/small/product-1.png') }}"
-                                                    alt="{{ __('home.product_name1') }}" width="110"
-                                                    height="126"></a>
-                                        </div>
-                                        <div class="product-small-content">
-                                            <h5 class="product-small-title"><a
-                                                    href="product-details.html">@lang('home.product_name1')</a></h5>
-                                            <div class="product-small-action">
-                                                <button class="product-small-action-btn"
-                                                    data-tooltip-text="@lang('home.quick_view')" data-bs-toggle="modal"
-                                                    data-bs-target="#exampleProductModal"><i
-                                                        class="sli-magnifier"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                @endforeach
+
                                 <!-- Add more swiper slides as needed -->
                             </div>
                             <div class="swiper-pagination d-none"></div>
@@ -386,181 +338,50 @@
                         </div>
                         <div class="group-product-slider swiper" data-nav-target="group-product-2">
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <div class="product-small">
-                                        <div class="product-small-thumb">
-                                            <a href="product-details.html" class="product-small-image"><img
-                                                    loading="lazy"
-                                                    src="{{ asset('assets/images/products/small/product-1.png') }}"
-                                                    alt="{{ __('home.product_name1') }}" width="110"
-                                                    height="126"></a>
-                                        </div>
-                                        <div class="product-small-content">
-                                            <h5 class="product-small-title"><a
-                                                    href="product-details.html">@lang('home.product_name1')</a></h5>
-                                            <div class="product-small-action">
-                                                <button class="product-small-action-btn"
-                                                    data-tooltip-text="@lang('home.quick_view')" data-bs-toggle="modal"
-                                                    data-bs-target="#exampleProductModal"><i
-                                                        class="sli-magnifier"></i></button>
+                                @foreach ($chocolateProducts->products as $product)
+                                    <div class="swiper-slide">
+                                        <div class="product-small">
+                                            <div class="product-small-thumb">
+                                                <a href="{{ route('products.show', $product->slug) }}"
+                                                    class="product-small-image">
+                                                    @if ($product->images->isNotEmpty())
+                                                        <img loading="lazy"
+                                                            src="{{ asset('storage/' . $product->images->first()->image_url) }}"
+                                                            alt="{{ $product->{'name_' . app()->getLocale()} }}"
+                                                            width="110" height="126">
+                                                    @else
+                                                        <img loading="lazy"
+                                                            src="{{ asset('storage/default_image.png') }}"
+                                                            alt="{{ $product->{'name_' . app()->getLocale()} }}"
+                                                            width="110" height="126">
+                                                    @endif
+                                                </a>
+                                            </div>
+                                            <div class="product-small-content">
+                                                <h5 class="product-small-title">
+                                                    <a href="{{ route('products.show', $product->slug) }}">
+                                                        {{ $product->{'name_' . app()->getLocale()} }}
+                                                    </a>
+                                                </h5>
+                                                <div class="product-small-action">
+                                                    <button class="product-small-action-btn"
+                                                        data-tooltip-text="@lang('home.quick_view')" data-bs-toggle="modal"
+                                                        data-bs-target="#exampleProductModal">
+                                                        <i class="sli-magnifier"></i>
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="product-small">
-                                        <div class="product-small-thumb">
-                                            <a href="product-details.html" class="product-small-image"><img
-                                                    loading="lazy"
-                                                    src="{{ asset('assets/images/products/small/product-1.png') }}"
-                                                    alt="{{ __('home.product_name1') }}" width="110"
-                                                    height="126"></a>
-                                        </div>
-                                        <div class="product-small-content">
-                                            <h5 class="product-small-title"><a
-                                                    href="product-details.html">@lang('home.product_name1')</a></h5>
-                                            <div class="product-small-action">
-                                                <button class="product-small-action-btn"
-                                                    data-tooltip-text="@lang('home.quick_view')" data-bs-toggle="modal"
-                                                    data-bs-target="#exampleProductModal"><i
-                                                        class="sli-magnifier"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="product-small">
-                                        <div class="product-small-thumb">
-                                            <a href="product-details.html" class="product-small-image"><img
-                                                    loading="lazy"
-                                                    src="{{ asset('assets/images/products/small/product-1.png') }}"
-                                                    alt="{{ __('home.product_name1') }}" width="110"
-                                                    height="126"></a>
-                                        </div>
-                                        <div class="product-small-content">
-                                            <h5 class="product-small-title"><a
-                                                    href="product-details.html">@lang('home.product_name1')</a></h5>
-                                            <div class="product-small-action">
-                                                <button class="product-small-action-btn"
-                                                    data-tooltip-text="@lang('home.quick_view')" data-bs-toggle="modal"
-                                                    data-bs-target="#exampleProductModal"><i
-                                                        class="sli-magnifier"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="product-small">
-                                        <div class="product-small-thumb">
-                                            <a href="product-details.html" class="product-small-image"><img
-                                                    loading="lazy"
-                                                    src="{{ asset('assets/images/products/small/product-1.png') }}"
-                                                    alt="{{ __('home.product_name1') }}" width="110"
-                                                    height="126"></a>
-                                        </div>
-                                        <div class="product-small-content">
-                                            <h5 class="product-small-title"><a
-                                                    href="product-details.html">@lang('home.product_name1')</a></h5>
-                                            <div class="product-small-action">
-                                                <button class="product-small-action-btn"
-                                                    data-tooltip-text="@lang('home.quick_view')" data-bs-toggle="modal"
-                                                    data-bs-target="#exampleProductModal"><i
-                                                        class="sli-magnifier"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="product-small">
-                                        <div class="product-small-thumb">
-                                            <a href="product-details.html" class="product-small-image"><img
-                                                    loading="lazy"
-                                                    src="{{ asset('assets/images/products/small/product-1.png') }}"
-                                                    alt="{{ __('home.product_name1') }}" width="110"
-                                                    height="126"></a>
-                                        </div>
-                                        <div class="product-small-content">
-                                            <h5 class="product-small-title"><a
-                                                    href="product-details.html">@lang('home.product_name1')</a></h5>
-                                            <div class="product-small-action">
-                                                <button class="product-small-action-btn"
-                                                    data-tooltip-text="@lang('home.quick_view')" data-bs-toggle="modal"
-                                                    data-bs-target="#exampleProductModal"><i
-                                                        class="sli-magnifier"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="product-small">
-                                        <div class="product-small-thumb">
-                                            <a href="product-details.html" class="product-small-image"><img
-                                                    loading="lazy"
-                                                    src="{{ asset('assets/images/products/small/product-1.png') }}"
-                                                    alt="{{ __('home.product_name1') }}" width="110"
-                                                    height="126"></a>
-                                        </div>
-                                        <div class="product-small-content">
-                                            <h5 class="product-small-title"><a
-                                                    href="product-details.html">@lang('home.product_name1')</a></h5>
-                                            <div class="product-small-action">
-                                                <button class="product-small-action-btn"
-                                                    data-tooltip-text="@lang('home.quick_view')" data-bs-toggle="modal"
-                                                    data-bs-target="#exampleProductModal"><i
-                                                        class="sli-magnifier"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="product-small">
-                                        <div class="product-small-thumb">
-                                            <a href="product-details.html" class="product-small-image"><img
-                                                    loading="lazy"
-                                                    src="{{ asset('assets/images/products/small/product-1.png') }}"
-                                                    alt="{{ __('home.product_name1') }}" width="110"
-                                                    height="126"></a>
-                                        </div>
-                                        <div class="product-small-content">
-                                            <h5 class="product-small-title"><a
-                                                    href="product-details.html">@lang('home.product_name1')</a></h5>
-                                            <div class="product-small-action">
-                                                <button class="product-small-action-btn"
-                                                    data-tooltip-text="@lang('home.quick_view')" data-bs-toggle="modal"
-                                                    data-bs-target="#exampleProductModal"><i
-                                                        class="sli-magnifier"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="product-small">
-                                        <div class="product-small-thumb">
-                                            <a href="product-details.html" class="product-small-image"><img
-                                                    loading="lazy"
-                                                    src="{{ asset('assets/images/products/small/product-1.png') }}"
-                                                    alt="{{ __('home.product_name1') }}" width="110"
-                                                    height="126"></a>
-                                        </div>
-                                        <div class="product-small-content">
-                                            <h5 class="product-small-title"><a
-                                                    href="product-details.html">@lang('home.product_name1')</a></h5>
-                                            <div class="product-small-action">
-                                                <button class="product-small-action-btn"
-                                                    data-tooltip-text="@lang('home.quick_view')" data-bs-toggle="modal"
-                                                    data-bs-target="#exampleProductModal"><i
-                                                        class="sli-magnifier"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                @endforeach
+
                                 <!-- Add more swiper slides as needed -->
                             </div>
                             <div class="swiper-pagination d-none"></div>
                         </div>
                     </div>
                     <div class="col mb-8  hide-on-sm">
-                        <a href="shop.html" class="banner"><img style="object-fit: cover" class="horizontal-img"
+                        <a href="shop.html" class="banner"><img style="object-fit: cover;" class="horizontal-img"
                                 src="{{ asset('assets/images/home/Artboard-2.png') }}"
                                 alt="{{ __('home.horizontal_banner') }}"></a>
                     </div>
@@ -570,7 +391,7 @@
 
         <div class="h3-feature-section product-section-bottom section section-padding">
             <div class="container">
-             
+
             </div>
         </div>
         <!-- Product Section End -->
@@ -629,15 +450,32 @@
                     <div class="swiper-wrapper">
                         <div class="swiper-slide">
                             <div class="blog">
-                                <a href="blog-details-left-sidebar.html" class="blog-thumb"><img loading="lazy"
-                                        src="./assets/images/blog/blog-1.jpg" alt="{{ __('home.blog_post1_title') }}"
-                                        width="348" height="232"></a>
-                                <div class="blog-content">
-                                    <h4 class="blog-title"><a href="blog-details-left-sidebar.html">@lang('home.blog_post1_title')</a>
-                                    </h4>
-                                    <p>@lang('home.blog_excerpt1')</p>
-                                    <a href="blog-details-left-sidebar.html" class="btn">@lang('home.explore_more')</a>
-                                </div>
+                                <a class="blog-thumb"><img loading="lazy" src="./assets/images/blog/blog-1.jpg"
+                                        alt="{{ __('home.blog_post1_title') }}" width="348" height="232"></a>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="blog">
+                                <a class="blog-thumb"><img loading="lazy" src="./assets/images/blog/blog-1.jpg"
+                                        alt="{{ __('home.blog_post1_title') }}" width="348" height="232"></a>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="blog">
+                                <a class="blog-thumb"><img loading="lazy" src="./assets/images/blog/blog-1.jpg"
+                                        alt="{{ __('home.blog_post1_title') }}" width="348" height="232"></a>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="blog">
+                                <a class="blog-thumb"><img loading="lazy" src="./assets/images/blog/blog-1.jpg"
+                                        alt="{{ __('home.blog_post1_title') }}" width="348" height="232"></a>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="blog">
+                                <a class="blog-thumb"><img loading="lazy" src="./assets/images/blog/blog-1.jpg"
+                                        alt="{{ __('home.blog_post1_title') }}" width="348" height="232"></a>
                             </div>
                         </div>
                         <!-- Add more blog slides as needed -->
@@ -649,27 +487,4 @@
             </div>
         </div>
         <!-- Blog Section End -->
-
-        <!-- Subscribe Section Start -->
-        <div class="h3-subscribe-section section section-padding pt-0">
-            <div class="container">
-                <div class="section-title section-title-center">
-                    <p class="title">@lang('home.newsletter_area')</p>
-                    <h2 class="sub-title">@lang('home.subscribe_newsletter')</h2>
-                </div>
-                <div id="mc_embed_signup" class="subscribe-newsletter mx-auto">
-                    <form id="mc-embedded-subscribe-form" class="validate" novalidate="" target="_blank"
-                        name="mc-embedded-subscribe-form" method="post"
-                        action="https://devitems.us11.list-manage.com/subscribe/post?u=6bbb9b6f5827bd842d9640c82&amp;id=05d85f18ef">
-                        <div id="mc_embed_signup_scroll" class="mc-form">
-                            <input class="email form-field" type="email" required=""
-                                placeholder="@lang('home.email_placeholder')" name="EMAIL" value="">
-                            <input id="mc-embedded-subscribe" class="button" type="submit" name="subscribe"
-                                value="@lang('home.subscribe')">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <!-- Subscribe Section End -->
     @endsection

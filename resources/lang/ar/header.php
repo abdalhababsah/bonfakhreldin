@@ -5,7 +5,6 @@ return [
     'home' => 'الرئيسية',
     'products' => 'المنتجات',
     'branches' => 'فروعنا',
-    'blog' => 'المدونة',
     'contact_us' => 'اتصل بنا',
     'mobile_menu' => 'القائمة الجانبية',
     'coffee' => 'القهوة',

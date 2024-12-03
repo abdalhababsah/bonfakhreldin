@@ -28,7 +28,7 @@ class ProductController extends Controller
             'category_id', 
             'slug'
         )
-        ->where('status', 'active') // Ensure the product is active
+        ->where('status', 'active') 
         ->with(['images' => function ($query) {
             // Filter to include only primary images
             $query->where('is_primary', true);

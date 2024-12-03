@@ -5,7 +5,6 @@ return [
     'home' => 'Home',
     'products' => 'Products',
     'branches' => 'Branches',
-    'blog' => 'Blog',
     'contact_us' => 'Contact Us',
     'mobile_menu' => 'Mobile Menu',
     'coffee' => 'Coffee',

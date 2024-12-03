@@ -11,13 +11,10 @@
         </div>
     </div>
 </div>
-<!-- Language Switcher Banner End -->
-
 <!-- Header Section Start -->
 <div style="z-index: 600;" class="header sticky-header section">
     <div class="container-fluid">
         <div class="row align-items-center">
-
             <!-- Logo Start -->
             <div class="col-lg-2 col">
                 <div class="header-logo">
@@ -26,8 +23,6 @@
                     </a>
                 </div>
             </div>
-            <!-- Logo End -->
-
             <!-- Menu Start -->
             <div class="col d-none d-lg-flex justify-content-end">
                 <nav class="main-menu">
@@ -35,13 +30,12 @@
                         <li><a href="{{ route('home') }}">{{ __('header.home') }}</a></li>
                         <li><a href="{{route('products.index')}}">{{ __('header.products') }}</a></li>
                         <li class="has-sub-menu"><a href="{{route('branches')}}">{{ __('header.branches') }}</a></li>
-                        <li><a href="#">{{ __('header.blog') }}</a></li>
+                        <li><a href="{{route('about.us')}}">{{ __('header.about_us') }}</a></li>
                         <li><a href="{{ route('contactUs.index') }}">{{ __('header.contact_us') }}</a></li>
                     </ul>
                 </nav>
             </div>
             <!-- Menu End -->
-
             <!-- Action Start -->
             <div class="col-auto">
                 <div class="header-action">
@@ -66,7 +60,7 @@
         <nav class="mobile-menu">
             <ul>
                 <li><a href="{{ route('home') }}">{{ __('header.home') }}</a></li>
-                <li><a href="#">{{ __('header.blog') }}</a></li>
+                <li><a href="{{route('about.us')}}">{{ __('header.about_us') }}</a></li>
                 <li><a href="{{ route('contactUs.index') }}">{{ __('header.contact_us') }}</a></li>
                 <li>
                     <a href="{{ route('products.index') }}">{{ __('header.products') }}</a>

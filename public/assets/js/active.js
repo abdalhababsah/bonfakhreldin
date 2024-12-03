@@ -1,6 +1,6 @@
 (function ($) {
     "use strict";
-    
+
     const $window = $(window),
         $body = $('body')
 
@@ -15,11 +15,11 @@
 
     /* Mobile Sub Menu Toggle Function */
     const $mobileSubMenuToggle = $('.mobile-sub-menu-toggle')
-    $mobileSubMenuToggle.on('click', function() {
+    $mobileSubMenuToggle.on('click', function () {
         const $this = $(this),
             $mobileSubMenuToggleClass = '.mobile-sub-menu-toggle',
             $mobileSubMenuClass = '.mobile-sub-menu';
-        if($this.hasClass('active')) {
+        if ($this.hasClass('active')) {
             $this.removeClass('active').closest('li').removeClass('active').find($mobileSubMenuToggleClass).removeClass('active').closest('li').removeClass('active').find($mobileSubMenuClass).slideUp()
         } else {
             $this.addClass('active').siblings($mobileSubMenuClass).slideDown()
@@ -104,14 +104,14 @@
         }
     });
     /* Group Product Carousel */
-    $('.group-product-slider').each(function(){
+    $('.group-product-slider').each(function () {
         const groupProductCarousel = new Swiper($(this)[0], {
             slidesPerView: 1,
             grid: {
                 fill: 'row',
                 rows: 4,
             },
-            spaceBetween: 20,
+            spaceBetween: 10,
             pagination: {
                 el: '.group-product-slider .swiper-pagination',
                 clickable: true,
@@ -279,25 +279,25 @@
 
     /* Magnific Popup */
     $('.mfp-zoom-gallery').magnificPopup({
-		delegate: 'a',
-		type: 'image',
-		gallery: {
-			enabled: true
-		}
-	});
+        delegate: 'a',
+        type: 'image',
+        gallery: {
+            enabled: true
+        }
+    });
 
     /* Countdown */
-    $('[data-countdown]').each(function() {
+    $('[data-countdown]').each(function () {
         var $this = $(this),
-        $finalDate = $(this).data('countdown'),
-        $template = `<div class="countdown-item"><span class="number">%D</span><span class="label">Days</span></div><div class="countdown-item"><span class="number">%H</span><span class="label">Hours</span></div><div class="countdown-item"><span class="number">%M</span><span class="label">Min</span></div><div class="countdown-item"><span class="number">%S</span><span class="label">Sec</span></div>`;
-        $this.countdown($finalDate, function(e) {
+            $finalDate = $(this).data('countdown'),
+            $template = `<div class="countdown-item"><span class="number">%D</span><span class="label">Days</span></div><div class="countdown-item"><span class="number">%H</span><span class="label">Hours</span></div><div class="countdown-item"><span class="number">%M</span><span class="label">Min</span></div><div class="countdown-item"><span class="number">%S</span><span class="label">Sec</span></div>`;
+        $this.countdown($finalDate, function (e) {
             $this.html(e.strftime($template));
         });
     });
 
     /* Price Range */
-    if($('#price-range')) {
+    if ($('#price-range')) {
         $('#price-range').ionRangeSlider({
             type: "double",
             min: 0,
@@ -309,15 +309,15 @@
     }
 
     /* Image Zoom */
-    function imageZoom () {
+    function imageZoom() {
         const $elem = $('.image-zoom'),
             $zoomImage = $('.image-zoom .zoomImg');
-        if($window.outerWidth() < 992) {
-            if($zoomImage.length !== 0) {
+        if ($window.outerWidth() < 992) {
+            if ($zoomImage.length !== 0) {
                 $elem.trigger('zoom.destroy');
             }
         } else {
-            if($zoomImage.length === 0) {
+            if ($zoomImage.length === 0) {
                 $elem.zoom();
             }
         }
@@ -328,49 +328,49 @@
         topSpacing: 100,
         bottomSpacing: 60
     });
-    
+
     /* Product Quantity */
-    $('.product-quantity-count').on('click', '.qty-btn', function(e) {
+    $('.product-quantity-count').on('click', '.qty-btn', function (e) {
         e.preventDefault()
         const $btn = $(this),
             $box = $btn.siblings('.product-quantity-box')[0];
-        if($btn.hasClass('inc')) {
+        if ($btn.hasClass('inc')) {
             $box.value = Number($box.value) + 1
-        } else if($btn.hasClass('dec') && Number($box.value) > 1) {
+        } else if ($btn.hasClass('dec') && Number($box.value) > 1) {
             $box.value = Number($box.value) - 1
         }
     })
 
     /* Shipping Form Toggle */
-    if($('[data-toggle-shipping]').length) {
+    if ($('[data-toggle-shipping]').length) {
         const $shippingToggle = $('[data-toggle-shipping]'),
             $shippingToggleTarget = $($shippingToggle[0].dataset.toggleShipping),
-            $shippingShowHide = function() {
-                if( $shippingToggle[0].checked ) {
+            $shippingShowHide = function () {
+                if ($shippingToggle[0].checked) {
                     $shippingToggleTarget.slideDown();
                 } else {
                     $shippingToggleTarget.slideUp();
                 }
             }
         $shippingShowHide()
-        $shippingToggle.on('change', function(){$shippingShowHide()});
+        $shippingToggle.on('change', function () { $shippingShowHide() });
     }
 
     /* Payment Method Toggle */
-    if($('input[type="radio"][name="payment-method"]').length) {
+    if ($('input[type="radio"][name="payment-method"]').length) {
         const $paymentToggle = $('input[type="radio"][name="payment-method"]'),
-            $paymentShowHide = function() {
-                $paymentToggle.each(function() {
+            $paymentShowHide = function () {
+                $paymentToggle.each(function () {
                     const $this = $(this),
                         $thisContent = $this.siblings('p')
-                    if( $this[0].checked ) {
+                    if ($this[0].checked) {
                         $thisContent.slideDown();
                         $this.parent().siblings().find('p').slideUp()
                     }
                 })
             }
         $paymentShowHide()
-        $paymentToggle.on('change', function(){$paymentShowHide()});
+        $paymentToggle.on('change', function () { $paymentShowHide() });
     }
 
     /*--
@@ -389,10 +389,10 @@
             var formData = $(form).serialize();
             // Submit the form using AJAX.
             $.ajax({
-                    type: 'POST',
-                    url: $(form).attr('action'),
-                    data: formData
-                })
+                type: 'POST',
+                url: $(form).attr('action'),
+                data: formData
+            })
                 .done(function (response) {
                     // Make sure that the formMessages div has the 'success' class.
                     formMessages.removeClass('error text-danger').addClass('success text-success learts-mt-10').text(response);
@@ -414,7 +414,7 @@
 
     /* Scroll To Top */
     const scrollToTopBtn = $('.scroll-to-top');
-    scrollToTopBtn.on('click', function() {
+    scrollToTopBtn.on('click', function () {
         $("html, body").animate({ scrollTop: 0 });
         return false;
     })
@@ -427,7 +427,7 @@
     }
 
     /* Resize Event */
-    $window.on('resize', function() {
+    $window.on('resize', function () {
         imageZoom()
     })
     /* Scroll Event */
@@ -436,7 +436,7 @@
         scrollToTopShow()
     });
 
-})(jQuery);	
+})(jQuery);
 
 
 

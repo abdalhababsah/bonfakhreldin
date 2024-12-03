@@ -173,7 +173,7 @@ public function store(Request $request)
         // Delete the product
         $product->delete();
 
-        return redirect()->route('products.index')
+        return redirect()->route('admin.products.index')
                          ->with('success', 'Product deleted successfully.');
     }
 

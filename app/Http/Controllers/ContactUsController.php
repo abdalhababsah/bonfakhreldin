@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\ContactUs;
 use App\Mail\ContactUsMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -30,6 +30,13 @@ class ContactUsController extends Controller
             'message' => $request->input('message'),
         ];
 
+        // Save the contact message to the database
+        try {
+            ContactUs::create($data);
+        } catch (\Exception $e) {
+            // Handle potential errors during saving
+            return redirect()->back()->with('error', 'Failed to save your message. Please try again later.');
+        }
         // Send the email using the ContactUsMail class
         Mail::to('your_email@example.com')->send(new ContactUsMail($data));
 

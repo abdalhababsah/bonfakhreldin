@@ -4,9 +4,19 @@
 
 @section('content')
     <div class="container-fluid py-4">
+        @php
+            $protectedCategoryIds = [1, 2, 3];
+        @endphp
+
         @if(session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
             </div>
         @endif
 
@@ -45,21 +55,33 @@
                                             <td>{{ $category->description_en }}</td>
                                             <td>{{ $category->description_ar }}</td>
                                             <td>
+                                                <!-- Edit Button -->
                                                 <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
                                                     data-bs-target="#editCategoryModal"
                                                     onclick="populateEditModal({{ $category }}, {{ request('page', 1) }})">
                                                     Edit
                                                 </button>
-                                                <form action="{{ route('admin.categories.destroy', $category) }}" method="POST"
-                                                    class="d-inline">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <input type="hidden" name="page" value="{{ request('page', 1) }}">
-                                                    <button class="btn btn-danger btn-sm"
-                                                        onclick="return confirm('Are you sure?')">
+
+                                                <!-- Delete Button -->
+                                                @if(!in_array($category->id, $protectedCategoryIds))
+                                                    <form action="{{ route('admin.categories.destroy', $category) }}" method="POST"
+                                                        class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <input type="hidden" name="page" value="{{ request('page', 1) }}">
+                                                        <button class="btn btn-danger btn-sm"
+                                                            onclick="return confirm('Are you sure you want to delete this category?')">
+                                                            Delete
+                                                        </button>
+                                                    </form>
+                                                @else
+                                                    <!-- Disabled Delete Button with Tooltip -->
+                                                    <button class="btn btn-secondary btn-sm" disabled
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="This category cannot be deleted.">
                                                         Delete
                                                     </button>
-                                                </form>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
@@ -154,6 +176,15 @@
             </div>
         </div>
     </div>
+
+    <!-- Initialize Bootstrap Tooltips -->
+    <script>
+        // Initialize Bootstrap tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
 
     <script>
         function populateEditModal(category, page) {

@@ -10,11 +10,9 @@ use App\Http\Controllers\ProductController as UserProductController;
 use App\Http\Controllers\ContactUsController as UserContactUsController;
 use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\PageController;
-
+use App\Http\Controllers\HomeController;
 // Home Route
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Switch languages route
 Route::get('/lang/{locale}', [LocalizationController::class, 'switchLang'])->name('locale.switch');

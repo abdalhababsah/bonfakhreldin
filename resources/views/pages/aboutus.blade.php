@@ -14,8 +14,6 @@
         </div>
     </div>
     <!-- Page Banner Section End -->
-
-    <!-- About Us Section Start -->
     <div class="section section-padding">
         <div class="container">
             <div class="row row-cols-lg-2 row-cols-1 mb-n8">
@@ -53,112 +51,6 @@
             </div>
         </div>
     </div>
-    <!-- About Us Section End -->
-    <!-- Team Section Start -->
-    <div class="section section-padding">
-        <div class="container">
-            <div class="section-title section-title-center">
-                <p class="title">What Happens Here</p>
-                <h2 class="sub-title">OUR AWESOME TEAM</h2>
-
-            </div>
-
-            <div class="team-carousel swiper">
-
-                <div class="swiper-wrapper">
-
-                    <div class="swiper-slide">
-                        <div class="team">
-                            <div class="team-thumb">
-                                <img loading="lazy" src="./assets/images/team/team-1.png" alt="Mr. Mike Banding" width="270" height="324">
-                                <div class="team-social">
-                                    <a href="#"><i class="sli-social-facebook"></i></a>
-                                    <a href="#"><i class="sli-social-twitter"></i></a>
-                                    <a href="#"><i class="sli-social-instagram"></i></a>
-                                </div>
-                            </div>
-                            <div class="team-content">
-                                <h4 class="team-name">Mr. Mike Banding</h4>
-                                <p class="team-title">Manager</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="team">
-                            <div class="team-thumb">
-                                <img loading="lazy" src="./assets/images/team/team-2.png" alt="Mr. Peter Pan" width="270" height="324">
-                                <div class="team-social">
-                                    <a href="#"><i class="sli-social-facebook"></i></a>
-                                    <a href="#"><i class="sli-social-twitter"></i></a>
-                                    <a href="#"><i class="sli-social-instagram"></i></a>
-                                </div>
-                            </div>
-                            <div class="team-content">
-                                <h4 class="team-name">Mr. Peter Pan</h4>
-                                <p class="team-title">Developer</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="team">
-                            <div class="team-thumb">
-                                <img loading="lazy" src="./assets/images/team/team-3.png" alt="Mr. John Lee" width="270" height="324">
-                                <div class="team-social">
-                                    <a href="#"><i class="sli-social-facebook"></i></a>
-                                    <a href="#"><i class="sli-social-twitter"></i></a>
-                                    <a href="#"><i class="sli-social-instagram"></i></a>
-                                </div>
-                            </div>
-                            <div class="team-content">
-                                <h4 class="team-name">Mr. John Lee</h4>
-                                <p class="team-title">Designer</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="team">
-                            <div class="team-thumb">
-                                <img loading="lazy" src="./assets/images/team/team-4.png" alt="Ms. Sophia" width="270" height="324">
-                                <div class="team-social">
-                                    <a href="#"><i class="sli-social-facebook"></i></a>
-                                    <a href="#"><i class="sli-social-twitter"></i></a>
-                                    <a href="#"><i class="sli-social-instagram"></i></a>
-                                </div>
-                            </div>
-                            <div class="team-content">
-                                <h4 class="team-name">Ms. Sophia</h4>
-                                <p class="team-title">Chairmen</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="team">
-                            <div class="team-thumb">
-                                <img loading="lazy" src="./assets/images/team/team-4.png" alt="Ms. Lee" width="270" height="324">
-                                <div class="team-social">
-                                    <a href="#"><i class="sli-social-facebook"></i></a>
-                                    <a href="#"><i class="sli-social-twitter"></i></a>
-                                    <a href="#"><i class="sli-social-instagram"></i></a>
-                                </div>
-                            </div>
-                            <div class="team-content">
-                                <h4 class="team-name">Ms. Lee</h4>
-                                <p class="team-title">Marketer</p>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="swiper-pagination d-md-none"></div>
-                <div class="swiper-button-prev d-none d-md-flex"></div>
-                <div class="swiper-button-next d-none d-md-flex"></div>
-            </div>
-
-        </div>
-    </div>
-    <!-- Team Section End -->
-
     <!-- Gallery Section Start -->
     <div class="h1-gallery-section section section-padding pt-0">
         <div class="container">

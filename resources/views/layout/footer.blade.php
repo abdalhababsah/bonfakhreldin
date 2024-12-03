@@ -1,22 +1,17 @@
 <div class="footer-3-section section bg-light">
     <!-- Footer Top Section Start -->
-    <div class="footer-top section py-5">
+    <div class="footer-top section">
         <div class="container">
-            <div class="row g-4 align-items-center">
-
-                <!-- Footer Widget Start -->
-                <div class="col-lg-4 col-md-6 col-sm-12">
+            <div id="footer-top-container" class="d-flex flex-wrap align-items-center justify-content-between" >
+                <div class="">
                     <div class="footer-widget">
                         <img loading="lazy" src="{{ asset('assets/images/logo/Logo-Bonfakhrladin.png') }}" alt="site logo"
                             width="198" height="70" class="mb-3">
                     </div>
                 </div>
-
-                <!-- Footer Widget Start -->
-                <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="">
                     <div class="footer-widget">
-                        <h5 class="footer-widget-title">{{ __('footer.main_menu') }}</h5>
-                        <ul class="footer-widget-list">
+                        <ul class="d-flex gap-3">
                             <li><a href="{{ route('home') }}">{{ __('footer.home') }}</a></li>
                             <li><a href="{{ route('about.us') }}">{{ __('footer.about_us') }}</a></li>
                             <li><a href="#">{{ __('footer.gallery') }}</a></li>
@@ -24,8 +19,6 @@
                         </ul>
                     </div>
                 </div>
-                <!-- Footer Widget End -->
-
             </div>
         </div>
     </div>
@@ -42,7 +35,6 @@
                     </p>
                 </div>
             </div>
-
             <!-- Right side: Social Icons -->
             <div class="footer-widget-social d-flex justify-content-end" style="width:50%;">
                 <a href="#" class=""><i class="sli-social-facebook"></i></a>
@@ -51,25 +43,14 @@
             </div>
         </div>
     </div>
-    <!-- Footer Bottom Section End -->
-    {{-- public/assets/images/oie_676FY2TANTtw.png  footer-3-section --}}
-
     <style>
         .footer-3-section {
-    position: relative; /* Ensure it stays in the document flow */
-    z-index: 1; /* Ensure it doesn't overlap unnecessarily */
-}
-        /* .footer-top {
-            background-image: url('{{ asset('assets/images/oie_676FY2TANTtw.png') }}');
-            background-position: right center;
-            /* Positions the image to the right and vertically centered */
-            background-repeat: no-repeat;
-            /* Prevents the image from repeating */
-            background-size: contain;
-
-            /* Adds space on the right to prevent content overlap with the background image */
             position: relative;
-            /* Establishes a positioning context for pseudo-elements */
-        } */
+            z-index: 1;
+        }
+
+        ul li {
+            list-style: none;
+        }
     </style>
 </div>
