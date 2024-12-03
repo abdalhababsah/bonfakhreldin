@@ -139,9 +139,6 @@
                         if (product.is_sold_out) { // Assuming your API provides 'is_sold_out' flag
                             badges += `<span class="product-badge-soldout">Sold Out</span>`;
                         }
-                        // Add more badges as needed
-
-                        // Assemble the product card with animation class
                         const productHtml = `
                     <div class="col products-card">
                         <div class="product ${animationClass}">

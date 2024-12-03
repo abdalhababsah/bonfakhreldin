@@ -15,4 +15,7 @@ return [
     'message' => 'Message',
     'send_message' => 'Send Message',
     'map_title' => 'Our Location on Google Maps',
+    'message_sent' => 'Your message has been sent successfully!',
+    
+
 ];

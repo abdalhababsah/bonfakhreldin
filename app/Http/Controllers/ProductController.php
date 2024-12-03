@@ -47,4 +47,24 @@ class ProductController extends Controller
             'categories' => $categories,
         ]);
     }
+    public function show($slug)
+    {
+    $locale = app()->getLocale();
+    
+        $product = Product::where('slug', $slug)
+            ->select(
+                'id',
+                "name_$locale as name",
+                "description_$locale as description",
+                'category_id',
+                'slug'
+            )
+            ->with(['images', 'category' => function ($query) use ($locale) {
+                $query->select('id', "name_$locale as name");
+            }])
+            ->where('status', 'active') 
+            ->firstOrFail();
+
+        return view('pages.viewproduct', compact('product'));
+    }
 }

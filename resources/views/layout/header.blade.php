@@ -36,7 +36,7 @@
                         <li><a href="{{route('products.index')}}">{{ __('header.products') }}</a></li>
                         <li class="has-sub-menu"><a href="{{route('branches')}}">{{ __('header.branches') }}</a></li>
                         <li><a href="#">{{ __('header.blog') }}</a></li>
-                        <li><a href="{{ route('contact.us') }}">{{ __('header.contact_us') }}</a></li>
+                        <li><a href="{{ route('contactUs.index') }}">{{ __('header.contact_us') }}</a></li>
                     </ul>
                 </nav>
             </div>
@@ -67,7 +67,7 @@
             <ul>
                 <li><a href="{{ route('home') }}">{{ __('header.home') }}</a></li>
                 <li><a href="#">{{ __('header.blog') }}</a></li>
-                <li><a href="{{ route('contact.us') }}">{{ __('header.contact_us') }}</a></li>
+                <li><a href="{{ route('contactUs.index') }}">{{ __('header.contact_us') }}</a></li>
                 <li>
                     <a href="{{ route('products.index') }}">{{ __('header.products') }}</a>
                     

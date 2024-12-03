@@ -1346,8 +1346,9 @@ only screen and (min-width: 992px) and (max-width: 1199px) {
   background-color: #f8f9fa;
   color: #000;
 }
+
 .btn-contact {
-  color:  white;
+  color: white;
   background-color: #198754;
   border-color: #198754;
 }
@@ -5763,7 +5764,6 @@ only screen and (max-width: 767px) {
   color: #1F2226;
 }
 
-/* Contact Information */
 .contact-info {
   margin: 0;
   padding: 0;
@@ -5775,8 +5775,6 @@ only screen and (max-width: 767px) {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
   gap: 20px;
 }
 
@@ -5798,30 +5796,36 @@ only screen and (max-width: 767px) {
   padding: 30px;
   margin: 0px 0px 50px 0px;
 }
-.product-container{
+
+.product-container {
   padding-top: 20px;
 }
+
 .product-section {
   border-top-right-radius: 50px;
   background-color: #126442;
   border: 1px solid;
   padding: 30px;
-  overflow: hidden; /* Ensures the content does not spill */
+  overflow: hidden;
+  /* Ensures the content does not spill */
 }
+
 .product-section-bottom {
   border-bottom-left-radius: 50px;
   background-color: #126442;
   border: 1px solid;
   padding: 30px;
   height: 106px;
-  overflow: hidden; /* Ensures the content does not spill */
+  overflow: hidden;
+  /* Ensures the content does not spill */
 }
 
 .product-section::before {
   content: '';
   position: absolute;
   bottom: 0;
-  left: -50px; /* Offset for the outward curve */
+  left: -50px;
+  /* Offset for the outward curve */
   width: 50px;
   height: 50px;
   background-color: #126442;
@@ -5830,23 +5834,26 @@ only screen and (max-width: 767px) {
 
 
 
-.h1-product-section{
+.h1-product-section {
   border: 1px solid white;
-    border-top-left-radius: 50px;
-    border-bottom-right-radius: 50px;
-    padding-bottom: 20px;
-    margin-top: -50px;
-    margin-bottom: -50px;
-    /* padding-top: 20px; */
-    background-color: white;
-    z-index: 3; /* Ensure correct stacking order */
-    position: relative;
+  border-top-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+  padding-bottom: 20px;
+  margin-top: -50px;
+  margin-bottom: -50px;
+  /* padding-top: 20px; */
+  background-color: white;
+  z-index: 3;
+  /* Ensure correct stacking order */
+  position: relative;
 }
+
 .product-section::before {
   content: '';
   position: absolute;
   bottom: 0;
-  left: -50px; /* Offset for the outward curve */
+  left: -50px;
+  /* Offset for the outward curve */
   width: 50px;
   height: 50px;
   background-color: #126442;

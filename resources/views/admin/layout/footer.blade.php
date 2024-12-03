@@ -30,7 +30,7 @@
                             <li><a href="{{ route('home') }}">{{ __('footer.home') }}</a></li>
                             <li><a href="{{ route('about.us') }}">{{ __('footer.about_us') }}</a></li>
                             <li><a href="#">{{ __('footer.gallery') }}</a></li>
-                            <li><a href="{{ route('contact.us') }}">{{ __('footer.contact_us') }}</a></li>
+                            <li><a href="{{ route('contactUs.index') }}">{{ __('footer.contact_us') }}</a></li>
                         </ul>
                     </div>
                 </div>
