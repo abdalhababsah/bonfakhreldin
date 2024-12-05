@@ -7,7 +7,7 @@ return [
     'contact_us' => 'اتصل بنا',
     'keep_in_touch' => 'ابقى على تواصل',
     'address' => '123 الشارع الرئيسي، الجناح 100 المدينة، الولاية، الرمز البريدي',
-    'email' => 'info@example.com support@example.com',
+    'email' => 'Info@bonfakhreldin.com',
     'phone' => '+1 35 776 859 000',
     'name' => 'الاسم',
     'email_placeholder' => 'البريد الإلكتروني',

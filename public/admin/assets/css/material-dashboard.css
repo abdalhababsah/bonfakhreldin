@@ -2851,7 +2851,7 @@ progress {
 .form-control {
   display: block;
   width: 100%;
-  padding: 0.5rem 0;
+  padding: 0.5rem 0.4rem;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.5rem;
@@ -6193,8 +6193,8 @@ fieldset:disabled .btn {
 
 .list-group-item.active {
   z-index: 2;
-  color: var(--bs-list-group-active-color);
-  background-color: var(--bs-list-group-active-bg);
+  color: black;
+  background-color:  #125688;
   border-color: var(--bs-list-group-active-border-color);
 }
 
@@ -23942,7 +23942,7 @@ label,
 }
 
 .form-control {
-  border: none;
+  /* border: none; */
 }
 
 .form-control.is-invalid {

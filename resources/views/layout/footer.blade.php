@@ -2,7 +2,7 @@
     <!-- Footer Top Section Start -->
     <div class="footer-top section">
         <div class="container">
-            <div id="footer-top-container" class="d-flex flex-wrap align-items-center justify-content-between" >
+            <div id="footer-top-container" class="d-flex flex-wrap align-items-center justify-content-between">
                 <div class="">
                     <div class="footer-widget">
                         <img loading="lazy" src="{{ asset('assets/images/logo/Logo-Bonfakhrladin.png') }}" alt="site logo"
@@ -37,9 +37,10 @@
             </div>
             <!-- Right side: Social Icons -->
             <div class="footer-widget-social d-flex justify-content-end" style="width:50%;">
-                <a href="#" class=""><i class="sli-social-facebook"></i></a>
+                <a href="https://www.facebook.com/bonfakhreldin" class=""><i class="sli-social-facebook"></i></a>
                 <a href="#" class=""><i class="sli-social-twitter"></i></a>
-                <a href="#" class=""><i class="sli-social-instagram"></i></a>
+                <a href="https://www.instagram.com/bon.fakhreldin" class=""><i
+                        class="sli-social-instagram"></i></a>
             </div>
         </div>
     </div>

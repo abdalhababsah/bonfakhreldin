@@ -7,7 +7,7 @@
     <!-- Pass assetBase and appUrl to JavaScript -->
     <script>
         const assetBase = "{{ asset('storage') }}/";
-        const appUrl = "{{ url('/') }}"; // Alternatively, use env('APP_URL') if preferred
+        const appUrl = "{{ url('/') }}";
     </script>
 
     <!-- Page Banner Section -->
@@ -131,33 +131,26 @@
                             `${assetBase}${product.images[0].image_url}` :
                             defaultPlaceholder; // Fallback to a placeholder image
 
-                        // Determine product badges
-                        let badges = '';
-                        if (product.is_new) { // Assuming your API provides 'is_new' flag
-                            badges += `<span class="product-badge-new">New</span>`;
-                        }
-                        if (product.is_sold_out) { // Assuming your API provides 'is_sold_out' flag
-                            badges += `<span class="product-badge-soldout">Sold Out</span>`;
-                        }
+
+
+                        // Generate the product card HTML
                         const productHtml = `
-                    <div class="col products-card">
-                        <div class="product ${animationClass}">
-                            <div class="product-thumb position-relative">
-                                <a href="${appUrl}/product-details/${product.slug}" class="product-image">
-                                    <img loading="lazy" src="${primaryImage}" alt="${product.name}" class="img-fluid fixed-size-image">
-                                </a>
-                                <div class="product-badge-right">
-                                    ${badges}
-                                </div>
-                               
-                            </div>
-                            <div class="product-content">
-                                <h5 class="product-title"><a href="${appUrl}/product-details/${product.slug}">${product.name}</a></h5>
-                                <p class="product-description">${product.description}</p>
-                                <!-- Removed product-rating -->
-                            </div>
+                <div class="col products-card ${animationClass}">
+                    <div class="product">
+                        <div class="product-thumb position-relative">
+                            <a href="${appUrl}/product-details/${product.slug}" class="product-image">
+                                <img loading="lazy" src="${primaryImage}" alt="${product.name}" class="img-fluid fixed-size-image">
+                            </a>
+
                         </div>
-                    </div>`;
+                        <div class="product-content">
+                            <h5 class="product-title">
+                                <a href="${appUrl}/product-details/${product.slug}">${product.name}</a>
+                            </h5>
+                            <p class="product-description">${product.description}</p>
+                        </div>
+                    </div>
+                </div>`;
 
                         gridView.insertAdjacentHTML('beforeend', productHtml);
                     });

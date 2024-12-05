@@ -837,7 +837,7 @@ hr {
     justify-content: center !important;
   }
 }
-  @media only screen and (max-width: 767px) {
+@media only screen and (max-width: 767px) {
   .footer-top {
     padding: 0px 0px 20px;
     justify-content: center;
@@ -6218,3 +6218,71 @@ only screen and (max-width: 575px) {
   visibility: visible;
   opacity: 1;
 }
+
+
+
+/* resources/css/coffee-beans.css */
+
+/* Ensure sections with beans are positioned relative to contain absolute children */
+.h3-hero-section,
+.h3-feature-section.section.section-padding.pt-0 {
+  position: relative;
+  overflow: hidden;
+  /* Hide beans that fall outside the section */
+  padding-bottom: 50px;
+}
+
+/* Container for coffee beans */
+.coffee-beans-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  /* Allow clicks to pass through */
+  z-index: 2;
+  /* Ensure it sits above background but below content */
+}
+
+/* Individual coffee bean style */
+.coffee-bean {
+  position: absolute;
+  top: -50px;
+  /* Start above the visible area */
+  width: 30px;
+  /* Default size; overridden by JS */
+  height: 30px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.8;
+  animation: fall linear infinite;
+}
+
+/* Keyframes for falling animation */
+@keyframes fall {
+  to {
+    transform: translateY(100vh);
+  }
+}
+
+
+
+/* branches */
+
+#map {
+  width: 100%;
+  height: 600px;
+}
+
+#branch-list {
+  margin-top: 20px;
+}
+
+#branch-list-container {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+
+/*  */

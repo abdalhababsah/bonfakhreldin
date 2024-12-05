@@ -734,7 +734,7 @@ function darkMode(el) {
     }
     for (var i = 0; i < svg.length; i++) {
       if (svg[i].hasAttribute('fill')) {
-        svg[i].setAttribute('fill', '#fff');
+        svg[i].setAttribute('fill', '#f4f4f4');
       }
     }
     for (var i = 0; i < card_border.length; i++) {

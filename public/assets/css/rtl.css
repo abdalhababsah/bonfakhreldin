@@ -208,6 +208,42 @@ body {
   /* Move image to the left side instead of the right */
 }
 
+
+/* branches page */
+/* Branch list and input field adjustments */
+#branch-list {
+  text-align: right !important;
+
+}
+
+input[type="text"] {
+  text-align: right !important;
+}
+
+/* Reverse the order of map and branch list */
+.row.d-flex.flex-row-reverse {
+  flex-direction: row-reverse !important;
+}
+
+/* Ensure proper alignment for branch list items */
+#branches {
+  text-align: right !important;
+  padding-right: 0px !important;
+}
+
+/* Miscellaneous adjustments */
+#branch-list-container {
+  max-height: 500px !important;
+  overflow-y: auto !important;
+}
+
+#map {
+  width: 100% !important;
+  height: 600px !important;
+  
+}
+
+
 /* Tablet Adjustments for RTL */
 @media (max-width: 1024px) {
   .floating-image {

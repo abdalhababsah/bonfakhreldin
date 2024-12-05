@@ -109,7 +109,6 @@
         opacity: 0;
         transform: translateX(-50px);
     }
-
     to {
         opacity: 1;
         transform: translateX(0);
@@ -121,21 +120,20 @@
         opacity: 0;
         transform: translateX(50px);
     }
-
     to {
         opacity: 1;
         transform: translateX(0);
     }
 }
 
-.animate-slide-in-left {
+/* Apply animation only to product cards */
+.products-card.animate-slide-in-left {
     animation: slideInLeft 0.5s ease-out forwards;
 }
 
-.animate-slide-in-right {
+.products-card.animate-slide-in-right {
     animation: slideInRight 0.5s ease-out forwards;
 }
-
 /* Loader Styling */
 #loader {
     /* Center the loader within the container */

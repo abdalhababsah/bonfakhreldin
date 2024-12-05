@@ -4,50 +4,7 @@
 
 @section('content')
     <style>
-        /* resources/css/coffee-beans.css */
 
-        /* Ensure sections with beans are positioned relative to contain absolute children */
-        .h3-hero-section,
-        .h3-feature-section.section.section-padding.pt-0 {
-            position: relative;
-            overflow: hidden;
-            /* Hide beans that fall outside the section */
-            padding-bottom: 50px;
-        }
-
-        /* Container for coffee beans */
-        .coffee-beans-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            /* Allow clicks to pass through */
-            z-index: 2;
-            /* Ensure it sits above background but below content */
-        }
-
-        /* Individual coffee bean style */
-        .coffee-bean {
-            position: absolute;
-            top: -50px;
-            /* Start above the visible area */
-            width: 30px;
-            /* Default size; overridden by JS */
-            height: 30px;
-            background-size: contain;
-            background-repeat: no-repeat;
-            opacity: 0.8;
-            animation: fall linear infinite;
-        }
-
-        /* Keyframes for falling animation */
-        @keyframes fall {
-            to {
-                transform: translateY(100vh);
-            }
-        }
     </style>
 
     <script>
@@ -56,10 +13,10 @@
         document.addEventListener('DOMContentLoaded', () => {
             const coffeeBeansContainers = document.querySelectorAll('.coffee-beans-container');
             const beanImages = [
-                '/assets/images/coffeebeans/bean-1.png',
-                '/assets/images/coffeebeans/bean-2.png',
-                '/assets/images/coffeebeans/bean-3.png',
-                '/assets/images/coffeebeans/bean-4.png'
+                '/assets/images/coffeebeans/bean-5.png',
+                '/assets/images/coffeebeans/bean-6.png',
+                '/assets/images/coffeebeans/bean-7.png',
+                '/assets/images/coffeebeans/bean-8.png'
             ];
 
             coffeeBeansContainers.forEach(container => {
@@ -276,7 +233,7 @@
         <div style="z-index: 20" class="h1-product-section section  pt-0">
             <div class="container product-container">
                 <div class="row row-cols-lg-3 row-cols-md-2 row-cols-1 align-items-start gy-4">
-                    <div class="col mb-8">
+                    <div class="col mb-8" style="min-height: 558px;">
                         <div class="block-title-2">
                             <h4 class="title">@lang('home.hot_sale')</h4>
                             <div id="group-product-1" class="swiper-outer-nav">
@@ -328,7 +285,7 @@
                             <div class="swiper-pagination d-none"></div>
                         </div>
                     </div>
-                    <div class="col mb-8">
+                    <div class="col mb-8" style="min-height: 558px;">
                         <div class="block-title-2">
                             <h4 class="title">@lang('home.best_rating')</h4>
                             <div id="group-product-2" class="swiper-outer-nav">

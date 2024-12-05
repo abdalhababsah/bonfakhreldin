@@ -1,6 +1,6 @@
 @extends('admin.layout.mainlayout')
 
-@section('title', __('About Us - Bonfkeralden'))
+@section('title', __('Admin Dashboard - Bonfkeralden'))
 
 @section('content')
 

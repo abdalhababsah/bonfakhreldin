@@ -38,7 +38,7 @@ class ContactUsController extends Controller
             return redirect()->back()->with('error', 'Failed to save your message. Please try again later.');
         }
         // Send the email using the ContactUsMail class
-        Mail::to('your_email@example.com')->send(new ContactUsMail($data));
+        Mail::to('abod@bonfakhreldin.com')->send(new ContactUsMail($data));
 
         return redirect()->route('contactUs.index')->with('success', __('contactUs.message_sent'));
     }

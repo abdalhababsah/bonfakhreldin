@@ -1,8 +1,10 @@
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="apple-touch-icon" sizes="76x76" href="{{('admin/assets/img/apple-icon.png')}}">
-    <link rel="icon" type="image/png" href="{{('admin/assets/img/favicon.png')}}">
+    <meta name="description" content="اكتشف أفضل القهوة والمكسرات المحمصة والشوكولاتة الفاخرة في بن فخر الدين مع 22 فرعًا في جميع أنحاء الأردن.">
+    <meta name="keywords" content="قهوة، مكسرات محمصة، شوكولاتة، بن فخر الدين، الأردن">
+    <meta name="author" content="بن فخر الدين">
+    <link rel="icon" href="{{ asset('assets/images/logo/Logo-Bonfakhrladin.png') }}" type="image/png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title') | Admin Panel</title>
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,900" />

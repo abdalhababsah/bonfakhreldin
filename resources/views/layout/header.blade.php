@@ -12,7 +12,7 @@
     </div>
 </div>
 <!-- Header Section Start -->
-<div style="z-index: 600;" class="header sticky-header section">
+<div style="z-index: 6000;" class="header sticky-header section">
     <div class="container-fluid">
         <div class="row align-items-center">
             <!-- Logo Start -->
@@ -51,7 +51,7 @@
     </div>
 </div>
 
-<div class="offcanvas offcanvas-end" id="offcanvas-header">
+<div style="z-index: 60000;" class="offcanvas offcanvas-end" id="offcanvas-header">
     <div class="offcanvas-header">
         <h5>{{ __('header.mobile_menu') }}</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>

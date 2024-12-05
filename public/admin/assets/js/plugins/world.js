@@ -934,7 +934,7 @@
         r: 7,
         fill: "#374151",
         fillOpacity: 1,
-        stroke: "#FFF",
+        stroke: "#f4f4f4",
         strokeWidth: 5,
         strokeOpacity: .5
       },
