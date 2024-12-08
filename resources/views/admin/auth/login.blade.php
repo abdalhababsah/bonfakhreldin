@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 @include('admin.layout.partials.head')
+
 <body class="bg-gray-200">
     <main class="main-content mt-0">
         <div class="page-header align-items-start min-vh-100">
@@ -31,7 +32,8 @@
                                     @csrf
                                     <div class="input-group input-group-outline my-3">
                                         <label class="form-label">Email</label>
-                                        <input type="email" name="email" value="{{ old('email') }}" class="form-control" required autofocus>
+                                        <input type="email" name="email" value="{{ old('email') }}"
+                                            class="form-control" required autofocus>
                                     </div>
                                     <div class="input-group input-group-outline mb-3">
                                         <label class="form-label">Password</label>
@@ -42,7 +44,8 @@
                                         <label class="form-check-label mb-0 ms-2" for="rememberMe">Remember me</label>
                                     </div>
                                     <div class="text-center">
-                                        <button type="submit" class="btn bg-gradient-dark w-100 my-4 mb-2">Sign in</button>
+                                        <button type="submit" class="btn bg-gradient-dark w-100 my-4 mb-2">Sign
+                                            in</button>
                                     </div>
                                 </form>
                                 <!-- End Login Form -->
@@ -56,4 +59,5 @@
 
     @include('admin.layout.partials.scripts')
 </body>
+
 </html>

@@ -31,7 +31,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-dark" href="{{route('admin.contact_us.index')}}">
+                <a class="nav-link text-dark" href="{{ route('admin.contact_us.index') }}">
                     <i class="material-symbols-rounded opacity-5 text-primary">person</i>
                     <span class="nav-link-text ms-1">Contact</span>
                 </a>

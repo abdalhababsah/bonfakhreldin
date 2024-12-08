@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="container-fluid py-4">
-        @if(session('success'))
+        @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
             </div>
@@ -44,13 +44,16 @@
                                             <td>{{ $product->category->name_en }}</td>
                                             <td>{{ ucfirst($product->status) }}</td>
                                             <td>
-                                                <a href="{{ route('admin.products.edit', $product) }}" class="btn btn-warning btn-sm">
+                                                <a href="{{ route('admin.products.edit', $product) }}"
+                                                    class="btn btn-warning btn-sm">
                                                     Edit
                                                 </a>
-                                                <form action="{{ route('admin.products.destroy', $product) }}" method="POST" class="d-inline">
+                                                <form action="{{ route('admin.products.destroy', $product) }}"
+                                                    method="POST" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">
+                                                    <button class="btn btn-danger btn-sm"
+                                                        onclick="return confirm('Are you sure?')">
                                                         Delete
                                                     </button>
                                                 </form>

@@ -8,13 +8,13 @@
             $protectedCategoryIds = [1, 2, 3];
         @endphp
 
-        @if(session('success'))
+        @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
             </div>
         @endif
 
-        @if(session('error'))
+        @if (session('error'))
             <div class="alert alert-danger">
                 {{ session('error') }}
             </div>
@@ -63,12 +63,13 @@
                                                 </button>
 
                                                 <!-- Delete Button -->
-                                                @if(!in_array($category->id, $protectedCategoryIds))
-                                                    <form action="{{ route('admin.categories.destroy', $category) }}" method="POST"
-                                                        class="d-inline">
+                                                @if (!in_array($category->id, $protectedCategoryIds))
+                                                    <form action="{{ route('admin.categories.destroy', $category) }}"
+                                                        method="POST" class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <input type="hidden" name="page" value="{{ request('page', 1) }}">
+                                                        <input type="hidden" name="page"
+                                                            value="{{ request('page', 1) }}">
                                                         <button class="btn btn-danger btn-sm"
                                                             onclick="return confirm('Are you sure you want to delete this category?')">
                                                             Delete
@@ -146,7 +147,8 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="editCategoryModalLabel">Edit Category</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <input type="hidden" id="editCategoryId" name="id">
@@ -181,7 +183,7 @@
     <script>
         // Initialize Bootstrap tooltips
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl)
         })
     </script>

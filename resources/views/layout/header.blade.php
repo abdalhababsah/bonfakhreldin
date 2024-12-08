@@ -4,7 +4,7 @@
         <div class="row align-items-center">
             <div class="col-12 text-center">
                 <a href="{{ route('locale.switch', app()->getLocale() === 'ar' ? 'en' : 'ar') }}"
-                   style="color: white; font-size: 16px; text-decoration: none;">
+                    style="color: white; font-size: 16px; text-decoration: none;">
                     {{ __('header.language_switcher') }}
                 </a>
             </div>
@@ -19,7 +19,8 @@
             <div class="col-lg-2 col">
                 <div class="header-logo">
                     <a href="#">
-                        <img id="logo" src="{{ asset('assets/images/logo/Logo-Bonfakhrladin.png') }}" alt="bon fakhreldin logo">
+                        <img id="logo" src="{{ asset('assets/images/logo/Logo-Bonfakhrladin.png') }}"
+                            alt="bon fakhreldin logo">
                     </a>
                 </div>
             </div>
@@ -28,9 +29,9 @@
                 <nav class="main-menu">
                     <ul>
                         <li><a href="{{ route('home') }}">{{ __('header.home') }}</a></li>
-                        <li><a href="{{route('products.index')}}">{{ __('header.products') }}</a></li>
-                        <li class="has-sub-menu"><a href="{{route('branches')}}">{{ __('header.branches') }}</a></li>
-                        <li><a href="{{route('about.us')}}">{{ __('header.about_us') }}</a></li>
+                        <li><a href="{{ route('products.index') }}">{{ __('header.products') }}</a></li>
+                        <li class="has-sub-menu"><a href="{{ route('branches') }}">{{ __('header.branches') }}</a></li>
+                        <li><a href="{{ route('about.us') }}">{{ __('header.about_us') }}</a></li>
                         <li><a href="{{ route('contactUs.index') }}">{{ __('header.contact_us') }}</a></li>
                     </ul>
                 </nav>
@@ -41,7 +42,7 @@
                 <div class="header-action">
                     <div class="header-action-item d-lg-none">
                         <button class="header-action-toggle" type="button" data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvas-header"><i class="sli-menu"></i></button>
+                            data-bs-target="#offcanvas-header"><i class="sli-menu"></i></button>
                     </div>
                 </div>
             </div>
@@ -60,15 +61,15 @@
         <nav class="mobile-menu">
             <ul>
                 <li><a href="{{ route('home') }}">{{ __('header.home') }}</a></li>
-                <li><a href="{{route('about.us')}}">{{ __('header.about_us') }}</a></li>
+                <li><a href="{{ route('about.us') }}">{{ __('header.about_us') }}</a></li>
                 <li><a href="{{ route('contactUs.index') }}">{{ __('header.contact_us') }}</a></li>
                 <li>
                     <a href="{{ route('products.index') }}">{{ __('header.products') }}</a>
-                    
+
                 </li>
                 <li>
-                    <a href="{{route('branches')}}">{{ __('header.branches') }}</a>
-                    
+                    <a href="{{ route('branches') }}">{{ __('header.branches') }}</a>
+
                 </li>
             </ul>
         </nav>
