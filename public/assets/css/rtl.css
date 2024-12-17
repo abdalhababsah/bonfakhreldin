@@ -215,7 +215,9 @@ body {
   text-align: right !important;
 
 }
-
+.section-title-about {
+  margin-bottom: 10px !important;
+}
 input[type="text"] {
   text-align: right !important;
 }

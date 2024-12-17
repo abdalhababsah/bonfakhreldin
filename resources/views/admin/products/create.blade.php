@@ -14,7 +14,6 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <!-- Removed the traditional <form> tag -->
                         <div id="productForm">
                             @csrf
 
@@ -26,11 +25,13 @@
                                         <label for="name_en" class="form-label">Name (English)</label>
                                         <input type="text" name="name_en" id="name_en"
                                             class="form-control styled-input" required>
+                                        <span id="name_en_error" class="text-danger small" style="display:none;">This field is required</span>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="name_ar" class="form-label">Name (Arabic)</label>
                                         <input type="text" name="name_ar" id="name_ar"
                                             class="form-control styled-input" required>
+                                        <span id="name_ar_error" class="text-danger small" style="display:none;">This field is required</span>
                                     </div>
                                 </div>
                             </section>
@@ -42,10 +43,12 @@
                                     <div class="col-md-6 mb-3">
                                         <label for="description_en" class="form-label">Description (English)</label>
                                         <textarea name="description_en" id="description_en" class="form-control styled-input" rows="3"></textarea>
+                                        <!-- Not strictly required field, so no mandatory error span here -->
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="description_ar" class="form-label">Description (Arabic)</label>
                                         <textarea name="description_ar" id="description_ar" class="form-control styled-input" rows="3"></textarea>
+                                        <!-- Not strictly required field, so no mandatory error span here -->
                                     </div>
                                 </div>
                             </section>
@@ -57,6 +60,7 @@
                                     <div class="col-md-12">
                                         <label for="images" class="form-label">Upload Images</label>
                                         <div id="imageDropzone" class="dropzone"></div>
+                                        <span id="imageError" class="text-danger small" style="display:none;">Please upload exactly one image</span>
                                     </div>
                                 </div>
                             </section>
@@ -83,6 +87,7 @@
                                     <option value="{{ $category->id }}">{{ $category->name_en }}</option>
                                 @endforeach
                             </select>
+                            <span id="category_id_error" class="text-danger small" style="display:none;">Please select a category</span>
                         </div>
 
                         <!-- Status Selection -->
@@ -138,44 +143,90 @@
     <script>
         Dropzone.autoDiscover = false;
 
-        // Initialize Dropzone
         const myDropzone = new Dropzone("#imageDropzone", {
-            url: "{{ route('admin.products.store') }}", // Not used since we'll handle via Fetch
-            autoProcessQueue: false, // Prevent automatic uploads
+            url: "{{ route('admin.products.store') }}", 
+            autoProcessQueue: false,
             uploadMultiple: true,
             addRemoveLinks: true,
             acceptedFiles: "image/*",
-            parallelUploads: 10, // Adjust as needed
-            maxFiles: 10, // Maximum number of files
-            paramName: "images[]", // Laravel-compatible field name
+            parallelUploads: 10,
+            maxFiles: 10,
+            paramName: "images[]",
             headers: {
                 "X-CSRF-TOKEN": "{{ csrf_token() }}"
             },
             init: function() {
-                // Optionally handle Dropzone events here
+                this.on("addedfile", validateImages);
+                this.on("removedfile", validateImages);
             }
         });
 
+        function validateImages() {
+            const acceptedFiles = myDropzone.getAcceptedFiles();
+            const imageError = document.getElementById('imageError');
+            if (acceptedFiles.length !== 1) {
+                imageError.style.display = 'inline';
+            } else {
+                imageError.style.display = 'none';
+            }
+        }
+
         document.getElementById('submitBtn').addEventListener('click', function() {
-            // Disable the submit button to prevent multiple submissions
             this.disabled = true;
 
-            // Gather form inputs
-            const name_en = document.getElementById('name_en').value;
-            const name_ar = document.getElementById('name_ar').value;
-            const description_en = document.getElementById('description_en').value;
-            const description_ar = document.getElementById('description_ar').value;
+            // Get inputs
+            const name_en = document.getElementById('name_en').value.trim();
+            const name_ar = document.getElementById('name_ar').value.trim();
             const category_id = document.getElementById('category_id').value;
             const status = document.getElementById('status').value;
+            const description_en = document.getElementById('description_en').value.trim();
+            const description_ar = document.getElementById('description_ar').value.trim();
+
+            // Get error elements
+            const name_en_error = document.getElementById('name_en_error');
+            const name_ar_error = document.getElementById('name_ar_error');
+            const category_id_error = document.getElementById('category_id_error');
+            const imageError = document.getElementById('imageError');
+
+            let isValid = true;
 
             // Validate required fields
-            if (!name_en || !name_ar || !category_id) {
-                alert('Please fill in all required fields.');
-                this.disabled = false;
-                return;
+            if (!name_en) {
+                name_en_error.style.display = 'inline';
+                isValid = false;
+            } else {
+                name_en_error.style.display = 'none';
             }
 
-            // Create FormData object
+            if (!name_ar) {
+                name_ar_error.style.display = 'inline';
+                isValid = false;
+            } else {
+                name_ar_error.style.display = 'none';
+            }
+
+            if (!category_id) {
+                category_id_error.style.display = 'inline';
+                isValid = false;
+            } else {
+                category_id_error.style.display = 'none';
+            }
+
+            // Validate exactly one image
+            const acceptedFiles = myDropzone.getAcceptedFiles();
+            if (acceptedFiles.length !== 1) {
+                imageError.style.display = 'inline';
+                isValid = false;
+            } else {
+                imageError.style.display = 'none';
+            }
+
+            if (!isValid) {
+                this.disabled = false;
+                return; // Stop submission if not valid
+            }
+
+            // If valid, create FormData and submit
             const formData = new FormData();
             formData.append('_token', '{{ csrf_token() }}');
             formData.append('name_en', name_en);
@@ -184,28 +235,18 @@
             formData.append('description_ar', description_ar);
             formData.append('category_id', category_id);
             formData.append('status', status);
+            formData.append('images[]', acceptedFiles[0]);
 
-            // Append images from Dropzone
-            myDropzone.getAcceptedFiles().forEach((file, index) => {
-                formData.append('images[]', file);
-                // If you have alt texts, append them as well
-                // Example:
-                // formData.append(`alt_text_en[${index}]`, altTextEnValue);
-                // formData.append(`alt_text_ar[${index}]`, altTextArValue);
-            });
-
-            // Send the data via Fetch API
             fetch("{{ route('admin.products.store') }}", {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
-                        // 'Content-Type': 'multipart/form-data', // Do not set Content-Type; browser sets it automatically
                     },
                     body: formData
                 })
                 .then(response => {
                     if (response.ok) {
-                        return response.json(); // Assuming the server returns JSON
+                        return response.json();
                     } else {
                         return response.json().then(err => {
                             throw err;
@@ -213,16 +254,13 @@
                     }
                 })
                 .then(data => {
-                    // Handle success (e.g., redirect or show a success message)
                     window.location.href = "{{ route('admin.products.index') }}";
                 })
                 .catch(error => {
-                    // Handle errors (e.g., show validation errors)
                     console.error('Error:', error);
-                    alert(
-                        'An error occurred while creating the product. Please check your inputs and try again.');
-                    // Re-enable the submit button
-                    document.getElementById('submitBtn').disabled = false;
+                    // Optionally handle errors with spans as well
+                    // For now, just re-enable submit on error
+                    this.disabled = false;
                 });
         });
     </script>

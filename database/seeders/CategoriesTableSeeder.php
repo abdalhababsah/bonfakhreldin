@@ -19,20 +19,19 @@ class CategoriesTableSeeder extends Seeder
                 'description_ar' => 'جميع أنواع القهوة.',
             ],
             [
-                'slug' => Str::slug('Tea'),
-                'name_en' => 'Tea',
-                'name_ar' => 'شاي',
-                'description_en' => 'Variety of teas.',
-                'description_ar' => 'مجموعة متنوعة من الشاي.',
-            ],
-            [
                 'slug' => Str::slug('Chocolate'),
                 'name_en' => 'Chocolate',
                 'name_ar' => 'شوكولاتة',
                 'description_en' => 'Delicious chocolates.',
                 'description_ar' => 'شوكولاتة لذيذة.',
             ],
-            // Add more categories as needed
+            [
+                'slug' => Str::slug('Nuts'),
+                'name_en' => 'Nuts',
+                'name_ar' => 'مكسرات',
+                'description_en' => 'Premium quality nuts.',
+                'description_ar' => 'مكسرات عالية الجودة.',
+            ],
         ];
 
         foreach ($categories as $category) {

@@ -30,7 +30,7 @@
                     const randomImage = beanImages[Math.floor(Math.random() * beanImages.length)];
                     bean.style.backgroundImage = `url('${randomImage}')`;
 
-                    const size = Math.random() * 20 + 20; // Size between 20px and 40px
+                    const size = Math.random() * 20 + 20; 
                     bean.style.width = `${size}px`;
                     bean.style.height = `${size}px`;
                     bean.style.left = `${Math.random() * 100}%`;
@@ -55,34 +55,35 @@
             <div class="coffee-beans-container" data-beans="30"></div> <!-- 30 beans for hero section -->
             <div class="container-fluid">
                 <div class="row mb-n6">
-                    <div class="col-xl-9 mb-6" style="z-index: 3">
+                    <!-- Make slider 100% width for all screen sizes -->
+                    <div class="col-12 mb-6" style="z-index: 3">
                         <div class="hero-slider hero-slider-3 swiper">
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide hero-slide-3 bg-light"
-                                    style="background-image: url(./assets/images/hero-slider/home-3/slide-1.jpg);">
+                                    style="background-image: url('{{ asset('assets/images/hero-slider/home-3/home-1.png') }}');
+                                           background-size: cover !important;
+                                           background-position: center !important;
+                                           background-repeat: no-repeat !important;">
                                     <div class="container">
-                                        <div class="hero-slide-3-content">
-                                            <h2 class="hero-slide-3-title">@lang('home.coffee_market')</h2>
-                                            <p class="hero-slide-3-text">@lang('home.hero_text1')</p>
-                                        </div>
+                                        <!-- Your content goes here -->
                                     </div>
                                 </div>
                                 <div class="swiper-slide hero-slide-3 bg-light"
-                                    style="background-image: url(./assets/images/hero-slider/home-3/slide-2.jpg);">
+                                    style="background-image: url('{{ asset('assets/images/hero-slider/home-3/home-2.png') }}');
+                                       background-size: cover !important;
+                                       background-position: center !important;
+                                       background-repeat: no-repeat !important;">
                                     <div class="container">
-                                        <div class="hero-slide-3-content">
-                                            <h2 class="hero-slide-3-title">@lang('home.coffee_market')</h2>
-                                            <p class="hero-slide-3-text">@lang('home.hero_text2')</p>
-                                        </div>
+                                        <!-- Content for this slide -->
                                     </div>
                                 </div>
                                 <div class="swiper-slide hero-slide-3 bg-light"
-                                    style="background-image: url(./assets/images/hero-slider/home-3/slide-3.jpg);">
+                                    style="background-image: url('{{ asset('assets/images/hero-slider/home-3/home-4.png') }}');
+                                       background-size: cover !important;
+                                       background-position: center !important;
+                                       background-repeat: no-repeat !important;">
                                     <div class="container">
-                                        <div class="hero-slide-3-content text-center mx-auto">
-                                            <h2 class="hero-slide-3-title">@lang('home.coffee_market')</h2>
-                                            <p class="hero-slide-3-text text-white">@lang('home.hero_text3')</p>
-                                        </div>
+                                        <!-- Content for this slide -->
                                     </div>
                                 </div>
                             </div>
@@ -91,24 +92,25 @@
                             <div class="swiper-button-next d-none d-md-flex"></div>
                         </div>
                     </div>
-                    <div class="col-xl-3 mb-6" style="z-index: 3">
-                        <div class="row row-cols-xl-1 row-cols-sm-3 row-cols-1 flex-xl-column mb-n6">
+                    <!-- Banners stacked below slider for all screen sizes -->
+                    <div class="col-12 mb-6" style="z-index: 3">
+                        <div class="row row-cols-md-3 row-cols-1 mb-n6">
                             <div class="col mb-6">
                                 <a class="banner">
-                                    <img src="./assets/images/banner/hero-3-banner-1.jpg" width="401" height="228"
-                                        alt="{{ __('home.banner_one') }}">
+                                    <img src="{{ asset('assets/images/hero-slider/home-3/403x229-1.png') }}" width="401"
+                                        height="228" alt="{{ __('home.banner_one') }}">
                                 </a>
                             </div>
                             <div class="col mb-6">
                                 <a class="banner">
-                                    <img src="./assets/images/banner/hero-3-banner-2.jpg" width="401" height="228"
-                                        alt="{{ __('home.banner_two') }}">
+                                    <img src="{{ asset('assets/images/hero-slider/home-3/403x229-3.png') }}" width="401"
+                                        height="228" alt="{{ __('home.banner_two') }}">
                                 </a>
                             </div>
                             <div class="col mb-6">
                                 <a class="banner">
-                                    <img src="./assets/images/banner/hero-3-banner-3.jpg" width="401" height="228"
-                                        alt="{{ __('home.banner_three') }}">
+                                    <img src="{{ asset('assets/images/hero-slider/home-3/403x229-2.png') }}" width="401"
+                                        height="228" alt="{{ __('home.banner_three') }}">
                                 </a>
                             </div>
                         </div>
@@ -123,42 +125,33 @@
             <div class="container">
                 <div class="section-title section-title-center">
                     <p class="title">@lang('home.what_happens')</p>
-                    <h2 class="sub-title">@lang('home.explore_service')</h2>
+                    <h2 class="sub-title light-text">@lang('home.explore_products')</h2>
                 </div>
                 <div class="row row-cols-lg-3 row-cols-sm-2 row-cols-1 mb-n6">
                     <div class="col mb-6">
                         <div class="feature-2">
-                            <div class="feature-icon">
-                                <img loading="lazy" src="./assets/images/feature/two/feature-1.png"
-                                    alt="{{ __('home.feature1_title') }}" width="80" height="80">
-                            </div>
+
                             <div class="feature-content">
-                                <h3 class="feature-title">@lang('home.feature1_title')</h3>
-                                <p class="feature-text">@lang('home.feature1_text')</p>
+                                <h3 class="feature-title light-text">@lang('home.feature1_title')</h3>
+                                <p class="feature-text light-text">@lang('home.feature1_text')</p>
                             </div>
                         </div>
                     </div>
                     <div class="col mb-6">
                         <div class="feature-2">
-                            <div class="feature-icon">
-                                <img loading="lazy" src="./assets/images/feature/two/feature-5.png"
-                                    alt="{{ __('home.feature2_title') }}" width="80" height="80">
-                            </div>
+
                             <div class="feature-content">
-                                <h3 class="feature-title">@lang('home.feature2_title')</h3>
-                                <p class="feature-text">@lang('home.feature2_text')</p>
+                                <h3 class="feature-title light-text">@lang('home.feature2_title')</h3>
+                                <p class="feature-text light-text">@lang('home.feature2_text')</p>
                             </div>
                         </div>
                     </div>
                     <div class="col mb-6 card-3">
                         <div class="feature-2 ">
-                            <div class="feature-icon">
-                                <img loading="lazy" src="./assets/images/feature/two/feature-6.png"
-                                    alt="{{ __('home.feature3_title') }}" width="80" height="80">
-                            </div>
+
                             <div class="feature-content">
-                                <h3 class="feature-title">@lang('home.feature3_title')</h3>
-                                <p class="feature-text">@lang('home.feature3_text')</p>
+                                <h3 class="feature-title light-text">@lang('home.feature3_title')</h3>
+                                <p class="feature-text light-text">@lang('home.feature3_text')</p>
                             </div>
                         </div>
                     </div>
@@ -166,8 +159,6 @@
             </div>
         </div>
         <!-- Feature Section End -->
-
-        <!-- Feature Section Start // Display Beans -->
         <div class="h3-feature-section section section-padding pt-0">
             <div class="coffee-beans-container" data-beans="10"></div> <!-- 20 beans for this section -->
             <div class="container">
@@ -179,35 +170,35 @@
                         </div>
                         <div class="feature-1">
                             <div class="feature-icon">
-                                <img loading="lazy" src="./assets/images/feature/one/coffee-pot.svg"
-                                    onload="SVGInject(this)" alt="{{ __('home.coffeemaker') }}" width="50"
+                                <img loading="lazy" src="{{ asset('assets/images/feature/one/nuts-bowl-svgrepo-com.svg') }}"
+                                    onload="SVGInject(this)" alt="{{ __('home.premium_nuts') }}" width="50"
                                     height="50">
                             </div>
                             <div class="feature-content">
-                                <h3 class="feature-title">@lang('home.coffeemaker')</h3>
-                                <p class="feature-text">@lang('home.coffeemaker_text')</p>
+                                <h3 class="feature-title">@lang('home.premium_nuts')</h3>
+                                <p class="feature-text">@lang('home.premium_nuts_text')</p>
                             </div>
                         </div>
                         <div class="feature-1">
                             <div class="feature-icon">
-                                <img loading="lazy" src="./assets/images/feature/one/coffee-mug.svg"
-                                    onload="SVGInject(this)" alt="{{ __('home.coffee_grinder') }}" width="50"
+                                <img loading="lazy" src="{{ asset('assets/images/feature/one/chocolate-svgrepo.svg') }}"
+                                    onload="SVGInject(this)" alt="{{ __('home.luxury_chocolate') }}" width="50"
                                     height="50">
                             </div>
                             <div class="feature-content">
-                                <h3 class="feature-title">@lang('home.coffee_grinder')</h3>
-                                <p class="feature-text">@lang('home.coffee_grinder_text')</p>
+                                <h3 class="feature-title">@lang('home.luxury_chocolate')</h3>
+                                <p class="feature-text">@lang('home.luxury_chocolate_text')</p>
                             </div>
                         </div>
                         <div class="feature-1">
                             <div class="feature-icon">
-                                <img loading="lazy" src="./assets/images/feature/one/coffee-alt.svg"
-                                    onload="SVGInject(this)" alt="{{ __('home.coffee_cups') }}" width="50"
+                                <img loading="lazy" src="{{ asset('assets/images/feature/one/coffee-mug.svg') }}"
+                                    onload="SVGInject(this)" alt="{{ __('home.exquisite_coffee') }}" width="50"
                                     height="50">
                             </div>
                             <div class="feature-content">
-                                <h3 class="feature-title">@lang('home.coffee_cups')</h3>
-                                <p class="feature-text">@lang('home.coffee_cups_text')</p>
+                                <h3 class="feature-title">@lang('home.exquisite_coffee')</h3>
+                                <p class="feature-text">@lang('home.exquisite_coffee_text')</p>
                             </div>
                         </div>
                     </div>
@@ -225,7 +216,7 @@
             <div class="container">
                 <div class="section-title section-title-center">
                     <p class="title">@lang('home.our_products')</p>
-                    <h2 class="sub-title">@lang('home.explore_our_products')</h2>
+                    <h2 class="sub-title  light-text">@lang('home.explore_our_products')</h2>
                 </div>
             </div>
         </div>
@@ -351,91 +342,44 @@
 
             </div>
         </div>
-        <!-- Product Section End -->
-        <!-- Testimonial Section Start -->
-        <div class="h3-testimonial-section section section-padding bg-light">
-            <div class="container">
-                <div class="section-title section-title-center">
-                    <p class="title">@lang('home.client_says')</p>
-                    <h2 class="sub-title">@lang('home.testimonials')</h2>
-                </div>
-                <div class="testimonial-slider swiper">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <div class="testimonial">
-                                <div class="testimonial-client-thumb"><img loading="lazy"
-                                        src="./assets/images/testimonial/testimonial-1.png"
-                                        alt="{{ __('home.testimonial1_name') }}" width="100" height="100"></div>
-                                <div class="testimonial-text">
-                                    <p>@lang('home.testimonial1_text')</p>
-                                </div>
-                                <div class="testimonial-client-info">
-                                    <h5 class="testimonial-client-name">@lang('home.testimonial1_name')</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="testimonial">
-                                <div class="testimonial-client-thumb"><img loading="lazy"
-                                        src="./assets/images/testimonial/testimonial-2.png"
-                                        alt="{{ __('home.testimonial2_name') }}" width="100" height="100"></div>
-                                <div class="testimonial-text">
-                                    <p>@lang('home.testimonial2_text')</p>
-                                </div>
-                                <div class="testimonial-client-info">
-                                    <h5 class="testimonial-client-name">@lang('home.testimonial2_name')</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-pagination"></div>
-                    <div class="swiper-button-prev d-none d-md-flex"></div>
-                    <div class="swiper-button-next d-none d-md-flex"></div>
-                </div>
-            </div>
-        </div>
-        <!-- Testimonial Section End -->
-
-        <!-- Blog Section Start -->
         <div class="h3-blog-section section section-padding">
             <div class="container">
                 <div class="section-title section-title-center">
-                    <p class="title">@lang('home.blog_area')</p>
-                    <h2 class="sub-title">@lang('home.explore_blog')</h2>
+                    <p class="title">@lang('home.gallery_area')</p>
+                    <h2 class="sub-title">@lang('home.explore_gallery')</h2>
                 </div>
                 <div class="blog-carousel swiper">
                     <div class="swiper-wrapper">
+
+                        {{-- <div class="swiper-slide">
+                            <div class="blog">
+                                <a class="blog-thumb"><img loading="lazy"
+                                        src="{{ asset('assets/images/gallery/gallary-10.png') }}"
+                                        alt="{{ __('home.gallery_image2') }}" width="348" height="232"></a>
+                            </div>
+                        </div> --}}
                         <div class="swiper-slide">
                             <div class="blog">
-                                <a class="blog-thumb"><img loading="lazy" src="./assets/images/blog/blog-1.jpg"
-                                        alt="{{ __('home.blog_post1_title') }}" width="348" height="232"></a>
+                                <a class="blog-thumb"><img loading="lazy"
+                                        src="{{ asset('assets/images/gallery/gallary-9.png') }}"
+                                        alt="{{ __('home.gallery_image3') }}" width="348" height="232"></a>
                             </div>
                         </div>
                         <div class="swiper-slide">
                             <div class="blog">
-                                <a class="blog-thumb"><img loading="lazy" src="./assets/images/blog/blog-1.jpg"
-                                        alt="{{ __('home.blog_post1_title') }}" width="348" height="232"></a>
+                                <a class="blog-thumb"><img loading="lazy"
+                                        src="{{ asset('assets/images/gallery/gallary-8.png') }}"
+                                        alt="{{ __('home.gallery_image4') }}" width="348" height="232"></a>
                             </div>
                         </div>
                         <div class="swiper-slide">
                             <div class="blog">
-                                <a class="blog-thumb"><img loading="lazy" src="./assets/images/blog/blog-1.jpg"
-                                        alt="{{ __('home.blog_post1_title') }}" width="348" height="232"></a>
+                                <a class="blog-thumb"><img loading="lazy"
+                                        src="{{ asset('assets/images/gallery/gallary-7.png') }}"
+                                        alt="{{ __('home.gallery_image5') }}" width="348" height="232"></a>
                             </div>
                         </div>
-                        <div class="swiper-slide">
-                            <div class="blog">
-                                <a class="blog-thumb"><img loading="lazy" src="./assets/images/blog/blog-1.jpg"
-                                        alt="{{ __('home.blog_post1_title') }}" width="348" height="232"></a>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="blog">
-                                <a class="blog-thumb"><img loading="lazy" src="./assets/images/blog/blog-1.jpg"
-                                        alt="{{ __('home.blog_post1_title') }}" width="348" height="232"></a>
-                            </div>
-                        </div>
-                        <!-- Add more blog slides as needed -->
+                        <!-- Add more gallery slides as needed -->
                     </div>
                     <div class="swiper-pagination d-md-none"></div>
                     <div class="swiper-button-prev d-none d-md-flex"></div>

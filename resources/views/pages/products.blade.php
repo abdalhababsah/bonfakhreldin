@@ -10,6 +10,19 @@
         const appUrl = "{{ url('/') }}";
     </script>
 
+    <style>
+        .shop-product-section {
+            background-image: url('{{ asset('assets/images/pattern-merged.png') }}');
+            background-position: right center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            position: relative;
+            min-height: 100vh !important;
+        }
+        
+
+    </style>
+
     <!-- Page Banner Section -->
     <div class="page-banner-section section">
         <div class="container">
@@ -23,69 +36,82 @@
     <!-- Shop Product Section -->
     <div class="shop-product-section section section-padding">
         <div class="container">
+            <div class="row">
 
-            <!-- Shop Top Bar Start -->
-            <div class="shop-top-bar">
-
-                <div class="shop-top-bar-item d-flex flex-column">
-                    <select id="category-filter" class="form-select d-inline-block" style="width: 300px; margin-top: 10px;">
-                        <option value="">@lang('products.all_categories')</option>
-                    </select>
+                <!-- Left Sidebar (Filter Box) -->
+                <div class="col-lg-3 col-md-4 mb-4">
+                    <div class="filter-box">
+                        <h5>@lang('products.filter_title')</h5>
+                        <input type="text" id="search-bar" class="form-control" placeholder="@lang('products.search_placeholder')">
+                        <select id="category-filter" class="form-select">
+                            <option value="">@lang('products.all_categories')</option>
+                        </select>
+                    </div>
                 </div>
 
-            </div>
-            <!-- Shop Top Bar End -->
-
-            <!-- Product Tab Start -->
-            <div class="tab-content" id="shopProductTabContent">
-                <!-- Grid View -->
-                <div class="tab-pane fade show active" id="product-grid">
-                    <!-- Loader -->
-                    <div id="loader" class="text-center my-5" style="display: none;">
-                        <div class="spinner-border text-primary" role="status">
-                            <span class="visually-hidden">Loading...</span>
+                <!-- Right Content (Products and Pagination) -->
+                <div class="col-lg-9 col-md-8">
+                    <!-- Product Tab Start -->
+                    <div class="tab-content" id="shopProductTabContent">
+                        <!-- Grid View -->
+                        <div class="tab-pane fade show active" id="product-grid">
+                            <!-- Loader -->
+                            <div id="loader" class="text-center my-5" style="display: none;">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                            <div class="row row-cols-lg-3 row-cols-sm-2 row-cols-1 g-4 mb-n6" id="grid-view">
+                                <!-- Dynamic Products will be injected here -->
+                            </div>
                         </div>
                     </div>
-                    <div class="row row-cols-lg-3 row-cols-sm-2 row-cols-1 g-4 mb-n6" id="grid-view">
+                    <!-- Product Tab End -->
 
-                        <!-- Dynamic Products will be injected here -->
-
+                    <!-- Shop Bottom Bar Start -->
+                    <div class="shop-bottom-bar mt-4">
+                        <ul class="pagination justify-content-center" id="pagination">
+                            <!-- Pagination links will be dynamically updated -->
+                        </ul>
                     </div>
+                    <!-- Shop Bottom Bar End -->
                 </div>
-                <!-- List View Removed -->
             </div>
-            <!-- Product Tab End -->
-
-            <!-- Shop Bottom Bar Start -->
-            <div class="shop-bottom-bar">
-                <ul class="pagination justify-content-center" id="pagination">
-                    <!-- Pagination links will be dynamically updated -->
-                </ul>
-            </div>
-            <!-- Shop Bottom Bar End -->
-
         </div>
     </div>
 
     <!-- Default Placeholder Image -->
-    <img id="default-placeholder" src="{{ asset('assets/images/default-placeholder.png') }}" alt="Placeholder"
-        style="display: none;">
+    <img id="default-placeholder" src="{{ asset('assets/images/default-placeholder.png') }}" alt="Placeholder" style="display: none;">
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const categoryDropdown = document.getElementById('category-filter');
+            const searchBar = document.getElementById('search-bar');
             const gridView = document.getElementById('grid-view');
             const pagination = document.getElementById('pagination');
-            const loader = document.getElementById('loader'); // Loader element
+            const loader = document.getElementById('loader'); 
             const defaultPlaceholder = document.getElementById('default-placeholder').src;
 
-            // Fetch products (initial load and filtered)
-            function fetchProducts(url = '/products/data', categoryId = '') {
-                const fullUrl = categoryId ? `${url}?category_id=${categoryId}` : url;
+            // Global variables to keep track of the current filters
+            let currentCategoryId = '';
+            let currentSearchTerm = '';
 
-                // Show loader before fetching
+            // Fetch products with given parameters
+            function fetchProducts(url = '/products/data', categoryId = '', searchTerm = '') {
+                currentCategoryId = categoryId;
+                currentSearchTerm = searchTerm;
+
+                const params = new URLSearchParams();
+                if (categoryId) params.append('category_id', categoryId);
+                if (searchTerm) params.append('search', searchTerm);
+
+                let fullUrl = url;
+                if (params.toString()) {
+                    fullUrl += (fullUrl.includes('?') ? '&' : '?') + params.toString();
+                }
+
                 loader.style.display = 'block';
-                gridView.style.display = 'none'; // Hide grid view while loading
+                gridView.style.display = 'none';
 
                 fetch(fullUrl)
                     .then(response => response.json())
@@ -93,13 +119,11 @@
                         populateCategories(data.categories);
                         populateGridView(data.products);
                         populatePagination(data.products);
-                        // Hide loader after fetching
                         loader.style.display = 'none';
-                        gridView.style.display = 'flex'; // Show grid view
+                        gridView.style.display = 'flex';
                     })
                     .catch(error => {
                         console.error('Error fetching products:', error);
-                        // Hide loader and show error message
                         loader.style.display = 'none';
                         gridView.innerHTML = `<div class="col-12"><p>@lang('products.error_loading_products')</p></div>`;
                     });
@@ -122,36 +146,28 @@
                 gridView.innerHTML = '';
                 if (products.data.length > 0) {
                     products.data.forEach((product, index) => {
-                        // Determine animation class
-                        const animationClass = index % 2 === 0 ? 'animate-slide-in-left' :
-                            'animate-slide-in-right';
-
-                        // Get the primary image URL if available
+                        const animationClass = index % 2 === 0 ? 'animate-slide-in-left' : 'animate-slide-in-right';
                         const primaryImage = product.images && product.images.length > 0 ?
                             `${assetBase}${product.images[0].image_url}` :
-                            defaultPlaceholder; // Fallback to a placeholder image
+                            defaultPlaceholder; 
 
-
-
-                        // Generate the product card HTML
                         const productHtml = `
-                <div class="col products-card ${animationClass}">
-                    <div class="product">
-                        <div class="product-thumb position-relative">
-                            <a href="${appUrl}/product-details/${product.slug}" class="product-image">
-                                <img loading="lazy" src="${primaryImage}" alt="${product.name}" class="img-fluid fixed-size-image">
-                            </a>
-
-                        </div>
-                        <div class="product-content">
-                            <h5 class="product-title">
-                                <a href="${appUrl}/product-details/${product.slug}">${product.name}</a>
-                            </h5>
-                            <p class="product-description">${product.description}</p>
-                        </div>
-                    </div>
-                </div>`;
-
+                            <div class="col products-card ${animationClass}">
+                                <div class="product">
+                                    <div class="product-thumb position-relative">
+                                        <a href="${appUrl}/product-details/${product.slug}" class="product-image">
+                                            <img loading="lazy" src="${primaryImage}" alt="${product.name}" class="img-fluid fixed-size-image">
+                                        </a>
+                                    </div>
+                                    <div class="product-content">
+                                        <h5 class="product-title">
+                                            <a href="${appUrl}/product-details/${product.slug}">${product.name}</a>
+                                        </h5>
+                                        <p class="product-description">${product.description}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
                         gridView.insertAdjacentHTML('beforeend', productHtml);
                     });
                 } else {
@@ -165,38 +181,30 @@
                 if (products.links && products.links.length > 0) {
                     products.links.forEach(link => {
                         if (link.url) {
-                            // Determine if the link is Previous or Next
-                            const isPrev = link.label.toLowerCase().includes('previous') || link.label
-                                .includes('&laquo;');
-                            const isNext = link.label.toLowerCase().includes('next') || link.label.includes(
-                                '&raquo;');
+                            const isPrev = link.label.toLowerCase().includes('previous') || link.label.includes('&laquo;');
+                            const isNext = link.label.toLowerCase().includes('next') || link.label.includes('&raquo;');
 
-                            // Define arrow icons (using SLI icons as per your existing code)
                             let icon = '';
                             if (isPrev) {
                                 icon = '<i class="sli-arrow-left"></i>';
                             } else if (isNext) {
                                 icon = '<i class="sli-arrow-right"></i>';
                             } else {
-                                // For numbered pages
                                 icon = link.label;
                             }
 
-                            // Add appropriate classes based on link type
-                            const liClass =
-                                `page-item ${link.active ? 'active' : ''} ${(!link.url && (isPrev || isNext)) ? 'disabled' : ''}`;
+                            const liClass = `page-item ${link.active ? 'active' : ''} ${(!link.url && (isPrev || isNext)) ? 'disabled' : ''}`;
                             const aClass = "page-link";
 
                             pagination.innerHTML += `
-                        <li class="${liClass}">
-                            <a href="#" data-url="${link.url || '#'}" class="${aClass}">${icon}</a>
-                        </li>`;
+                                <li class="${liClass}">
+                                    <a href="#" data-url="${link.url || '#'}" class="${aClass}">${icon}</a>
+                                </li>`;
                         } else {
-                            // For 'Previous' or 'Next' buttons without URL
                             pagination.innerHTML += `
-                        <li class="page-item disabled">
-                            <span class="page-link">${link.label}</span>
-                        </li>`;
+                                <li class="page-item disabled">
+                                    <span class="page-link">${link.label}</span>
+                                </li>`;
                         }
                     });
                 }
@@ -205,12 +213,13 @@
 
             // Attach click events to pagination links
             function attachPaginationEvents() {
-                document.querySelectorAll('.pagination-link, .page-link').forEach(link => {
+                document.querySelectorAll('#pagination .page-link').forEach(link => {
                     link.addEventListener('click', function(e) {
                         e.preventDefault();
                         const url = this.getAttribute('data-url');
                         if (url && url !== '#') {
-                            fetchProducts(url, categoryDropdown.value);
+                            // Fetch products maintaining current filters
+                            fetchProducts(url, currentCategoryId, currentSearchTerm);
                         }
                     });
                 });
@@ -218,27 +227,20 @@
 
             // Event listener for category filter
             categoryDropdown.addEventListener('change', function() {
-                fetchProducts('/products/data', this.value);
+                fetchProducts('/products/data', this.value, currentSearchTerm);
+            });
+
+            // Debounce for search input
+            let debounceTimer;
+            searchBar.addEventListener('input', function() {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => {
+                    fetchProducts('/products/data', currentCategoryId, this.value);
+                }, 300);
             });
 
             // Initial load
             fetchProducts();
         });
     </script>
-
-    <style>
-        .shop-product-section {
-            background-image: url('{{ asset('assets/images/pattern-merged.png') }}');
-            background-position: right center;
-            /* Positions the image to the right and vertically centered */
-            background-repeat: no-repeat;
-            /* Prevents the image from repeating */
-            background-size: contain;
-            /* Scales the image to fit the container while maintaining aspect ratio */
-            /* padding-right: 50px; */
-            /* Adds space on the right to prevent content overlap with the background image */
-            position: relative;
-            /* Establishes a positioning context for pseudo-elements */
-        }
-    </style>
 @endsection

@@ -10,17 +10,15 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        return view('pages.products'); // Load the initial view
+        return view('pages.products'); 
     }
 
     public function productData(Request $request)
     {
         $locale = app()->getLocale();
     
-        // Fetch categories for the filter dropdown
         $categories = Category::select('id', "name_$locale as name")->get();
     
-        // Fetch products with optional category filtering
         $query = Product::select(
             'id', 
             "name_$locale as name", 
@@ -28,18 +26,22 @@ class ProductController extends Controller
             'category_id', 
             'slug'
         )
-        ->where('status', 'active') 
+        ->where('status', 'active')
         ->with(['images' => function ($query) {
-            // Filter to include only primary images
             $query->where('is_primary', true);
         }]);
     
-        // Apply category filter if provided
         if ($request->has('category_id') && $request->category_id) {
             $query->where('category_id', $request->category_id);
         }
     
-        // Paginate the results
+        if ($request->has('search') && $request->search) {
+            $query->where(function($q) use ($locale, $request) {
+                $q->where("name_$locale", 'LIKE', '%' . $request->search . '%')
+                  ->orWhere("description_$locale", 'LIKE', '%' . $request->search . '%');
+            });
+        }
+    
         $products = $query->paginate(9);
     
         return response()->json([

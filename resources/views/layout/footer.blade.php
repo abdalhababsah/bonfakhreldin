@@ -40,7 +40,7 @@
                     <div class="col-md-auto col-12 text-center">
                         <p class="footer-copyright mb-0">
                             {{ __('footer.copyright') }} <b class="text-primary">
-                                <a style="color: #C7A17A;" target="_blank">Bonfakhrladin</a>
+                                <a style="color: #C7A17A;" target="_blank">Bonfakhreldin</a>
                             </b> &copy;{{ date('Y') }} {{ __('footer.all_rights_reserved') }}
                         </p>
                     </div>
