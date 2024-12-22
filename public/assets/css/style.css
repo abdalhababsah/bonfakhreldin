@@ -5969,6 +5969,7 @@ only screen and (max-width: 575px) {
 
 /* Feature Two */
 .feature-2 {
+  min-height: 236px;
   height: 100%;
   padding: 30px;
   border: 1px solid #EEEEEE;

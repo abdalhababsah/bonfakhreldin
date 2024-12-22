@@ -127,7 +127,7 @@
                     <p class="title">@lang('home.what_happens')</p>
                     <h2 class="sub-title light-text">@lang('home.explore_products')</h2>
                 </div>
-                <div class="row row-cols-lg-3 row-cols-sm-2 row-cols-1 mb-n6">
+                <div class="row row-cols-lg-3 row-cols-sm-2 row-cols-1 mb-n6" style="justify-content:center !important;">
                     <div class="col mb-6">
                         <div class="feature-2">
 
