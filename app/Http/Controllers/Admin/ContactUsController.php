@@ -30,13 +30,25 @@ class ContactUsController extends Controller
     /**
      * Remove the specified contact message from storage.
      */
-    public function destroy(ContactUs $contactUs)
+    public function destroy($id)
     {
         try {
+            // Find the contact message by ID
+            $contactUs = ContactUs::find($id);
+    
+            if (!$contactUs) {
+                return redirect()->route('admin.contact_us.index')
+                                 ->with('error', 'Contact message not found.');
+            }
+    
             $contactUs->delete();
+    
             return redirect()->route('admin.contact_us.index')
                              ->with('success', 'Contact message deleted successfully.');
         } catch (\Exception $e) {
+            // Log the exception for debugging
+            \Log::error('Error deleting contact message: ' . $e->getMessage());
+    
             return redirect()->route('admin.contact_us.index')
                              ->with('error', 'An error occurred while deleting the contact message.');
         }
