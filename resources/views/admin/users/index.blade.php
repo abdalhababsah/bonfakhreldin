@@ -35,7 +35,7 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($users as $user)
-                                        <tr>
+                                        <tr @if (auth()->id() === $user->id) style="background-color: #f4f4f4; color: black;" @endif>
                                             <td>{{ $user->id }}</td>
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
@@ -43,19 +43,30 @@
                                                 <!-- Edit Button -->
                                                 <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
                                                     data-bs-target="#editUserModal"
+                                                    style="margin-bottom: 0rem;"
                                                     onclick="populateEditModal({{ $user }})">
                                                     Edit
                                                 </button>
-
+                                
                                                 <!-- Delete Button -->
-                                                <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="d-inline">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button class="btn btn-danger btn-sm"
-                                                        onclick="return confirm('Are you sure you want to delete this user?')">
+                                                @if (auth()->id() === $user->id)
+                                                    <button class="btn btn-secondary btn-sm" disabled
+                                                     style="margin-bottom: 0rem;"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="You cannot delete your own account.">
                                                         Delete
                                                     </button>
-                                                </form>
+                                                @else
+                                                    <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button class="btn btn-danger btn-sm"
+                                                        style="margin-bottom: 0rem;"
+                                                            onclick="return confirm('Are you sure you want to delete this user?')">
+                                                            Delete
+                                                        </button>
+                                                    </form>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
