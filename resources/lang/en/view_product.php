@@ -3,7 +3,7 @@
 return [
     'title' => 'Experience :product_name',
     'hero_section' => [
-        'heading' => 'Discover :product_name',
+        'heading' => ' :product_name',
         'description' => ':product_description',
     ],
     'middle_section' => [
