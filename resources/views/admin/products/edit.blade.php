@@ -145,80 +145,91 @@
     <script>
         Dropzone.autoDiscover = false;
 
+        // Function to fetch and render images
+        function fetchImages(dropzoneInstance) {
+            fetch("{{ route('admin.products.getImages', $product->id) }}", {
+                    headers: {
+                        "Accept": "application/json",
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.images) {
+                        // Clear existing Dropzone previews
+                        dropzoneInstance.removeAllFiles(true);
+
+                        // Render fetched images
+                        data.images.forEach(image => {
+                            const mockFile = {
+                                name: image.image_url.split('/').pop(),
+                                size: 123456, // Approximate size
+                                dataURL: `{{ asset('storage/') }}/${image.image_url}`,
+                                imageId: image.id
+                            };
+
+                            dropzoneInstance.emit("addedfile", mockFile);
+                            dropzoneInstance.emit("thumbnail", mockFile, mockFile.dataURL);
+                            mockFile.previewElement.classList.add('dz-success', 'dz-complete');
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching images:', error);
+                });
+        }
+
         // Initialize Dropzone
         const myDropzone = new Dropzone("#imageDropzone", {
             url: "{{ route('admin.products.uploadImage', $product->id) }}",
-            autoProcessQueue: true, // Process immediately
+            autoProcessQueue: true,
             uploadMultiple: false,
             addRemoveLinks: true,
             acceptedFiles: "image/*",
             maxFilesize: 2, // MB
-            maxFiles: 1, // Limit to one file
             paramName: "image",
             headers: {
                 "X-CSRF-TOKEN": "{{ csrf_token() }}"
             },
             init: function() {
-                var myDropzone = this;
+                const dropzone = this;
 
-                // Load existing image
-                @if ($product->images->isNotEmpty())
-                    var existingImage = {
-                        name: "{{ basename($product->images->first()->image_url) }}",
-                        size: 123456, // Dummy size
-                        dataURL: "{{ asset('storage/' . $product->images->first()->image_url) }}",
-                        imageId: "{{ $product->images->first()->id }}",
-                        isPrimary: {{ $product->images->first()->is_primary ? 'true' : 'false' }}
-                    };
-                    myDropzone.emit("addedfile", existingImage);
-                    myDropzone.emit("thumbnail", existingImage, existingImage.dataURL);
-                    existingImage.previewElement.classList.add('dz-success', 'dz-complete');
-                    if (existingImage.isPrimary) {
-                        existingImage.previewElement.classList.add('primary-image');
-                        var badge = document.createElement('span');
-                        badge.className = 'badge bg-primary position-absolute';
-                        badge.style.top = '10px';
-                        badge.style.left = '10px';
-                        badge.innerText = 'Primary';
-                        existingImage.previewElement.appendChild(badge);
-                    }
-                    myDropzone.files.push(existingImage);
-                @endif
-
-                // Handle file added
-                this.on("addedfile", function(file) {
-                    if (myDropzone.files.length > 1) {
-                        // Remove the previous file
-                        myDropzone.removeFile(myDropzone.files[0]);
-                    }
-                });
+                // Initial fetch of images
+                fetchImages(dropzone);
 
                 // Handle file removal
                 this.on("removedfile", function(file) {
                     if (file.imageId) {
-                        // Remove existing image via AJAX
-                        removeImage(file.imageId);
+                        // Remove image via AJAX
+                        let url = "{{ route('admin.products.removeImage', ':id') }}".replace(':id',
+                            file.imageId);
+
+                        fetch(url, {
+                                method: 'DELETE',
+                                headers: {
+                                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                                    "Accept": "application/json"
+                                }
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                Swal.fire('Success', data.message, 'success');
+                                // Re-fetch images
+                                fetchImages(dropzone);
+                            })
+                            .catch(error => {
+                                console.error('Error deleting image:', error);
+                                Swal.fire('Error', 'An error occurred while deleting the image.',
+                                    'error');
+                            });
                     }
                 });
 
-                // Handle success
+                // Handle successful upload
                 this.on('success', function(file, response) {
-                    // Update file data with response data
-                    file.imageId = response.imageId;
-                    file.isPrimary = response.isPrimary;
-
-                    if (file.isPrimary) {
-                        // Add badge to indicate primary image
-                        file.previewElement.classList.add('primary-image');
-                        var badge = document.createElement('span');
-                        badge.className = 'badge bg-primary position-absolute';
-                        badge.style.top = '10px';
-                        badge.style.left = '10px';
-                        badge.innerText = 'Primary';
-                        file.previewElement.appendChild(badge);
-                    }
-
                     Swal.fire('Success', response.message, 'success');
+                    // Re-fetch images
+                    fetchImages(dropzone);
                 });
 
                 // Handle errors

@@ -47,6 +47,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('products/{product}/upload-image', [ProductController::class, 'uploadImage'])->name('products.uploadImage');
         Route::delete('products/remove-image/{id}', [ProductController::class, 'removeImage'])->name('products.removeImage');
 
+        Route::get('products/{id}/images', [ProductController::class, 'getProductImages'])->name('products.getImages');
         Route::resource('blogs', BlogController::class);
         Route::resource('contact_us', AdminContactUsController::class);
     });
