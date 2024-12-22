@@ -71,7 +71,6 @@
                 var popupContent = `
                     <div>
                         <h5>${branch.name}</h5>
-                        <p><strong>Contact:</strong> ${branch.phone}</p>
                         <a href="${googleMapsLink}" target="_blank">View on Google Maps</a>
                     </div>
                 `;
