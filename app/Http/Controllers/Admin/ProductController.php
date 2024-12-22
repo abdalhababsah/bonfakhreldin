@@ -14,7 +14,9 @@ class ProductController extends Controller
     // Display a listing of products
     public function index()
     {
-        $products = Product::with('category', 'images')->paginate(10);
+        $products = Product::with('category', 'images')
+        ->orderBy('id', 'DESC')
+        ->paginate(10);
         return view('admin.products.index', compact('products'));
     }
 
@@ -24,7 +26,6 @@ class ProductController extends Controller
         return view('admin.products.create', compact('categories'));
     }
 
-    // Store a newly created product in storage
     private function generateUniqueSlug($description)
     {
         // Generate initial slug

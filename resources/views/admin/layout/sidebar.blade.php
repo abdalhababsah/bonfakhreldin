@@ -15,24 +15,32 @@
         <ul class="navbar-nav">
             <!-- Dashboard -->
             <li class="nav-item">
-                <a class="nav-link text-dark {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" 
-                   href="{{ route('admin.dashboard') }}">
+                <a class="nav-link text-dark {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"
+                    href="{{ route('admin.dashboard') }}">
                     <i class="material-symbols-rounded opacity-5 text-primary">dashboard</i>
                     <span class="nav-link-text ms-1">Dashboard</span>
                 </a>
             </li>
+            <!-- Users -->
+            <li class="nav-item">
+                <a class="nav-link text-dark {{ request()->routeIs('admin.users.*') ? 'active' : '' }}"
+                    href="{{ route('admin.users.index') }}">
+                    <i class="material-symbols-rounded opacity-5 text-primary">group</i>
+                    <span class="nav-link-text ms-1">Users</span>
+                </a>
+            </li>
             <!-- Products -->
             <li class="nav-item">
-                <a class="nav-link text-dark {{ request()->routeIs('admin.products.*') ? 'active' : '' }}" 
-                   href="{{ route('admin.products.index') }}">
+                <a class="nav-link text-dark {{ request()->routeIs('admin.products.*') ? 'active' : '' }}"
+                    href="{{ route('admin.products.index') }}">
                     <i class="material-symbols-rounded opacity-5 text-primary">table_view</i>
                     <span class="nav-link-text ms-1">Products</span>
                 </a>
             </li>
             <!-- Categories -->
             <li class="nav-item">
-                <a class="nav-link text-dark {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}" 
-                   href="{{ route('admin.categories.index') }}">
+                <a class="nav-link text-dark {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}"
+                    href="{{ route('admin.categories.index') }}">
                     <i class="material-symbols-rounded opacity-5 text-primary">receipt_long</i>
                     <span class="nav-link-text ms-1">Categories</span>
                 </a>
@@ -40,11 +48,12 @@
             <!-- Contact -->
             <li class="nav-item">
                 <a class="nav-link text-dark {{ request()->routeIs('admin.contact_us.*') ? 'active' : '' }}"
-                   href="{{ route('admin.contact_us.index') }}">
+                    href="{{ route('admin.contact_us.index') }}">
                     <i class="material-symbols-rounded opacity-5 text-primary">person</i>
                     <span class="nav-link-text ms-1">Contact</span>
                 </a>
             </li>
+
         </ul>
     </div>
 </aside>

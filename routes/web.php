@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
@@ -50,5 +51,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('products/{id}/images', [ProductController::class, 'getProductImages'])->name('products.getImages');
         Route::resource('blogs', BlogController::class);
         Route::resource('contact_us', AdminContactUsController::class);
+        Route::resource('users', UserController::class);
+
     });
 });

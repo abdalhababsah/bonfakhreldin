@@ -27,7 +27,6 @@
                             <table class="table table-hover align-items-center mb-0 text-center">
                                 <thead class="thead-light">
                                     <tr>
-                                        <th>ID</th>
                                         <th>Name (EN)</th>
                                         <th>Name (AR)</th>
                                         <th>Category</th>
@@ -38,7 +37,6 @@
                                 <tbody>
                                     @foreach ($products as $product)
                                         <tr>
-                                            <td>{{ $product->id }}</td>
                                             <td>{{ $product->name_en }}</td>
                                             <td>{{ $product->name_ar }}</td>
                                             <td>{{ $product->category->name_en }}</td>
