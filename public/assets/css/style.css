@@ -3595,8 +3595,10 @@ only screen and (max-width: 767px) {
 }
 
 .product-small-image img {
+  max-height: 112px;
   width: 100%;
   height: 100%;
+  object-fit: cover;
 }
 
 .product-small-content {
