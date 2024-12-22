@@ -12,7 +12,7 @@ return [
     'what_happens' => 'What Happens Here',
     'explore_products' => 'EXPLORE Bon Fakhreldin PRODUCTS',
     'feature1_title' => 'Delightful Nuts Selection',
-    'feature1_text' => 'Discover a variety of fresh, high-quality nuts sourced from around the world.',
+    'feature1_text' => 'Discover a variety of fresh, high-quality nuts.',
     'feature2_title' => 'Luxurious Chocolate Treats',
     'feature2_text' => 'Indulge in our rich, decadent chocolates made from the finest ingredients.',
     'feature3_title' => 'Exceptional Coffee Blends',
