@@ -226,7 +226,7 @@
                 <div class="row row-cols-lg-3 row-cols-md-2 row-cols-1 align-items-start gy-4">
                     <div class="col mb-8" style="min-height: 558px;">
                         <div class="block-title-2">
-                            <h4 class="title">@lang('home.hot_sale')</h4>
+                            <h4 class="title">@lang('home.best_rating')</h4>
                             <div id="group-product-1" class="swiper-outer-nav">
                                 <div class="swiper-button-prev"></div>
                                 <div class="swiper-button-next"></div>
@@ -278,7 +278,7 @@
                     </div>
                     <div class="col mb-8" style="min-height: 558px;">
                         <div class="block-title-2">
-                            <h4 class="title">@lang('home.best_rating')</h4>
+                            <h4 class="title">@lang('home.hot_sale')</h4>
                             <div id="group-product-2" class="swiper-outer-nav">
                                 <div class="swiper-button-prev"></div>
                                 <div class="swiper-button-next"></div>
