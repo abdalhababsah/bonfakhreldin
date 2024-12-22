@@ -18,7 +18,7 @@
             <div class="row row-cols-lg-2 row-cols-1 mb-n8">
 
                 <div class="col mb-8">
-                    <img loading="lazy" src="{{asset('assets/images/80x80-2.png')}}" alt="{{ __('about_us.title') }}"
+                    <img style="margin-bottom: 30px;" loading="lazy" src="{{asset('assets/images/80x80-2.png')}}" alt="{{ __('about_us.title') }}"
                         width="560" height="472">
                 </div>
 

@@ -89,10 +89,7 @@
     <div class="section section-padding pt-0">
         <div class="container">
             <div class="ratio ratio-21x9">
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d114896.59987487551!2d-122.41969332729698!3d47.609610451096295!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5490102c93e83355%3A0x102565466944d59a!2sSeattle%2C%20WA%2C%20USA!5e0!3m2!1sen!2sbd!4v1644128683621!5m2!1sen!2sbd"
-                    allowfullscreen="" loading="lazy" title="{{ __('contactUs.map_title') }}">
-                </iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3387.0638684418373!2d35.963764!3d31.904862!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMzHCsDU0JzE3LjUiTiAzNcKwNTcnNDkuNiJF!5e0!3m2!1sen!2sjo!4v1734873057801!5m2!1sen!2sjo" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
     </div>
