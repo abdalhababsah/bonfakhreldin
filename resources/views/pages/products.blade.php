@@ -89,7 +89,6 @@
             const searchBar = document.getElementById('search-bar');
             const gridView = document.getElementById('grid-view');
             const pagination = document.getElementById('pagination');
-            const loader = document.getElementById('loader'); 
             const defaultPlaceholder = document.getElementById('default-placeholder').src;
 
             // Global variables to keep track of the current filters
@@ -110,7 +109,6 @@
                     fullUrl += (fullUrl.includes('?') ? '&' : '?') + params.toString();
                 }
 
-                loader.style.display = 'block';
                 gridView.style.display = 'none';
 
                 fetch(fullUrl)
@@ -119,12 +117,10 @@
                         populateCategories(data.categories);
                         populateGridView(data.products);
                         populatePagination(data.products);
-                        loader.style.display = 'none';
                         gridView.style.display = 'flex';
                     })
                     .catch(error => {
                         console.error('Error fetching products:', error);
-                        loader.style.display = 'none';
                         gridView.innerHTML = `<div class="col-12"><p>@lang('products.error_loading_products')</p></div>`;
                     });
             }
