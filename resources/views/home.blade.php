@@ -244,7 +244,7 @@
                                                         <img loading="lazy"
                                                             src="{{ asset('storage/' . $product->images->first()->image_url) }}"
                                                             alt="{{ $product->{'name_' . app()->getLocale()} }}"
-                                                            width="110" height="126">
+                                                            style="max-height: 112px !important;">
                                                     @else
                                                         <img loading="lazy"
                                                             src="{{ asset('storage/default_image.png') }}"
