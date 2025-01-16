@@ -2,6 +2,31 @@
     .active{
         color: #126442;
     }
+    /* For RTL languages */
+.list-rtl {
+    list-style-position: inside;
+    padding-right: 0;
+    padding-left: 20px;
+}
+
+.list-rtl li {
+    text-align: right;
+}
+
+/* For LTR languages */
+.list-ltr {
+    list-style-position: inside;
+    padding-left: 0;
+    padding-right: 20px;
+}
+
+.list-ltr li {
+    text-align: left;
+}
+
+
+
+
 </style>
 <!-- Language Switcher Banner Start -->
 <div style="background-color: #126442; color: white; padding: 10px 0;">
@@ -33,45 +58,38 @@
             </div>
             <!-- Logo End -->
 
-            <!-- Menu Start -->
-            <div class="col d-none d-lg-flex justify-content-end">
-                <nav class="main-menu">
-                    <ul>
-                        <li class="{{ request()->routeIs('home') ? 'active' : '' }}">
-                            <a href="{{ route('home') }}">{{ __('header.home') }}</a>
-                        </li>
-                        <li class="{{ request()->routeIs('products.index') || request()->routeIs('products.show') ? 'active' : '' }}">
-                            <a href="{{ route('products.index') }}">{{ __('header.products') }}</a>
-                        </li>
-                        <li class="{{ request()->routeIs('branches') ? 'active' : '' }}">
-                            <a href="{{ route('branches') }}">{{ __('header.branches') }}</a>
-                        </li>
-                        <li class="{{ request()->routeIs('about.us') ? 'active' : '' }}">
-                            <a href="{{ route('about.us') }}">{{ __('header.about_us') }}</a>
-                        </li>
-                        <li class="{{ request()->routeIs('contactUs.index') ? 'active' : '' }}">
-                            <a href="{{ route('contactUs.index') }}">{{ __('header.contact_us') }}</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-            <!-- Menu End -->
 
-            <!-- Action Start -->
-            <div class="col-auto">
-                <div class="header-action">
-                    <div class="header-action-item d-lg-none">
-                        <button class="header-action-toggle" type="button" data-bs-toggle="offcanvas"
-                            data-bs-target="#offcanvas-header"><i class="sli-menu"></i></button>
-                    </div>
-                </div>
-            </div>
-            <!-- Action End -->
-
-        </div>
-    </div>
+<!-- Menu Start -->
+<div class="col d-none d-lg-flex {{ app()->getLocale() == 'ar' ? 'text-end' : 'text-start' }}">
+    <nav class="main-menu">
+        <ul class="{{ app()->getLocale() == 'ar' ? 'list-rtl' : 'list-ltr' }}">
+            <li class="{{ request()->routeIs('home') ? 'active' : '' }}">
+                <a href="{{ route('home') }}">{{ __('header.home') }}</a>
+            </li>
+            <li class="{{ request()->routeIs('products.index') || request()->routeIs('products.show') ? 'active' : '' }}">
+                <a href="{{ route('products.index') }}">{{ __('header.products') }}</a>
+            </li>
+            <li class="{{ request()->routeIs('branches') ? 'active' : '' }}">
+                <a href="{{ route('branches') }}">{{ __('header.branches') }}</a>
+            </li>
+            <li class="{{ request()->routeIs('about.us') ? 'active' : '' }}">
+                <a href="{{ route('about.us') }}">{{ __('header.about_us') }}</a>
+            </li>
+            <li class="{{ request()->routeIs('contactUs.index') ? 'active' : '' }}">
+                <a href="{{ route('contactUs.index') }}">{{ __('header.contact_us') }}</a>
+            </li>
+        </ul>
+    </nav>
 </div>
-<!-- Header Section End -->
+<!-- Menu End -->
+
+
+
+
+
+
+
+
 
 <!-- Mobile Offcanvas Menu Start -->
 <div style="z-index: 60000;" class="offcanvas offcanvas-end" id="offcanvas-header">

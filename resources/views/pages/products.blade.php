@@ -19,19 +19,22 @@
             position: relative;
             min-height: 100vh !important;
         }
+
+
+
         
 
     </style>
 
-    <!-- Page Banner Section -->
-    <div class="page-banner-section section">
-        <div class="container">
-            <ul class="breadcrumb">
-                <li><a href="{{ route('home') }}">Home</a></li>
-                <li>Products</li>
-            </ul>
-        </div>
+<div class="page-banner-section section">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a href="{{ route('home') }}">@lang('products.home')</a></li>
+            <li>@lang('products.products')</li>
+        </ul>
     </div>
+</div>
+
 
     <!-- Shop Product Section -->
     <div class="shop-product-section section section-padding">
@@ -50,8 +53,8 @@
                 </div>
 
                 <!-- Right Content (Products and Pagination) -->
-                <div class="col-lg-9 col-md-8">
-                    <!-- Product Tab Start -->
+                <div class="col-lg-9 col-md-8" >
+                <!-- Product Tab Start -->
                     <div class="tab-content" id="shopProductTabContent">
                         <!-- Grid View -->
                         <div class="tab-pane fade show active" id="product-grid">

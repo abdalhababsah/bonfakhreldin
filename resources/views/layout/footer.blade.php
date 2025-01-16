@@ -1,3 +1,5 @@
+
+
     <style>
         .footer-3-section {
             position: relative;
@@ -47,12 +49,26 @@
                 </div>
                 <!-- Right side: Social Icons -->
                 <div class="footer-widget-social d-flex justify-content-end" style="width:50%;">
-                    <a href="https://www.facebook.com/bonfakhreldin" class=""><i
-                            class="sli-social-facebook"></i></a>
-                    <a href="https://www.instagram.com/bon.fakhreldin" class=""><i
-                            class="sli-social-instagram"></i></a>
+                <a href="https://www.facebook.com/bonfakhreldin" 
+                    style="color: inherit; text-decoration: none; "
+                    onmouseover="this.style.color='white !important';" 
+                    onmouseout="this.style.color='inherit'; ">
+                   <i class="sli-social-facebook"></i></a>
+
+                   <a href="https://www.instagram.com/bon.fakhreldin" 
+                    style="color: inherit; text-decoration: none; "
+                    onmouseover="this.style.color='white !important';" 
+                    onmouseout="this.style.color='inherit'; ">
+                   <i class="sli-social-instagram"></i></a>
                 </div>
             </div>
         </div>
 
     </div>
+
+    <a href="https://www.facebook.com/bonfakhreldin" id="facebook-link">
+  <i class="sli-social-facebook"></i>
+</a>
+
+
+

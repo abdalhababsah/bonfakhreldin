@@ -16,6 +16,7 @@ use App\Http\Controllers\HomeController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Switch languages route
+
 Route::get('/lang/{locale}', [LocalizationController::class, 'switchLang'])->name('locale.switch');
 
 // User routes
@@ -29,6 +30,7 @@ Route::get('/terms-of-service', [PageController::class, 'termsService'])->name('
 Route::get('/about-us', [PageController::class, 'aboutUs'])->name('about.us');
 Route::get('/gallery', [PageController::class, 'gallery'])->name('gallery');
 Route::get('/branches', [PageController::class, 'branches'])->name('branches');
+
 
 // User fetch products
 Route::get('/products', [UserProductController::class, 'index'])->name('products.index');

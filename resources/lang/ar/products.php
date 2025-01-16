@@ -9,4 +9,6 @@ return [
     'no_products_found' => 'لم يتم العثور على منتجات',
     'search_placeholder'=> '... البحث',
     'filter_title' => 'تصفية',
+    'home' => 'الصفحة الرئيسية',
+    'products' => 'المنتجات'
 ];

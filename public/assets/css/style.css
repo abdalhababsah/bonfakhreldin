@@ -289,7 +289,6 @@ hr {
 .main-menu>ul {
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -6274,6 +6273,7 @@ only screen and (max-width: 575px) {
 /* Container for coffee beans */
 .coffee-beans-container {
   position: absolute;
+  display: block;
   top: 0;
   left: 0;
   width: 100%;
@@ -6297,6 +6297,14 @@ only screen and (max-width: 575px) {
   opacity: 0.8;
   animation: fall linear infinite;
 }
+
+@media (max-width: 768px) {
+  .coffee-beans-container,
+  .coffee-bean {
+    display: none;
+  }
+}
+
 
 /* Keyframes for falling animation */
 @keyframes fall {
@@ -6323,5 +6331,12 @@ only screen and (max-width: 575px) {
   overflow-y: auto;
 }
 
+/* Add responsiveness for smaller screens */
+@media screen and (max-width: 600px) {
+  #branch-list-container {
+    height: 235px;
+    padding: 10px; /* Add some padding if needed */
+  }
+}
 
 /*  */
