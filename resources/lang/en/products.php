@@ -9,4 +9,6 @@ return [
     'no_products_found' => 'No products found',
     'search_placeholder'=> 'Search',
     'filter_title' => 'Filter',
+    'home' => 'Home',
+    'products' => 'Products',
 ];

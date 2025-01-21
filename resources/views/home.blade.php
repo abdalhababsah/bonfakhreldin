@@ -132,7 +132,7 @@
                         <div class="feature-2">
 
                             <div class="feature-content">
-                                <h3 class="feature-title light-text">@lang('home.feature1_title')</h3>
+                            <h3 class="feature-title light-text">@lang('home.feature1_title')</h3>
                                 <p class="feature-text light-text">@lang('home.feature1_text')</p>
                             </div>
                         </div>

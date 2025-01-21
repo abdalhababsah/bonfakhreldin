@@ -19,11 +19,7 @@
     <div class="branches-section section section-padding pt-0">
         <div class="container">
             <div class="row mt-4">
-                <!-- Map Container -->
-                <div class="col-md-8">
-                    <div id="map" style="width: 100%; height: 600px;"></div>
-                </div>
-                <!-- Branch List -->
+                 <!-- Branch List -->
                 <div class="col-md-4">
                     <div id="branch-list">
                         <h3>{{ __('header.branches') }}</h3>
@@ -37,6 +33,11 @@
                         </div>
                     </div>
                 </div>
+                <!-- Map Container -->
+                <div class="col-md-8">
+                    <div id="map" style="width: 100%; height: 600px;"></div>
+                </div>
+               
             </div>
         </div>
     </div>

@@ -34,6 +34,8 @@
 
     <link rel="stylesheet" href="{{ asset('assets/css/vendor/bootstrap.min.css') }}">
 
+    
+
     @if (app()->getLocale() === 'ar')
         <!-- RTL CSS -->
         <link rel="stylesheet" href="{{ asset('assets/css/rtl.css') }}">
@@ -66,6 +68,11 @@
     <meta name="twitter:image" content="{{ asset('assets/images/logo/Logo-Bonfakhrladin.png') }}">
     <meta name="twitter:site" content="@bonfakhreldin">
     <meta name="twitter:creator" content="@bonfakhreldin">
+
+    <meta name="apple-mobile-web-app-title" content="Bon Fakhreldin">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+
 
     <!-- Structured Data with JSON-LD -->
     <script type="application/ld+json">
