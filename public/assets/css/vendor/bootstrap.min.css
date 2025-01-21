@@ -7970,7 +7970,7 @@ fieldset:disabled .btn {
 }
 
 .float-end {
-    float: right !important
+    float: inline-end !important
 }
 
 .float-none {
