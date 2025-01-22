@@ -19,11 +19,6 @@
             position: relative;
             min-height: 100vh !important;
         }
-
-
-
-        
-
     </style>
 
 <div class="page-banner-section section">
@@ -97,9 +92,17 @@
             // Global variables to keep track of the current filters
             let currentCategoryId = '';
             let currentSearchTerm = '';
+            
+            // Parse the category ID from the URL 
+            
+            const urlParams = new URLSearchParams(window.location.search); 
+            const initialCategoryId = urlParams.get('category_id') || ''; 
 
+            // Set dropdown value to the category ID from the URL 
+            categoryDropdown.value = initialCategoryId;
+            
             // Fetch products with given parameters
-            function fetchProducts(url = '/products/data', categoryId = '', searchTerm = '') {
+            function fetchProducts(url = '/products/data', categoryId = initialCategoryId, searchTerm = '') {
                 currentCategoryId = categoryId;
                 currentSearchTerm = searchTerm;
 
@@ -135,6 +138,7 @@
                         const option = document.createElement('option');
                         option.value = category.id;
                         option.textContent = category.name;
+                        option.selected = option.value == initialCategoryId
                         categoryDropdown.appendChild(option);
                     });
                 }

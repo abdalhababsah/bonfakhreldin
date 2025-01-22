@@ -52,7 +52,8 @@
                 <a href="https://www.facebook.com/bonfakhreldin" 
                     style="color: inherit; text-decoration: none; "
                     onmouseover="this.style.color='white !important';" 
-                    onmouseout="this.style.color='inherit'; ">
+                    onmouseout="this.style.color='inherit'; "
+                    target="_blank">
                    <i class="sli-social-facebook"></i></a>
 
                    <a href="https://www.instagram.com/bon.fakhreldin" 
@@ -65,10 +66,3 @@
         </div>
 
     </div>
-
-    <a href="https://www.facebook.com/bonfakhreldin" id="facebook-link">
-  <i class="sli-social-facebook"></i>
-</a>
-
-
-

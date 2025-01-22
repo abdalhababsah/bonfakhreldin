@@ -3,10 +3,6 @@
 @section('title', __('home.title'))
 
 @section('content')
-    <style>
-
-    </style>
-
     <script>
         // resources/js/coffee-beans.js
 
@@ -128,7 +124,7 @@
                     <h2 class="sub-title light-text">@lang('home.explore_products')</h2>
                 </div>
                 <div class="row row-cols-lg-3 row-cols-sm-2 row-cols-1 mb-n6" style="justify-content:center !important;">
-                    <div class="col mb-6">
+                    <a href="{{url('/products').'?category_id=3'}}" class="col mb-6">
                         <div class="feature-2">
 
                             <div class="feature-content">
@@ -136,8 +132,8 @@
                                 <p class="feature-text light-text">@lang('home.feature1_text')</p>
                             </div>
                         </div>
-                    </div>
-                    <div class="col mb-6">
+                    </a>
+                    <a href="{{url('/products').'?category_id=2'}}" class="col mb-6">
                         <div class="feature-2">
 
                             <div class="feature-content">
@@ -145,8 +141,8 @@
                                 <p class="feature-text light-text">@lang('home.feature2_text')</p>
                             </div>
                         </div>
-                    </div>
-                    <div class="col mb-6 card-3">
+                    </a>
+                    <a href="{{url('/products').'?category_id=1'}}" class="col mb-6 card-3">
                         <div class="feature-2 ">
 
                             <div class="feature-content">
@@ -154,7 +150,7 @@
                                 <p class="feature-text light-text">@lang('home.feature3_text')</p>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>
