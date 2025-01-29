@@ -58,4 +58,3 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 });
 
-Route::post('/logout', [AuthController::class, 'logout'])->name('admin.logout');

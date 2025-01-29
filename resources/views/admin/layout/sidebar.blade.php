@@ -55,7 +55,7 @@
             </li>
             <!-- Logout -->
             <li class="nav-item">
-                <form action="{{ route('admin.logout') }}" method="POST">
+                <form action="{{ route('logout') }}" method="POST">
                     @csrf
                     <button type="submit" class="nav-link text-dark w-100 border-0 bg-transparent text-start">
                         <i class="material-symbols-rounded opacity-5 text-primary">logout</i>
