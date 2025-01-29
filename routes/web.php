@@ -40,7 +40,6 @@ Route::get('/products/data', [UserProductController::class, 'productData'])->nam
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     // Protected Admin Routes
     Route::middleware('auth')->group(function () {
@@ -58,3 +57,4 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 });
 
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
