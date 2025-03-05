@@ -9,11 +9,12 @@
     <title>@yield('title', 'bon fakhreldin - Coffee Shop')</title>
 
     <!-- SEO Meta Tags -->
+    <meta name="url" content="{{url('/')}}" />
     <meta name="robots" content="index, follow" />
     <meta name="description"
         content="اكتشف رحلة قهوة فخر الدين، شبكتنا المزدهرة التي تضم أكثر من 25 فرعاً في الأردن. نحن ملتزمون بتقديم أفضل أنواع القهوة المحمصة بعناية لنكون جزءاً من يومك." />
     <meta name="keywords"
-        content="قهوة, قهوة فخر الدين, أفضل قهوة في الأردن, محمصة القهوة, مقهى, رحلة القهوة, قيم القهوة" />
+        content="قهوة, قهوة فخر الدين, بن فخر الدين, أفضل قهوة في الأردن, محمصة القهوة, مقهى, رحلة القهوة, قيم القهوة" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -34,12 +35,8 @@
 
     <link rel="stylesheet" href="{{ asset('assets/css/vendor/bootstrap.min.css') }}">
 
-    
 
-    @if (app()->getLocale() === 'ar')
-        <!-- RTL CSS -->
-        <link rel="stylesheet" href="{{ asset('assets/css/rtl.css') }}">
-    @endif
+
 
     <link rel="stylesheet" href="{{ asset('assets/css/plugins/simple-line-icons.min.css') }}">
 
@@ -50,6 +47,10 @@
     <!-- Style CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 
+    @if (app()->getLocale() === 'ar')
+        <!-- RTL CSS -->
+        <link rel="stylesheet" href="{{ asset('assets/css/rtl.css') }}">
+    @endif
     <!-- Open Graph Meta Tags for Facebook, WhatsApp, Instagram -->
     <meta property="og:title" content="bon fakhreldin - Coffee Shop">
     <meta property="og:description"
@@ -70,8 +71,8 @@
     <meta name="twitter:creator" content="@bonfakhreldin">
 
     <meta name="apple-mobile-web-app-title" content="Bon Fakhreldin">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
 
 
     <!-- Structured Data with JSON-LD -->

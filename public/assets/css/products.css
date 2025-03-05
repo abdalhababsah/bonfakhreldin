@@ -146,7 +146,14 @@
     height: 100px;
     /* Adjust based on preference */
 }
-
+.shop-product-section {
+    background-image: url(../images/pattern-merged.png);
+    background-position: right center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: relative;
+    min-height: 100vh !important;
+}
 /* Responsive Adjustments */
 @media (max-width: 576px) {
     .product-action {
