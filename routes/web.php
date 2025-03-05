@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
@@ -31,10 +32,18 @@ Route::get('/about-us', [PageController::class, 'aboutUs'])->name('about.us');
 Route::get('/gallery', [PageController::class, 'gallery'])->name('gallery');
 Route::get('/branches', [PageController::class, 'branches'])->name('branches');
 
-
 // User fetch products
 Route::get('/products', [UserProductController::class, 'index'])->name('products.index');
 Route::get('/products/data', [UserProductController::class, 'productData'])->name('products.data');
+
+// User fetch cart
+Route::controller(CartController::class)->group(function () {
+    Route::get('/cart', 'index');
+    Route::post('/cart/add', 'add');
+    Route::post('/cart/update', 'update');
+    Route::post('/cart/remove', 'remove');
+    Route::post('/cart/clear', 'clear');
+});
 
 // Admin Authentication Routes
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');

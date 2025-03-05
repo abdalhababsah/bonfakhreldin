@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/view-product.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 
+    <x-breadcrumb />
 
     <!-- Middle Section -->
     <div id="middle-section" class="section-unique">
@@ -22,14 +23,43 @@
 
             <!-- Right Content -->
             <div class="right-side"></div>
-
             <!-- Floating Image -->
             <div id="floatingProductImage" class="floating-image animate__animated animate__zoomIn">
-                <img src="{{ $product->images->first() && $product->images->first()->image_url ? asset('storage/' . $product->images->first()->image_url) : asset('assets/images/default-placeholder.png') }}"
+                <img src="{{ $product->images->first() && $product->images->first()->image_url
+                    ? asset('storage/' . $product->images->first()->image_url)
+                    : asset('assets/images/default-placeholder.png') }}"
                     alt="{{ $product->name }}">
             </div>
         </div>
     </div>
+
+    <form action="{{ url('cart/add', $product->id) }}" class="row" method="POST">
+        @csrf
+        <div class="form-group col-4">
+            <select name="size" id="size" class="form-control">
+                <option value="">{{ __('view_product.select_size') }}</option>
+                @if (isset($product->sizes) && count($product->sizes) > 0)
+                    @foreach($product->sizes as $size)
+                        <option value="{{ $size }}">{{ $size }}</option>
+                    @endforeach
+
+                @endif
+            </select>
+        </div>
+        <div class="form-group col-4">
+            <div class="product-options">
+                <div class="product-info__quantity" style="direction: ltr">
+                    <div class="counter-box">
+                        <span class="counter-link counter-link__prev"><i class="sli-arrow-left"></i></span>
+                        {{-- <input type="text" class="counter-input" disabled value="1"> --}}
+                        <input type="number" name="quantity" id="quantity" class="form-control" value="1" min="1" disabled>
+                        <span class="counter-link counter-link__next"><i class="sli-arrow-right"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type="button" class="btn btn-create" onclick="addToCart()">{{ __('view_product.add_to_cart') }}</button>
+    </form>
 
     <!-- Slider Section -->
     <div id="slider-section" class="section-unique">
@@ -57,69 +87,7 @@
         </div>
     </div>
 
-    <style>
-
-    </style>
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-scrollify/1.0.19/jquery.scrollify.min.js"></script>
-    <script>
-        $(function() {
-            // Initialize Scrollify
-            $.scrollify({
-                section: ".section-unique",
-                scrollSpeed: 1100,
-                before: function(index, sections) {
-                    // Remove animation classes before the section becomes active
-                    $('.animate__animated').removeClass(
-                        'animate__fadeIn animate__fadeInUp animate__fadeInLeft animate__fadeInRight animate__zoomIn'
-                    );
-                },
-                after: function(index, sections) {
-                    // Add animation classes after the section becomes active
-                    const currentSection = sections[index];
-                    $(currentSection).find('.animate__animated').addClass('animate__fadeIn');
-
-                    // Handle Floating Image Positioning
-                    const productImage = $('#floatingProductImage');
-
-                    if (index === 0) {
-                        // Hero Section: Position image at the boundary
-                        productImage.css({
-                            top: '50%',
-                            left: '70%',
-                            transform: 'translate(-50%, -50%)'
-                        });
-                    } else if (index === 1) {
-                        // Middle Section: Image stays centered on the boundary
-                        productImage.css({
-                            top: '50%',
-                            left: '70%',
-                            transform: 'translate(-50%, -50%)'
-                        });
-                        productImage.addClass('animate__fadeInUp');
-                    } else if (index === 2) {
-                        // Slider Section: Move image to the left side or hide
-                        productImage.css({
-                            top: '80%',
-                            left: '30%',
-                            transform: 'translate(-50%, -50%)'
-                        });
-                        productImage.addClass('animate__fadeInLeft');
-                    }
-                },
-                afterResize: function() {
-                    $.scrollify.update();
-                },
-                offset: 0,
-                interstitialSection: "",
-                easing: "easeOutExpo",
-                setHeights: true,
-                overflowScroll: true,
-                updateHash: true,
-                touchScroll: true,
-                before: function() {}
-            });
-        });
-    </script>
+    <script src="{{('js/scrollify.js')}}"></script>
 @endsection

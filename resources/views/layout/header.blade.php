@@ -17,27 +17,18 @@
 <div style="z-index: 6000;" class="header sticky-header section">
     <div class="container-fluid">
         <div class="row align-items-center">
-            <!-- Logo Start -->
-            <div class="col-lg-2 col-auto">
-                <div class="header-logo">
-                    <a href="{{ route('home') }}">
-                        <img id="logo" src="{{ asset('assets/images/logo/Logo-Bonfakhrladin.png') }}" alt="bon fakhreldin logo">
-                    </a>
-                </div>
-            </div>
-            <!-- Logo End -->
-
             <!-- Menu Start -->
-            <div class="col-lg-9 col">
-                <nav class="navbar navbar-expand-lg float-end">
-                    <div class="mx-auto ">
-                        <a href="{{url('/')}}">
-                            <h4 class="sli-basket-loaded"></h4>
-                        </a>
-                    </div>
+            <div class="col-lg-10 col">
+                <nav class="navbar navbar-expand-lg ">
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
+                    <div class="">
+                        <a href="{{url('/cart')}}" class="cart-link">
+                            <span class="cart-count">0</span>
+                            <i class="h4 sli-basket-loaded"></i>
+                        </a>
+                    </div>
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav ">
                             <li class="nav-item {{ request()->routeIs('home') ? 'active' : '' }}">
@@ -60,10 +51,19 @@
                 </nav>
             </div>
             <!-- Menu End -->
+            <!-- Logo Start -->
+            <div class="col-lg-2 col-auto">
+                <div class="float-end">
+                    <a href="{{ route('home') }}">
+                        <img id="logo" src="{{ asset('assets/images/logo/Logo-Bonfakhrladin.png') }}" alt="bon fakhreldin logo">
+                    </a>
+                </div>
+            </div>
+            <!-- Logo End -->
+
         </div>
     </div>
 </div>
-
 
 
 

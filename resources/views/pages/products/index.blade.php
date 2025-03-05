@@ -4,26 +4,7 @@
 
 @section('content')
     <link rel="stylesheet" href="{{ asset('assets/css/products.css') }}">
-
-    {{-- <style>
-        .shop-product-section {
-            background-image: url('{{ asset('assets/images/pattern-merged.png') }}');
-            background-position: right center;
-            background-repeat: no-repeat;
-            background-size: contain;
-            position: relative;
-            min-height: 100vh !important;
-        }
-    </style> --}}
-
-<div class="page-banner-section section">
-    <div class="container">
-        <ul class="breadcrumb">
-            <li><a href="{{ route('home') }}">@lang('products.home')</a></li>
-            <li>@lang('products.products')</li>
-        </ul>
-    </div>
-</div>
+    <x-breadcrumb />
 
 
     <!-- Shop Product Section -->
