@@ -139,20 +139,6 @@
         font-size: 16px;
     }
 
-    .btn-create{
-        color: white;
-        border-radius: 10px;
-        background-color: #126442;
-        margin: 10px;
-        width: fit-content;
-    }
-
-    .btn-create:hover{
-        color:#126442;
-        border-color: #126442;
-        background-color: white;
-    }
-
     /* Responsive Styles */
 
     /* Tablet */

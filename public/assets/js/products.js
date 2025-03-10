@@ -4,10 +4,10 @@ const pathname = window.location.pathname; // e.g., '/path/to/page'
 const search = window.location.search;     // e.g., '?query=string'
 const hash = window.location.hash;         // e.g., '#section'
 
-const fullURL = `${protocol}//${host}${pathname}${search}${hash}`;
-console.log(fullURL);
 const appUrl = `${protocol}//${host}`;
 const assetBase = `${protocol}//${host}/storage/`;
+// const fullURL = `${protocol}//${host}${pathname}${search}${hash}`;
+// console.log(fullURL);
 
 document.addEventListener('DOMContentLoaded', function() {
     const categoryDropdown = document.getElementById('category-filter');

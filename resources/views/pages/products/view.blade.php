@@ -33,14 +33,14 @@
         </div>
     </div>
 
-    <form action="{{ url('cart/add', $product->id) }}" class="row" method="POST">
+    <form action="{{ url('cart/add', $product->id) }}" class="row" method="POST" id="add-to-cart-form">
         @csrf
         <div class="form-group col-4">
-            <select name="size" id="size" class="form-control">
+            <select name="size_id" id="size" class="form-control">
                 <option value="">{{ __('view_product.select_size') }}</option>
                 @if (isset($product->sizes) && count($product->sizes) > 0)
                     @foreach($product->sizes as $size)
-                        <option value="{{ $size }}">{{ $size }}</option>
+                        <option value="{{ $size->id }}">{{ $size->value }}</option>
                     @endforeach
 
                 @endif
@@ -88,6 +88,9 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-scrollify/1.0.19/jquery.scrollify.min.js"></script>
-    <script src="{{('js/scrollify.js')}}"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-scrollify/1.0.19/jquery.scrollify.min.js"></script>
+    <script src="{{url('js/scrollify.js')}}"></script> --}}
+@endsection
+
+@section('scripts')
 @endsection

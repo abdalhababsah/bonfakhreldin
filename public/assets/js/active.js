@@ -1,3 +1,12 @@
+const protocol = window.location.protocol; // e.g., 'https:'
+const host = window.location.host;         // e.g., 'www.example.com'
+const pathname = window.location.pathname; // e.g., '/path/to/page'
+const search = window.location.search;     // e.g., '?query=string'
+const hash = window.location.hash;         // e.g., '#section'
+
+const appUrl = `${protocol}//${host}`;
+const assetBase = `${protocol}//${host}/storage/`;
+
 (function ($) {
     "use strict";
 

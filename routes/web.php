@@ -39,7 +39,7 @@ Route::get('/products/data', [UserProductController::class, 'productData'])->nam
 // User fetch cart
 Route::controller(CartController::class)->group(function () {
     Route::get('/cart', 'index');
-    Route::post('/cart/add', 'add');
+    Route::post('/cart/add/{id}', 'add');
     Route::post('/cart/update', 'update');
     Route::post('/cart/remove', 'remove');
     Route::post('/cart/clear', 'clear');
