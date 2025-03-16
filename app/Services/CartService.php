@@ -4,10 +4,7 @@ namespace App\Services;
 
 use App\Models\Product;
 use App\Models\ProductSize;
-use Exception;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\DB;
 use Log;
 
 class CartService
@@ -32,7 +29,8 @@ class CartService
     {
         $product = Product::find($productId);
 
-        if (!$product || !$product->is_active) {
+        if (!$product || $product->status != 'active') {
+            Log::error('Product not found or not active');
             return ['status' => 'error', 'message' => __('cart.product_not_found')];
         }
 
@@ -43,6 +41,7 @@ class CartService
 
         $cart[$cartItemKey] = $newQuantity;
         $this->save($cart);
+        Log::info('Cart: ' . json_encode($cart));
 
         return ['status' => 'success', 'message' => __('cart.product_added'), 'response' => $cart];
     }
@@ -118,7 +117,7 @@ class CartService
             $productSize = isset($keyParts[1]) ? ProductSize::find($keyParts[1]) : null;
             $product = Product::find($productId);
 
-            if ($product && $product->is_active) {
+            if ($product && $product->status == 'active') {
                 $items[] = [
                     'product_id' => $product->id,
                     'name' => $product->name,
@@ -161,6 +160,7 @@ class CartService
     protected function getGuestCart()
     {
         $cart = Cookie::get($this->cookieName);
+
 
         return $cart ? json_decode($cart, true) : [];
     }

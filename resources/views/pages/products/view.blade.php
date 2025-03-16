@@ -58,7 +58,7 @@
                 </div>
             </div>
         </div>
-        <button type="button" class="btn btn-create" onclick="addToCart()">{{ __('view_product.add_to_cart') }}</button>
+        <button type="button" class="btn btn-create" onclick="addToCart()">{{ __('Add to cart') }}</button>
     </form>
 
     <!-- Slider Section -->

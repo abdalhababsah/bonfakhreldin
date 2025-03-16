@@ -45,6 +45,22 @@
                     <span class="nav-link-text ms-1">Categories</span>
                 </a>
             </li>
+            <!-- Cities -->
+            <li class="nav-item">
+                <a class="nav-link text-dark {{ request()->routeIs('admin.cities.*') ? 'active' : '' }}"
+                    href="{{ route('admin.cities.index') }}">
+                    <i class="material-symbols-rounded opacity-5 text-primary">map</i>
+                    <span class="nav-link-text ms-1">Cities</span>
+                </a>
+            </li>
+            <!-- Areas -->
+            <li class="nav-item">
+                <a class="nav-link text-dark {{ request()->routeIs('admin.areas.*') ? 'active' : '' }}"
+                    href="{{ route('admin.areas.index') }}">
+                    <i class="material-symbols-rounded opacity-5 text-primary">map</i>
+                    <span class="nav-link-text ms-1">Areas</span>
+                </a>
+            </li>
             <!-- Contact -->
             <li class="nav-item">
                 <a class="nav-link text-dark {{ request()->routeIs('admin.contact_us.*') ? 'active' : '' }}"

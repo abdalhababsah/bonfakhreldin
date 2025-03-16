@@ -5,6 +5,7 @@ use App\Http\Requests\CartAddRequest;
 use App\Services\CartService;
 use Exception;
 use Illuminate\Http\Request;
+use Log;
 
 class CartController extends Controller
 {
@@ -17,12 +18,13 @@ class CartController extends Controller
     public function index()
     {
         $cart = $this->cartService->getCartDetails();
-// dd($cart);
+dd($cart);
         return view('pages.cart.index', compact('cart'));
     }
 
     public function add(CartAddRequest $request, $id)
     {
+        Log::info('Cart add request: ' . json_encode($request->all()));
         try {
             $msg = $this->cartService->add($id, $request->quantity, $request->size_id);
         } catch (Exception $e) {

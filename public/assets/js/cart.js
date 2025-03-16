@@ -12,10 +12,22 @@ function addToCart(){
             size_id: form.querySelector('select[name="size_id"]').value,
             quantity: form.querySelector('input[name="quantity"]').value
         })
-    })
-    .then(response => {
-        console.log(response);
-
-       
-    });
+        })
+        .then(response => {
+            if (response.headers.get('content-type').includes('application/json')) {
+                return response.json();
+            } else {
+                throw new Error('Response is not JSON');
+            }
+        })
+        .then(data => {
+        if (data.errors) {
+            console.log('Validation errors:', data.errors);
+        } else {
+            console.log('Success:', data);
+        }
+        })
+        .catch(error => {
+        console.error('Error:', error);
+        });
 }
