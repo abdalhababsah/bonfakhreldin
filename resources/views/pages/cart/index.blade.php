@@ -15,6 +15,7 @@
                             <tr>
                                 <th class="image">{{ __('Image') }}</th>
                                 <th class="product">{{ __('Product') }}</th>
+                                <th class="size">{{ __('Size') }}</th>
                                 <th class="price">{{ __('Price') }}</th>
                                 <th class="quantity">{{ __('Quantity') }}</th>
                                 <th class="total">{{ __('Total') }}</th>
@@ -25,20 +26,28 @@
                             @foreach($cart['items'] as $item)
                                 <tr>
                                     <td class="image">
-                                        <img src="{{ asset('storage/' . $item->product->image_url) }}" alt="{{ $item->product->name }}">
+                                        <img src="{{  $item['image_url'] }}" alt="{{ $item['name'] }}">
                                     </td>
-                                    <td class="product">{{ $item->product->name }}</td>
-                                    <td class="price">{{ $item->product->price }}</td>
+                                    <td class="product">{{ $item['name'] }}</td>
+                                    <td class="price">{{ $item['price'] }}</td>
+                                    <td class="size">{{ $item['size'] }}</td>
                                     <td class="quantity">
-                                        <input type="number" name="quantity" value="{{ $item->quantity }}" min="1" class="form-control">
+                                        <input type="number" name="quantity" value="{{ $item['quantity'] }}" min="1" class="form-control">
                                     </td>
-                                    <td class="total">{{ $item->product->price * $item->quantity }}</td>
-                                    <td class="remove">
-                                        <form action="{{ route('cart.remove', $item->id) }}" method="POST">
+                                    <td class="total">{{ $item['total'] }}</td>
+                                    <td class="">
+                                        <form action="{{ url('cart/remove', $item['product_id'] . '-' . $item['size_id']) }}" method="POST" class="remove-item-form">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="remove-btn"><i class="fas fa-trash-alt"></i></button>
+                                            <button type="button" class="btn remove-item-btn" onclick="removeItem()"><i class="sli-trash"></i></button>
                                         </form>
+                                        <script>
+                                            function removeItem() {
+                                                if (confirm('Are you sure you want to remove this item?')) {
+                                                    document.querySelector('.remove-item-form').submit();
+                                                }
+                                            }
+                                        </script>
                                     </td>
                                 </tr>
                             @endforeach

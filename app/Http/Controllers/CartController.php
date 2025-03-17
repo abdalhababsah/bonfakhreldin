@@ -18,13 +18,12 @@ class CartController extends Controller
     public function index()
     {
         $cart = $this->cartService->getCartDetails();
-dd($cart);
+// dd($cart);
         return view('pages.cart.index', compact('cart'));
     }
 
     public function add(CartAddRequest $request, $id)
     {
-        Log::info('Cart add request: ' . json_encode($request->all()));
         try {
             $msg = $this->cartService->add($id, $request->quantity, $request->size_id);
         } catch (Exception $e) {
@@ -59,4 +58,22 @@ dd($cart);
         }
         return $msg;
     }
+
+    public function clear()
+    {
+        try {
+            $this->cartService->clearCart();
+            $msg = [
+                'status' => 'success',
+                'message' => __('Cart cleared successfully')
+            ];
+        } catch (Exception $e) {
+            $msg = [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ];
+        }
+        return $msg;
+    }
+    
 }

@@ -34,7 +34,7 @@ class CartService
             return ['status' => 'error', 'message' => __('cart.product_not_found')];
         }
 
-        $cart = $this->getGuestCart();
+        $cart = $this->getCookieCart();
         $cartItemKey = $productId . '-' . $sizeId;
         $existingQty = isset($cart[$cartItemKey]) ? $cart[$cartItemKey] : 0;
         $newQuantity = $existingQty + $quantity;
@@ -55,7 +55,7 @@ class CartService
      */
     public function removeItem($key)
     {
-        $cart = $this->getGuestCart();
+        $cart = $this->getCookieCart();
 
         if (isset($cart[$key])) {
             unset($cart[$key]);
@@ -88,7 +88,7 @@ class CartService
             return ['status' => 'error', 'message' => __('cart.product_not_found')];
         }
 
-        $cart = $this->getGuestCart();
+        $cart = $this->getCookieCart();
 
         if (!isset($cart[$productId. '-' . $sizeId])) {
             return ['status' => 'error', 'message' => __('cart.product_not_in_cart')];
@@ -106,9 +106,9 @@ class CartService
      *
      * @return array
      */
-    public function getItems()
+    public function getItems($cart)
     {
-        $cart = $this->getGuestCart();
+        // $cart = $this->getGuestCart();
         $items = [];
 
         foreach ($cart as $key => $quantity) {
@@ -125,9 +125,7 @@ class CartService
                     'size_id' => $productSize?->id,
                     'size' => $productSize?->value,
                     'quantity' => $quantity,
-                    'total' => $quantity * $product->price,
-                    // 'discounted_price' => $product->discounted_price,
-                    // 'discount' => $product->discount,
+                    'total' => $quantity * $productSize->price,
                     'image_url' => $product->primaryImage ? asset('storage/' . $product->primaryImage->image_url) : 'https://via.placeholder.com/262x370',
                 ];
             }
@@ -157,10 +155,9 @@ class CartService
      *
      * @return array
      */
-    protected function getGuestCart()
+    protected function getCookieCart()
     {
         $cart = Cookie::get($this->cookieName);
-
 
         return $cart ? json_decode($cart, true) : [];
     }
@@ -178,7 +175,8 @@ class CartService
 
     public function getCartDetails()
     {
-        $items = $this->getItems(); // Fetch cart items
+        $cart = $this->getCookieCart();
+        $items = $this->getItems($cart); // Fetch cart items
         $totalPrice = $this->getTotalPrice($items); // Calculate total price
 
         return [
@@ -190,5 +188,22 @@ class CartService
     public function clearCart()
     {
         Cookie::queue(Cookie::forget($this->cookieName));
+    }
+    
+    /**
+     * Get the total quantity of items in the cart.
+     *
+     * @return int
+     */
+    public function getTotalQuantity()
+    {
+        $cart = $this->getCookieCart();
+        $totalQuantity = 0;
+
+        foreach ($cart as $quantity) {
+            $totalQuantity += $quantity;
+        }
+
+        return $totalQuantity;
     }
 }

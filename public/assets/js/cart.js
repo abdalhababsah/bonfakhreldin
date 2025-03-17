@@ -31,3 +31,39 @@ function addToCart(){
         console.error('Error:', error);
         });
 }
+window.onload = function(){
+    let decodedCookie =decodeURIComponent(document.cookie);
+    let ca = decodedCookie//.split(';').find(cookie => cookie.trim().startsWith('cart='));
+    console.log(ca);
+    if(cart){
+
+    }
+}
+
+function removeItem() {
+    if (confirm('Are you sure you want to remove this item?')) {
+    const form = this.closest('form');
+    const url = form.action;
+    const token = form.querySelector('input[name="_token"]').value;
+    const method = form.querySelector('input[name="_method"]').value;
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': token,
+            'X-HTTP-Method-Override': method
+        },
+        body: JSON.stringify({})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            form.closest('tr').remove();
+        } else {
+            alert('Failed to remove item');
+        }
+    })
+    .catch(error => console.error('Error:', error));
+};
+};

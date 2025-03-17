@@ -78,10 +78,12 @@ function populateGridView(products) {
     gridView.innerHTML = '';
     if (products.data.length > 0) {
         products.data.forEach((product, index) => {
+
             const animationClass = index % 2 === 0 ? 'animate-slide-in-left' : 'animate-slide-in-right';
-            const primaryImage = product.images && product.images.length > 0 ?
-                `${assetBase}${product.images[0].image_url}` :
+            const primaryImage = product.primary_image && product.primary_image.image_url ?
+                `${assetBase}${product.primary_image.image_url}` :
                 defaultPlaceholder;
+
 
             const productHtml = `
                 <div class="col products-card ${animationClass}">

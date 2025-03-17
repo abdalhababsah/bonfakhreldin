@@ -43,7 +43,7 @@ Route::controller(CartController::class)->prefix('cart')->group(function () {
     Route::get('/', 'index');
     Route::post('/add/{id}', 'add');
     Route::post('/update', 'update');
-    Route::post('/remove', 'remove');
+    Route::delete('/remove/{key}', 'delete');
     Route::post('/clear', 'clear');
 });
 
