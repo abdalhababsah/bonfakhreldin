@@ -23,7 +23,11 @@ class Product extends Model
     protected $casts = [
         'options' => 'array',
     ];
-    
+
+
+    protected $appends = ['name', 'description'];
+
+    protected $with = ['primaryImage'];
 
     public function category()
     {
@@ -35,14 +39,26 @@ class Product extends Model
         return $this->hasMany(ProductImage::class);
     }
 
-    public function sizes()
+    /**
+     * Get the primary image for the product.
+     */
+    public function primaryImage()
     {
-        return $this->hasMany(\App\Models\ProductSize::class);
-    }  
-
-    public function getImageAttribute()
-    {
-        return $this->images()->where('is_primary', true)->value('image_url');
+        return $this->hasOne(ProductImage::class)->where('is_primary', true);
     }
 
+    public function sizes()
+    {
+        return $this->hasMany(ProductSize::class);
+    }
+
+    // Localized Attributes
+    public function getDescriptionAttribute()
+    {
+        return $this['description_' . app()->getLocale()];
+    }
+    public function getNameAttribute()
+    {
+        return $this['name_' . app()->getLocale()];
+    }
 }

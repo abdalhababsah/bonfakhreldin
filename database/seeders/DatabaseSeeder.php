@@ -15,13 +15,13 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        $this->call([
-            CategoriesTableSeeder::class,
-            UsersTableSeeder::class,
-            ProductsTableSeeder::class,
-            ProductImagesTableSeeder::class,
-            BlogsTableSeeder::class,
-            ContactUsTableSeeder::class,
-        ]);
+        // $this->call([
+        //     CategoriesTableSeeder::class,
+        //     UsersTableSeeder::class,
+        //     ProductsTableSeeder::class,
+        //     ProductImagesTableSeeder::class,
+        //     BlogsTableSeeder::class,
+        //     ContactUsTableSeeder::class,
+        // ]);
     }
 }

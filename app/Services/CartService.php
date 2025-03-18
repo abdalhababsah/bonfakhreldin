@@ -4,10 +4,7 @@ namespace App\Services;
 
 use App\Models\Product;
 use App\Models\ProductSize;
-use Exception;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\DB;
 use Log;
 
 class CartService
@@ -32,19 +29,21 @@ class CartService
     {
         $product = Product::find($productId);
 
-        if (!$product || !$product->is_active) {
+        if (!$product || $product->status != 'active') {
+            Log::error('Product not found or not active');
             return ['status' => 'error', 'message' => __('cart.product_not_found')];
         }
 
-        $cart = $this->getGuestCart();
+        $cart = $this->getCookieCart();
         $cartItemKey = $productId . '-' . $sizeId;
         $existingQty = isset($cart[$cartItemKey]) ? $cart[$cartItemKey] : 0;
         $newQuantity = $existingQty + $quantity;
 
         $cart[$cartItemKey] = $newQuantity;
         $this->save($cart);
+        Log::info('Cart: ' . json_encode($cart));
 
-        return ['status' => 'success', 'message' => __('cart.product_added'), 'response' => $cart];
+        return ['status' => 'success', 'message' => __('Product added to cart'), 'response' => $cart];
     }
 
     /**
@@ -56,14 +55,14 @@ class CartService
      */
     public function removeItem($key)
     {
-        $cart = $this->getGuestCart();
+        $cart = $this->getCookieCart();
 
         if (isset($cart[$key])) {
             unset($cart[$key]);
             $this->save($cart);
-            return ['status' => 'success', 'message' => __('cart.product_removed')];
+            return ['status' => 'success', 'message' => __('Product removed from cart'), 'cart' => $cart];
         } else {
-            return ['status' => 'error', 'message' => __('cart.product_not_in_cart')];
+            return ['status' => 'error', 'message' => __('Product not in cart')];
         }
     }
 
@@ -89,7 +88,7 @@ class CartService
             return ['status' => 'error', 'message' => __('cart.product_not_found')];
         }
 
-        $cart = $this->getGuestCart();
+        $cart = $this->getCookieCart();
 
         if (!isset($cart[$productId. '-' . $sizeId])) {
             return ['status' => 'error', 'message' => __('cart.product_not_in_cart')];
@@ -107,9 +106,9 @@ class CartService
      *
      * @return array
      */
-    public function getItems()
+    public function getItems($cart)
     {
-        $cart = $this->getGuestCart();
+        // $cart = $this->getGuestCart();
         $items = [];
 
         foreach ($cart as $key => $quantity) {
@@ -118,17 +117,16 @@ class CartService
             $productSize = isset($keyParts[1]) ? ProductSize::find($keyParts[1]) : null;
             $product = Product::find($productId);
 
-            if ($product && $product->is_active) {
+            if ($product && $product->status == 'active') {
                 $items[] = [
                     'product_id' => $product->id,
                     'name' => $product->name,
                     'price' => $productSize?->price,
                     'size_id' => $productSize?->id,
                     'size' => $productSize?->value,
+                    'option' => '',
                     'quantity' => $quantity,
-                    'total' => $quantity * $product->price,
-                    // 'discounted_price' => $product->discounted_price,
-                    // 'discount' => $product->discount,
+                    'total' => $quantity * $productSize->price,
                     'image_url' => $product->primaryImage ? asset('storage/' . $product->primaryImage->image_url) : 'https://via.placeholder.com/262x370',
                 ];
             }
@@ -158,7 +156,7 @@ class CartService
      *
      * @return array
      */
-    protected function getGuestCart()
+    protected function getCookieCart()
     {
         $cart = Cookie::get($this->cookieName);
 
@@ -178,7 +176,8 @@ class CartService
 
     public function getCartDetails()
     {
-        $items = $this->getItems(); // Fetch cart items
+        $cart = $this->getCookieCart();
+        $items = $this->getItems($cart); // Fetch cart items
         $totalPrice = $this->getTotalPrice($items); // Calculate total price
 
         return [
@@ -187,8 +186,25 @@ class CartService
         ];
     }
 
-    public function clearCart()
+    public function clear()
     {
         Cookie::queue(Cookie::forget($this->cookieName));
+    }
+
+    /**
+     * Get the total quantity of items in the cart.
+     *
+     * @return int
+     */
+    public function getTotalQuantity()
+    {
+        $cart = $this->getCookieCart();
+        $totalQuantity = 0;
+
+        foreach ($cart as $quantity) {
+            $totalQuantity += $quantity;
+        }
+
+        return $totalQuantity;
     }
 }
