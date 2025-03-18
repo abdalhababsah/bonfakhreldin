@@ -17,7 +17,13 @@ class Product extends Model
         'description_ar',
         'category_id',
         'status',
+        'price',
+        'options',
     ];
+    protected $casts = [
+        'options' => 'array',
+    ];
+    
 
     public function category()
     {
@@ -27,6 +33,16 @@ class Product extends Model
     public function images()
     {
         return $this->hasMany(ProductImage::class);
+    }
+
+    public function sizes()
+    {
+        return $this->hasMany(\App\Models\ProductSize::class);
+    }  
+
+    public function getImageAttribute()
+    {
+        return $this->images()->where('is_primary', true)->value('image_url');
     }
 
 }

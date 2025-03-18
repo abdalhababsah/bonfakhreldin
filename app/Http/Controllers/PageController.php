@@ -12,7 +12,5 @@ class PageController extends Controller
    public function branches(){
     return view('pages.branches');
    }
-   public function products(){
-    return view('pages.products');
-   }
+
 }

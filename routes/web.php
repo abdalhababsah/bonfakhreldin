@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
@@ -11,6 +12,8 @@ use App\Http\Controllers\ProductController as UserProductController;
 use App\Http\Controllers\ContactUsController as UserContactUsController;
 use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\ShopController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HomeController;
 // Home Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -31,10 +34,18 @@ Route::get('/about-us', [PageController::class, 'aboutUs'])->name('about.us');
 Route::get('/gallery', [PageController::class, 'gallery'])->name('gallery');
 Route::get('/branches', [PageController::class, 'branches'])->name('branches');
 
-
 // User fetch products
 Route::get('/products', [UserProductController::class, 'index'])->name('products.index');
 Route::get('/products/data', [UserProductController::class, 'productData'])->name('products.data');
+
+// User fetch cart
+Route::controller(CartController::class)->group(function () {
+    Route::get('/cart', 'index');
+    Route::post('/cart/add/{id}', 'add');
+    Route::post('/cart/update', 'update');
+    Route::post('/cart/remove', 'remove');
+    Route::post('/cart/clear', 'clear');
+});
 
 // Admin Authentication Routes
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -57,3 +68,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 });
 
+
+// Shop routes
+Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
+Route::get('/product/{slug}', [ShopController::class, 'show'])->name('product.show');
+
+
+Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout.show');
+Route::post('/checkout', [CheckoutController::class, 'submit'])->name('checkout.submit');
+
+
+Route::post('/admin/products', [ProductController::class, 'store'])->name('admin.products.store');

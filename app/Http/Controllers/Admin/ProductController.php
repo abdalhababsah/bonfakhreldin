@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\ProductSize; 
 use App\Models\Category;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -50,6 +53,7 @@ class ProductController extends Controller
 // Store method
     public function store(Request $request)
     {
+
         // Validate the request data (make 'description_en' required)
         $validatedData = $request->validate([
             'name_en' => 'required|string|max:255',
@@ -61,6 +65,9 @@ class ProductController extends Controller
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'alt_text_en.*' => 'nullable|string|max:255',
             'alt_text_ar.*' => 'nullable|string|max:255',
+            'sizes' => 'required|string',
+            'options' => 'array', // ✅ مو nullable، بس لازم تكون array إذا موجودة
+            'options.*' => 'string|max:255',
         ]);
 
         // Generate a unique slug from 'description_en'
@@ -76,6 +83,26 @@ class ProductController extends Controller
             'category_id' => $validatedData['category_id'],
             'status' => $validatedData['status'],
         ]);
+        
+        $options = $request->input('options', []);
+        if (is_array($options)) {
+            $product->options = array_values(array_filter($options));
+            $product->save();
+        }
+
+
+         // ✅ Save sizes (as JSON)
+        if ($request->filled('sizes')) {
+            $sizes = json_decode($request->sizes, true);
+
+            Log::debug('📦 Sizes received from request:', $sizes); // 👈 للّوغ
+
+            if (is_array($sizes)) {
+                $product->sizes()->createMany(array_filter($sizes, function ($size) {
+                    return !empty($size['value']) && !empty($size['price']);
+                }));
+            }
+        }
 
         // Handle image uploads
         if ($request->hasFile('images')) {
@@ -95,7 +122,7 @@ class ProductController extends Controller
         if ($request->expectsJson()) {
             return response()->json([
                 'message' => 'Product created successfully.',
-                'product' => $product->load('images', 'category'),
+                'product' => $product->load('images', 'category','sizes'),
             ], 201);
         }
 
@@ -167,7 +194,7 @@ class ProductController extends Controller
     {
         // Delete associated images
         foreach ($product->images as $image) {
-            \Storage::delete('public/' . $image->image_url);
+            Storage::delete('public/' . $image->image_url);
             $image->delete();
         }
 
@@ -210,7 +237,7 @@ class ProductController extends Controller
         $product = $image->product;
         $wasPrimary = $image->is_primary;
 
-        \Storage::delete('public/' . $image->image_url);
+        Storage::delete('public/' . $image->image_url);
         $image->delete();
 
         // If the removed image was primary, set another image as primary
