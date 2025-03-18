@@ -38,7 +38,7 @@
                                 <a class="nav-link text-dark mx-2" href="{{ route('products.index') }}">{{ __('header.products') }}</a>
                             </li>
                             <li class="nav-item {{ request()->routeIs('branches') ? 'active' : '' }}">
-                                <a class="nav-link" href="{{ route('branches') }}" style="color: black; margin-right: 15px;">{{ __('header.branches') }}</a>
+                                <a class="nav-link text-dark mx-2" href="{{ route('branches') }}">{{ __('header.branches') }}</a>
                             </li>
                             <li class="nav-item {{ request()->routeIs('about.us') ? 'active' : '' }}">
                                 <a class="nav-link text-dark mx-2" href="{{ route('about.us') }}">{{ __('header.about_us') }}</a>
