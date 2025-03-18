@@ -19,17 +19,7 @@ class ProductController extends Controller
 
         $categories = Category::select('id', "name_$locale as name")->get();
 
-        $query = Product::select(
-            'id',
-            "name_$locale as name",
-            "description_$locale as description",
-            'category_id',
-            'slug'
-        )
-        ->where('status', 'active')
-        ->with(['images' => function ($query) {
-            $query->where('is_primary', true);
-        }]);
+        $query = Product::where('status', 'active');
 
         if ($request->has('category_id') && $request->category_id) {
             $query->where('category_id', $request->category_id);
@@ -54,13 +44,6 @@ class ProductController extends Controller
     $locale = app()->getLocale();
 
         $product = Product::where('slug', $slug)
-            ->select(
-                'id',
-                "name_$locale as name",
-                "description_$locale as description",
-                'category_id',
-                'slug'
-            )
             ->with(['images', 'category' => function ($query) use ($locale) {
                 $query->select('id', "name_$locale as name");
             }])

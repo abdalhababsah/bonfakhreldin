@@ -57,5 +57,8 @@
     <!-- Default Placeholder Image -->
     <img id="default-placeholder" src="{{ asset('assets/images/default-placeholder.png') }}" alt="Placeholder" style="display: none;">
 
+@endsection
+@section('scripts')
+
     <script src="{{url('assets/js/products.js')}}"></script>
 @endsection

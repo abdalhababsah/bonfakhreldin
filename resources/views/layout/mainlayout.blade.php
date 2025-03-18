@@ -89,7 +89,7 @@
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "عنوانك هنا",
-        "addressLocality": "المدينة",
+        "addressLocality": "Amman",
         "addressCountry": "JO"
       },
       "telephone": "+962XXXXXXXXX",
