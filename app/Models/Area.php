@@ -12,9 +12,17 @@ class Area extends Model
         'city_id',
     ];
 
+    protected $appends = ['name'];
+
     //relationship
     public function city()
     {
         return $this->belongsTo(City::class);
+    }
+
+    // Localized Attributes
+    public function getNameAttribute()
+    {
+        return $this['name_' . app()->getLocale()];
     }
 }

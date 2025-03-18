@@ -43,7 +43,7 @@ class CartService
         $this->save($cart);
         Log::info('Cart: ' . json_encode($cart));
 
-        return ['status' => 'success', 'message' => __('cart.product_added'), 'response' => $cart];
+        return ['status' => 'success', 'message' => __('Product added to cart'), 'response' => $cart];
     }
 
     /**
@@ -60,9 +60,9 @@ class CartService
         if (isset($cart[$key])) {
             unset($cart[$key]);
             $this->save($cart);
-            return ['status' => 'success', 'message' => __('cart.product_removed')];
+            return ['status' => 'success', 'message' => __('Product removed from cart'), 'cart' => $cart];
         } else {
-            return ['status' => 'error', 'message' => __('cart.product_not_in_cart')];
+            return ['status' => 'error', 'message' => __('Product not in cart')];
         }
     }
 
@@ -124,6 +124,7 @@ class CartService
                     'price' => $productSize?->price,
                     'size_id' => $productSize?->id,
                     'size' => $productSize?->value,
+                    'option' => '',
                     'quantity' => $quantity,
                     'total' => $quantity * $productSize->price,
                     'image_url' => $product->primaryImage ? asset('storage/' . $product->primaryImage->image_url) : 'https://via.placeholder.com/262x370',
@@ -185,11 +186,11 @@ class CartService
         ];
     }
 
-    public function clearCart()
+    public function clear()
     {
         Cookie::queue(Cookie::forget($this->cookieName));
     }
-    
+
     /**
      * Get the total quantity of items in the cart.
      *

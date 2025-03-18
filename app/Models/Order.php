@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\OrderStatusEnums;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
@@ -24,7 +25,7 @@ class Order extends Model
         'total_price' => 'decimal:2',
         'delivery_fee' => 'decimal:2',
     ];
-    
+
     //relationship
     public function area()
     {

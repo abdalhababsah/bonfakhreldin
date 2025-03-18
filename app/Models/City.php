@@ -10,4 +10,18 @@ class City extends Model
         'name_en',
         'name_ar',
     ];
+
+    protected $appends = ['name'];
+
+    //relationship
+    public function areas()
+    {
+        return $this->hasMany(Area::class);
+    }
+
+    // Localized Attributes
+    public function getNameAttribute()
+    {
+        return $this['name_' . app()->getLocale()];
+    }
 }

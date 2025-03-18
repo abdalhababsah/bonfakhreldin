@@ -1,7 +1,7 @@
 
 function addToCart(){
     let form = document.getElementById('add-to-cart-form');
-    let url = form.action;
+    const url = form.action;
     fetch(url, {
         method: 'POST',
         headers: {
@@ -31,39 +31,49 @@ function addToCart(){
         console.error('Error:', error);
         });
 }
-window.onload = function(){
-    let decodedCookie =decodeURIComponent(document.cookie);
-    let ca = decodedCookie//.split(';').find(cookie => cookie.trim().startsWith('cart='));
-    console.log(ca);
-    if(cart){
 
-    }
-}
-
-function removeItem() {
-    if (confirm('Are you sure you want to remove this item?')) {
-    const form = this.closest('form');
-    const url = form.action;
-    const token = form.querySelector('input[name="_token"]').value;
-    const method = form.querySelector('input[name="_method"]').value;
+function removeItem(btn) {
+    var form = btn.closest('form');
+    var formData = new FormData(form);
+    var url = form.action;
 
     fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': token,
-            'X-HTTP-Method-Override': method
-        },
-        body: JSON.stringify({})
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            form.closest('tr').remove();
-        } else {
-            alert('Failed to remove item');
-        }
-    })
-    .catch(error => console.error('Error:', error));
-};
-};
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    var itemTotal = parseFloat(form.closest('tr').querySelector('.total').textContent);
+                    var cartSubtotal = parseFloat(document.getElementById('cart-subtotal').textContent);
+                    // var cartQuantity = parseInt(document.getElementById('cart-quantity').textContent);
+
+                    form.closest('tr').remove();
+
+                    document.getElementById('cart-subtotal').textContent = (cartSubtotal - itemTotal).toFixed(2);
+                    // document.getElementById('cart-quantity').textContent = cartQuantity - 1;
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+}
+
+function getAreas(cityId) {
+    fetch(`${appUrl}/areas/${cityId}`)
+        .then(response => response.json())
+        .then(data => {
+            let areaDropdown = document.getElementById('area');
+            areaDropdown.innerHTML = '';
+            data.forEach(area => {
+                let option = document.createElement('option');
+                option.value = area.id;
+                option.textContent = area.name;
+                areaDropdown.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error:', error));
+}

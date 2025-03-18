@@ -61,6 +61,14 @@
                     <span class="nav-link-text ms-1">Areas</span>
                 </a>
             </li>
+            <!-- Orders -->
+            <li class="nav-item">
+                <a class="nav-link text-dark {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}"
+                    href="{{ route('admin.orders.index') }}">
+                    <i class="material-symbols-rounded opacity-5 text-primary">box</i>
+                    <span class="nav-link-text ms-1">Orders</span>
+                </a>
+            </li>
             <!-- Contact -->
             <li class="nav-item">
                 <a class="nav-link text-dark {{ request()->routeIs('admin.contact_us.*') ? 'active' : '' }}"

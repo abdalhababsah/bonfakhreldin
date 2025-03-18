@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\Admin\AreaController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CityController;
@@ -8,7 +9,9 @@ use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\ContactUsController as AdminContactUsController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\AreaController as UserAreaController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController as UserProductController;
 use App\Http\Controllers\ContactUsController as UserContactUsController;
 use App\Http\Controllers\LocalizationController;
@@ -45,7 +48,20 @@ Route::controller(CartController::class)->prefix('cart')->group(function () {
     Route::post('/update', 'update');
     Route::delete('/remove/{key}', 'delete');
     Route::post('/clear', 'clear');
+    Route::get('/countItem', 'countItem');
+    Route::get('/checkout', 'checkout');
 });
+
+// User fetch orders
+Route::controller(OrderController::class)->prefix('orders')->group(function () {
+    Route::get('/', 'index');
+    Route::post('/store', 'store');
+    Route::get('/data', 'orderData');
+    Route::get('/{id}', 'show');
+});
+
+// User fetch areas
+Route::get('/areas/{city_id}', [UserAreaController::class, 'getByCity']);
 
 // Admin Authentication Routes
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -66,6 +82,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('blogs', BlogController::class);
         Route::resource('contact_us', AdminContactUsController::class);
         Route::resource('users', UserController::class);
+
+        Route::controller(AdminOrderController::class)->prefix('orders')->name('orders.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/data', 'orderData');
+            Route::get('/{id}', 'show')->name('show');
+            Route::post('/{id}/update-status', 'updateStatus')->name('update_status');
+        });
 
     });
 });
