@@ -242,9 +242,31 @@ input[type="text"] {
 #map {
   width: 100% !important;
   height: 600px !important;
-  
+
+}
+select.form-field {
+  text-align: right !important;
+  background-position: center left 20px !important;
+}
+/* For RTL languages */
+/* .list-rtl {
+    list-style-position: inside;
+    padding-right: 0;
+    padding-left: 20px;
 }
 
+.list-rtl li {
+    text-align: right;
+} *//* For RTL languages */
+/* .list-rtl {
+    list-style-position: inside;
+    padding-right: 0;
+    padding-left: 20px;
+}
+
+.list-rtl li {
+    text-align: right;
+} */
 
 /* Tablet Adjustments for RTL */
 @media (max-width: 1024px) {

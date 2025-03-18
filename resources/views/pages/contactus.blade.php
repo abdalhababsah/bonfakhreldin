@@ -4,16 +4,8 @@
 
 @section('content')
 
-    <!-- Page Banner Section Start -->
-    <div class="page-banner-section section">
-        <div class="container">
-            <ul class="breadcrumb">
-                <li><a href="{{ route('home') }}">{{ __('contactUs.home') }}</a></li>
-                <li>{{ __('contactUs.contact_us') }}</li>
-            </ul>
-        </div>
-    </div>
-    <!-- Page Banner Section End -->
+    <x-breadcrumb />
+
 
     <!-- Contact Section Start -->
     <div class="section section-padding">

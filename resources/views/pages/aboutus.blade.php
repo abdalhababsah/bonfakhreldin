@@ -2,16 +2,7 @@
 @section('title', __('about_us.title'))
 @section('content')
 
-    <!-- Page Banner Section Start -->
-    <div class="page-banner-section section">
-        <div class="container">
-            <ul class="breadcrumb">
-                <li><a href="{{ route('home') }}">{{ __('header.home') }}</a></li>
-                <li>{{ __('about_us.title') }}</li>
-            </ul>
-        </div>
-    </div>
-    <!-- Page Banner Section End -->
+    <x-breadcrumb />
 
     <div class="section section-padding">
         <div class="container">

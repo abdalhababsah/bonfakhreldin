@@ -1,17 +1,25 @@
 <?php
+use App\Http\Controllers\Admin\AreaController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\UserController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\ContactUsController as AdminContactUsController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\AreaController as UserAreaController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController as UserProductController;
 use App\Http\Controllers\ContactUsController as UserContactUsController;
 use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\ShopController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\Route;
 // Home Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -31,10 +39,31 @@ Route::get('/about-us', [PageController::class, 'aboutUs'])->name('about.us');
 Route::get('/gallery', [PageController::class, 'gallery'])->name('gallery');
 Route::get('/branches', [PageController::class, 'branches'])->name('branches');
 
-
 // User fetch products
 Route::get('/products', [UserProductController::class, 'index'])->name('products.index');
 Route::get('/products/data', [UserProductController::class, 'productData'])->name('products.data');
+
+// User fetch cart
+Route::controller(CartController::class)->prefix('cart')->group(function () {
+    Route::get('/', 'index');
+    Route::post('/add/{id}', 'add');
+    Route::post('/update', 'update');
+    Route::delete('/remove/{key}', 'delete');
+    Route::post('/clear', 'clear');
+    Route::get('/countItem', 'countItem');
+    Route::get('/checkout', 'checkout');
+});
+
+// User fetch orders
+Route::controller(OrderController::class)->prefix('orders')->group(function () {
+    Route::get('/', 'index');
+    Route::post('/store', 'store');
+    Route::get('/data', 'orderData');
+    Route::get('/{id}', 'show');
+});
+
+// User fetch areas
+Route::get('/areas/{city_id}', [UserAreaController::class, 'getByCity']);
 
 // Admin Authentication Routes
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -45,6 +74,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('auth')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('categories', CategoryController::class);
+        Route::resource('cities', CityController::class);
+        Route::resource('areas', AreaController::class);
         Route::resource('products', ProductController::class);
         Route::post('products/{product}/upload-image', [ProductController::class, 'uploadImage'])->name('products.uploadImage');
         Route::delete('products/remove-image/{id}', [ProductController::class, 'removeImage'])->name('products.removeImage');
@@ -54,6 +85,24 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('contact_us', AdminContactUsController::class);
         Route::resource('users', UserController::class);
 
+        Route::controller(AdminOrderController::class)->prefix('orders')->name('orders.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/data', 'orderData');
+            Route::get('/{id}', 'show')->name('show');
+            Route::post('/{id}/update-status', 'updateStatus')->name('update_status');
+        });
+
     });
 });
 
+
+// Shop routes
+Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
+Route::get('/product/{slug}', [ShopController::class, 'show'])->name('product.show');
+
+
+Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout.show');
+Route::post('/checkout', [CheckoutController::class, 'submit'])->name('checkout.submit');
+
+
+Route::post('/admin/products', [ProductController::class, 'store'])->name('admin.products.store');

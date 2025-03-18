@@ -12,7 +12,7 @@ class CreateContactUsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('email');
-            $table->string('phone', 15)->nullable();
+            $table->string('phone', 30)->nullable();
             $table->text('message');
             $table->timestamps();
             $table->enum('status', ['new', 'in-progress', 'resolved'])->default('new');

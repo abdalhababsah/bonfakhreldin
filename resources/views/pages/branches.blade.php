@@ -4,16 +4,7 @@
 
 @section('content')
 
-    <!-- Page Banner Section Start -->
-    <div class="page-banner-section section">
-        <div class="container">
-            <ul class="breadcrumb">
-                <li><a href="{{ route('home') }}">{{ __('header.home') }}</a></li>
-                <li>{{ __('header.branches') }}</li>
-            </ul>
-        </div>
-    </div>
-    <!-- Page Banner Section End -->
+    <x-breadcrumb />
 
     <!-- Branches Section Start -->
     <div class="branches-section section section-padding pt-0">
@@ -37,7 +28,7 @@
                 <div class="col-md-8">
                     <div id="map" style="width: 100%; height: 600px;"></div>
                 </div>
-               
+
             </div>
         </div>
     </div>
@@ -117,7 +108,4 @@
         });
     </script>
 
-    <style>
-
-    </style>
 @endsection

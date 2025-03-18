@@ -1,3 +1,6 @@
+const appUrl = $('meta[name="url"]').attr('content');
+const assetBase = `${appUrl}/storage/`;
+
 (function ($) {
     "use strict";
 

@@ -17,7 +17,5 @@ class UsersTableSeeder extends Seeder
             'password' => Hash::make('password'), // Change to a secure password
         ]);
 
-        // Optionally, create more users
-        User::factory()->count(10)->create();
     }
 }
