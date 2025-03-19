@@ -25,8 +25,7 @@ class ShopController extends Controller
         $query->where('category_id', $request->category_id);
     }
 
-    $products = $query->select('id', 'name_en', 'description_en', 'slug', 'options', 'category_id', 'status')
-    ->paginate(12);
+    $products = $query->paginate(12);
 
     $categories = Category::all();
 
@@ -40,7 +39,4 @@ class ShopController extends Controller
         return view('pages.shop.product', compact('product'));
     }
 
-    
-
-    
 }
