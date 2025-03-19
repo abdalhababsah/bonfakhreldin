@@ -1,0 +1,129 @@
+
+.product-card {
+    width: 319px;
+    height: 14px;
+    margin: 34px;
+}
+
+/* Subtle hover lift and shadow */
+.product-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* Title styling */
+.product-card .product-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #343a40;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+/* Image styling */
+.product-card img {
+    height: 150px;
+    width: 100%;
+    object-fit: cover;
+    border-bottom: 1px solid #eee;
+}
+
+
+.btn.submit-btn {
+    background-color: #126442 !important;
+    color: #fff !important;
+    border: none !important;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 16px;
+    width: 100%;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn.submit-btn:hover {
+    background-color: #0f5133 !important;
+    transform: scale(1.02);
+    cursor: pointer;
+}
+
+.add-to-cart-btn {
+    background-color: #126442;
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 16px;
+    width: 100%;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #0f5133;
+    transform: scale(1.02);
+    cursor: pointer;
+}
+
+.add-to-cart-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(18, 100, 66, 0.3);
+}
+
+.modal-content {
+    border-radius: 12px;
+    padding: 1rem;
+}
+
+#modal-price-display {
+    font-weight: 500;
+    color: #126442;
+}
+
+
+.category-box {
+    width: 472px;
+    min-height: 283px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 1.25rem;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    color: white;
+    text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.6);
+}
+
+.category-box::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4); 
+    transition: background 0.3s ease;
+}
+
+.category-box.elegant-hover:hover::before {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.category-box h2 {
+    color: #000000;
+    position: relative;
+    font-size: 2rem;
+    margin-top: 131px;
+    font-family: 'simple-line-icons';
+}
+
+.see-options-btn {
+    width: 20px;
+    font-weight: 600 !important;
+    transition: background-color 0.3s ease;
+  }
+  
+  .see-options-btn:hover {
+    background-color: #218838 !important; /* or any hover color */
+  }
+  

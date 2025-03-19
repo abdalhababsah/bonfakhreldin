@@ -4,17 +4,15 @@
 
 <link rel="stylesheet" href="{{ asset('assets/css/shop.css') }}">
 
-
 @section('content')
+
 <div class="container py-5">
-    <h2 class="text-center mb-5 fw-bold display-6">Shop by Category</h2>
+    <!-- <h2 class="text-center mb-5 fw-bold display-6">Shop by Category</h2> -->
     <div class="row g-5 justify-content-center">
         @php
         $categories = [
-                ['name' => 'Chocolate', 'image' => 'assets/images/gallery/chocolate.jpg', 'url' => route('shop.chocolate')],
-                ['name' => 'Gifts',     'image' => 'assets/images/gallery/gifts.png',     'url' => route('shop.gift')],
-                ['name' => 'Coffee',    'image' => 'assets/images/gallery/coffee.jpg',    'url' => route('shop.coffee')],
-                ['name' => 'Nuts',      'image' => 'assets/images/gallery/nuts.jpg',      'url' => route('shop.nuts')],
+                ['name' => 'Gold', 'image' => 'assets/images/gallery/chocolate.jpg', 'url' => route('shop.gold')],
+                ['name' => 'Deluxe', 'image' => 'assets/images/gallery/chocolate.jpg',     'url' => route('shop.deluxe')],
             ];
 
         @endphp
@@ -31,4 +29,5 @@
         @endforeach
     </div>
 </div>
+
 @endsection

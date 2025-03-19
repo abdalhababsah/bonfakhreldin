@@ -180,10 +180,8 @@ class CartService
         $items = $this->getItems($cart); // Fetch cart items
         $totalPrice = $this->getTotalPrice($items); // Calculate total price
 
-        return [
-            'items' => $items,
-            'totalPrice' => $totalPrice,
-        ];
+        $sessionCart = session()->get('cart', ['items' => [], 'totalPrice' => 0]);
+        return $sessionCart;
     }
 
     public function clear()

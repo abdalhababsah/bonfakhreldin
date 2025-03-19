@@ -23,12 +23,13 @@
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <div class="">
+                    <div>
                         <a href="{{url('/cart')}}" class="cart-link">
-                            <span class="cart-count">0</span>
+                            <span class="cart-count">{{ collect(session('cart.items', []))->sum('quantity') }}</span>
                             <i class="h4 sli-basket-loaded"></i>
                         </a>
                     </div>
+
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav ">
                             <li class="nav-item {{ request()->routeIs('home') ? 'active' : '' }}">
@@ -42,6 +43,9 @@
                             </li>
                             <li class="nav-item {{ request()->routeIs('about.us') ? 'active' : '' }}">
                                 <a class="nav-link text-dark mx-2" href="{{ route('about.us') }}">{{ __('header.about_us') }}</a>
+                            </li>
+                            <li class="nav-item {{ request()->routeIs('shop.index') ? 'active' : '' }}">
+                                <a class="nav-link text-dark mx-2" href="{{ route('shop.index') }}">{{ __('Shop') }}</a>
                             </li>
                             <li class="nav-item {{ request()->routeIs('contactUs.index') ? 'active' : '' }}">
                                 <a class="nav-link text-dark mx-2" href="{{ route('contactUs.index') }}">{{ __('header.contact_us') }}</a>
@@ -101,3 +105,17 @@
 </div>
 
 <!-- Mobile Offcanvas Menu End -->
+<script>
+    function updateCartCount() {
+    fetch('/cart/count')
+        .then(response => response.json())
+        .then(data => {
+            document.querySelector('.cart-count').innerText = data.count;
+        })
+        .catch(error => console.error('Error updating cart count:', error));
+}
+
+// Call this function initially to sync the count
+updateCartCount();
+
+</script>

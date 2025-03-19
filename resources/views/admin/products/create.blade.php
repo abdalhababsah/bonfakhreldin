@@ -89,6 +89,16 @@
                         <span id="category_id_error" class="text-danger small" style="display:none;">Please select a category</span>
                     </div>
 
+
+                    <div class="mb-4" id="subcategory-wrapper" style="display: none;">
+                    <label for="subcategory_id" class="form-label">Subcategory</label>
+                    <select name="subcategory_id" id="subcategory_id" class="form-select styled-input">
+                        <option value="">Select Subcategory</option>
+                    </select>
+                </div>
+
+
+
                     <!-- Status -->
                     <div class="mb-4">
                         <label for="status" class="form-label">Status</label>
@@ -233,6 +243,9 @@ document.addEventListener('click', function (e) {
 document.getElementById('submitBtn').addEventListener('click', function () {
     this.disabled = true;
 
+
+
+
     const name_en = document.getElementById('name_en').value.trim();
     const name_ar = document.getElementById('name_ar').value.trim();
     const category_id = document.getElementById('category_id').value;
@@ -284,12 +297,25 @@ document.getElementById('submitBtn').addEventListener('click', function () {
     }
 
     const formData = new FormData();
+
+
+    const subcategoryInput = document.getElementById('subcategory_id');
+
+if (subcategoryInput && subcategoryInput.value) {
+    formData.append('subcategory_id', subcategoryInput.value);
+    console.log("✅ Subcategory ID appended:", subcategoryInput.value);
+} else {
+    console.warn("⚠️ No subcategory selected or found");
+}
+ 
+
     formData.append('_token', '{{ csrf_token() }}');
     formData.append('name_en', name_en);
     formData.append('name_ar', name_ar);
     formData.append('description_en', description_en);
     formData.append('description_ar', description_ar);
     formData.append('category_id', category_id);
+
     formData.append('status', status);
     formData.append('sizes', JSON.stringify(sizes)); // <-- THIS IS CRITICAL
 
@@ -307,6 +333,9 @@ document.getElementById('submitBtn').addEventListener('click', function () {
     acceptedFiles.forEach((file, index) => {
         formData.append(`images[${index}]`, file);
     });
+
+
+
 
     fetch("{{ route('admin.products.store') }}", {
         method: 'POST',
@@ -354,6 +383,42 @@ document.getElementById('submitBtn').addEventListener('click', function () {
             e.target.closest('.option-row').remove();
         }
     });
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+    const categorySelect = document.getElementById('category_id');
+    const subcategoryWrapper = document.getElementById('subcategory-wrapper');
+    const subcategorySelect = document.getElementById('subcategory_id');
+
+    // Match by category ID instead of text
+    const subcategories = {
+        2: [ // If Chocolate = ID 2
+            { id: 1, name: "Deluxe" },
+            { id: 2, name: "Gold" }
+        ]
+    };
+
+    categorySelect.addEventListener('change', function () {
+        const selectedId = categorySelect.value;
+
+        if (subcategories[selectedId]) {
+            subcategoryWrapper.style.display = 'block';
+            subcategorySelect.innerHTML = '<option value="" selected>Select Subcategory</option>';
+
+            subcategories[selectedId].forEach(sub => {
+                const option = document.createElement('option');
+                option.value = sub.id;
+                option.textContent = sub.name;
+                subcategorySelect.appendChild(option);
+            });
+        } else {
+            subcategoryWrapper.style.display = 'none';
+            subcategorySelect.innerHTML = '';
+        }
+    });
+});
+
+
 </script>
 
 

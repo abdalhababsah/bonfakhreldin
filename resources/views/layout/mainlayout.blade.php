@@ -38,6 +38,10 @@
 
 
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    
+
 
     <link rel="stylesheet" href="{{ asset('assets/css/plugins/simple-line-icons.min.css') }}">
 

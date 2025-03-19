@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
 class Product extends Model
 {
     use HasFactory;
@@ -16,6 +17,7 @@ class Product extends Model
         'description_en',
         'description_ar',
         'category_id',
+        'subcategory_id',
         'status',
         'price',
         'options',
@@ -61,4 +63,9 @@ class Product extends Model
     {
         return $this['name_' . app()->getLocale()];
     }
+    public function subcategory()
+    {
+        return $this->belongsTo(Subcategory::class);
+    }
+
 }

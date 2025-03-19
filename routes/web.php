@@ -45,14 +45,15 @@ Route::get('/products/data', [UserProductController::class, 'productData'])->nam
 
 // User fetch cart
 Route::controller(CartController::class)->prefix('cart')->group(function () {
-    Route::get('/', 'index');
-    Route::post('/add/{id}', 'add');
-    Route::post('/update', 'update');
-    Route::delete('/remove/{key}', 'delete');
-    Route::post('/clear', 'clear');
-    Route::get('/countItem', 'countItem');
-    Route::get('/checkout', 'checkout');
+    Route::get('/', 'index')->name('cart.index');
+    Route::post('/add/{id}', 'add')->name('cart.add');
+    Route::post('/update', 'update')->name('cart.update');
+    Route::delete('/remove/{key}', 'delete')->name('cart.remove');
+    Route::post('/clear', 'clear')->name('cart.clear');
+    Route::get('/countItem', 'countItem')->name('cart.countItem');
+    Route::get('/checkout', 'checkout')->name('cart.checkout');
 });
+
 
 // User fetch orders
 Route::controller(OrderController::class)->prefix('orders')->group(function () {
@@ -98,7 +99,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 // Shop routes
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
-Route::get('/product/{slug}', [ShopController::class, 'show'])->name('product.show');
+// Route::get('/product/{slug}', [ShopController::class, 'show'])->name('product.show');
 
 
 Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout.show');
@@ -106,3 +107,19 @@ Route::post('/checkout', [CheckoutController::class, 'submit'])->name('checkout.
 
 
 Route::post('/admin/products', [ProductController::class, 'store'])->name('admin.products.store');
+
+
+Route::post('/cart/add', [CartController::class, 'add']);
+Route::post('/cart/update/{id}', [CartController::class, 'update']);
+Route::get('/cart/count', [CartController::class, 'countItem']);
+
+
+Route::delete('/cart/remove/{key}', [CartController::class, 'delete']);
+
+
+Route::get('/shop/chocolate', [ShopController::class, 'chocolate'])->name('shop.chocolate');
+Route::get('/shop/gold', [ShopController::class, 'gold'])->name('shop.gold');
+Route::get('/shop/deluxe', [ShopController::class, 'deluxe'])->name('shop.deluxe');
+Route::get('/shop/gift', [ShopController::class, 'gift'])->name('shop.gift');
+Route::get('/shop/coffee', [ShopController::class, 'coffee'])->name('shop.coffee');
+Route::get('/shop/nuts', [ShopController::class, 'nuts'])->name('shop.nuts');

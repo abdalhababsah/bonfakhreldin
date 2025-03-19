@@ -49,7 +49,7 @@ class ProductController extends Controller
         return $slug;
     }
 
-    // Store method
+    
 // Store method
     public function store(Request $request)
     {
@@ -61,6 +61,7 @@ class ProductController extends Controller
             'description_en' => 'required|string', // Changed from 'nullable' to 'required'
             'description_ar' => 'nullable|string',
             'category_id' => 'required|exists:categories,id',
+            'subcategory_id' => 'nullable|integer',
             'status' => 'required|in:active,inactive',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'alt_text_en.*' => 'nullable|string|max:255',
@@ -81,6 +82,7 @@ class ProductController extends Controller
             'description_en' => $validatedData['description_en'],
             'description_ar' => $validatedData['description_ar'] ?? null,
             'category_id' => $validatedData['category_id'],
+            'subcategory_id' => $validatedData['subcategory_id'] ?? null,
             'status' => $validatedData['status'],
         ]);
         
