@@ -32,11 +32,4 @@ class ShopController extends Controller
         return view('pages.shop.index', compact('products', 'categories'));
     }
 
-
-    public function show($slug)
-    {
-        $product = Product::with('sizes')->where('slug', $slug)->firstOrFail();
-        return view('pages.shop.product', compact('product'));
-    }
-
 }
