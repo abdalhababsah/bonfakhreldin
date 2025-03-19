@@ -103,6 +103,54 @@
                                 <option value="inactive" @if (old('status', $product->status) == 'inactive') selected @endif>Inactive</option>
                             </select>
                         </div>
+
+                        <!-- Product Options -->
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between">
+                                <label class="my-2">Product Options</label>
+                                <button type="button" id="addOptionRow" class="btn btn-sm btn-outline-secondary">+ Add</button>
+                            </div>
+
+                            <div id="optionsRepeater">
+                                @if ($product->options)
+                                @foreach ($product->options as $option)
+                                <input type="hidden" name="option_id[]" value="{{$option->id}}" class="option-id">
+                                <div class="">
+                                    <label for="option_name_en" class="d-flex justify-content-end">
+                                        <button type="button" class="btn-close btn-close-white remove-option " aria-label="Close"></button>
+                                    </label>
+                                    <input type="text" name="option_name_en[]" value="{{ $option->name_en }}" class="form-control option-name-en" placeholder="Name En">
+                                    <input type="text" name="option_name_ar[]" value="{{ $option->name_ar }}" class="form-control option-name-ar" placeholder="Name Ar">
+                                </div>
+                                @endforeach
+                                @endif
+                            </div>
+                        </div>
+
+
+                        <!-- Sizes -->
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between">
+                                <label class="form-label">Sizes & Prices</label>
+                                <button type="button" id="addSizeRow" class="btn btn-sm btn-outline-primary mt-2">+ Add </button>
+                            </div>
+                            <div id="sizePriceRepeater">
+                                @foreach ($product->sizes as $size)
+                                <div class="row g-2 mb-2 size-price-row">
+                                    <input type="hidden" name="size_id[]" value="{{$size->id}}" class="size-id">
+                                    <div class="col-6">
+                                        <input type="text" name="size_value[]" value="{{$size->value}}" class="form-control size-value" placeholder="Size (e.g. 250g)">
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="number" name="size_price[]" value="{{$size->price}}" class="form-control size-price" placeholder="Price (e.g. 4.99)" step="0.01">
+                                    </div>
+                                </div>
+
+                                @endforeach
+                            </div>
+                        </div>
+
+
                     </div>
                 </div>
             </div>
@@ -242,7 +290,6 @@
         });
 
         // Handle form submission
-        // Handle form submission
         document.getElementById('productForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -252,12 +299,43 @@
             // Gather form data
             const formData = new FormData(this);
 
+            const sizes = [];
+            document.querySelectorAll('.size-price-row').forEach(row => {
+                const sizeId = row.querySelector('.size-id')?.value.trim() ?? null;
+                const sizeInput = row.querySelector('.size-value')?.value.trim();
+                const priceInput = row.querySelector('.size-price')?.value.trim();
+
+                if (sizeInput && priceInput) {
+                    sizes.push({ id:sizeId, value: sizeInput, price: priceInput });
+                }
+            });
+            if (sizes.length === 0) {
+                alert("Please add at least one size and price.");
+                this.disabled = false;
+                return;
+            }
+
+
+            const options = [];
+            document.querySelectorAll('.option-row').forEach(row => {
+                const optionId = row.querySelector('.option-id')?.value.trim() ?? null;
+                const nameEn = row.querySelector('.option-name-en')?.value.trim();
+                const nameAr = row.querySelector('.option-name-ar')?.value.trim();
+
+                if (nameEn && nameAr) {
+                    options.push({ id:optionId, name_en: nameEn, name_ar: nameAr });
+                }
+            });
+
+
             // Append category_id and status
             const categoryId = document.getElementById('category_id').value;
             const status = document.getElementById('status').value;
 
             formData.append('category_id', categoryId);
             formData.append('status', status);
+            formData.append('sizes', JSON.stringify(sizes));
+            formData.append('options', JSON.stringify(options));
 
             fetch("{{ route('admin.products.update', $product->id) }}", {
                     method: 'POST',
@@ -311,5 +389,54 @@
                     Swal.fire('Error', 'An error occurred while deleting the image.', 'error');
                 });
         }
+
+        // ➕ Add new size row
+        document.getElementById('addSizeRow').addEventListener('click', function () {
+            const container = document.getElementById('sizePriceRepeater');
+            const row = document.createElement('div');
+            row.className = 'row g-2 mb-2 size-price-row';
+            row.innerHTML = `
+                <div class="col-6">
+                    <input type="text" class="form-control size-value" placeholder="Size (e.g. 250g)">
+                </div>
+                <div class="col-5">
+                    <input type="number" class="form-control size-price" placeholder="Price" step="0.01">
+                </div>
+                <button type="button" class="btn-close btn-close-white col-1 remove-size" aria-label="Close"></button>
+            `;
+            container.appendChild(row);
+        });
+
+        // ❌ Remove size row
+        document.addEventListener('click', function (e) {
+            if (e.target.classList.contains('remove-size')) {
+                e.target.closest('.size-price-row').remove();
+            }
+        });
+
+        // ➕ Add new option row
+        document.getElementById('addOptionRow').addEventListener('click', function () {
+            const container = document.getElementById('optionsRepeater');
+            const row = document.createElement('div');
+            row.className = 'row g-2 mb-2 option-row';
+            row.innerHTML = `
+                <div class="">
+                    <label for="option_name_en" class="d-flex justify-content-end">
+                        <button type="button" class="btn-close btn-close-white remove-option " aria-label="Close"></button>
+                    </label>
+                    <input type="text" name="option_name_en[]" class="form-control option-name-en" placeholder="Name En">
+                    <input type="text" name="option_name_ar[]" class="form-control option-name-ar" placeholder="Name Ar">
+                </div>
+            `;
+            container.appendChild(row);
+        });
+
+        // ❌ Remove option row
+        document.addEventListener('click', function (e) {
+    if (e.target.classList.contains('remove-option')) {
+        e.target.closest('.option-row').remove();
+    }
+});
+
     </script>
 @endsection

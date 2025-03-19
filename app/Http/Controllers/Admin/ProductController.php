@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductRequest;
 use App\Models\Product;
-use App\Models\ProductSize; 
+use App\Models\ProductSize;
 use App\Models\Category;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
@@ -29,10 +30,10 @@ class ProductController extends Controller
         return view('admin.products.create', compact('categories'));
     }
 
-    private function generateUniqueSlug($description)
+    private function generateUniqueSlug($name)
     {
         // Generate initial slug
-        $slug = Str::slug($description);
+        $slug = Str::slug($name);
 
         // Keep the original slug for reference
         $originalSlug = $slug;
@@ -49,7 +50,7 @@ class ProductController extends Controller
         return $slug;
     }
 
-    
+    // Store method
 // Store method
     public function store(Request $request)
     {
@@ -61,7 +62,6 @@ class ProductController extends Controller
             'description_en' => 'required|string', // Changed from 'nullable' to 'required'
             'description_ar' => 'nullable|string',
             'category_id' => 'required|exists:categories,id',
-            'subcategory_id' => 'nullable|integer',
             'status' => 'required|in:active,inactive',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'alt_text_en.*' => 'nullable|string|max:255',
@@ -85,26 +85,8 @@ class ProductController extends Controller
             'subcategory_id' => $validatedData['subcategory_id'] ?? null,
             'status' => $validatedData['status'],
         ]);
-        
-        $options = $request->input('options', []);
-        if (is_array($options)) {
-            $product->options = array_values(array_filter($options));
-            $product->save();
-        }
-
 
          // ✅ Save sizes (as JSON)
-        if ($request->filled('sizes')) {
-            $sizes = json_decode($request->sizes, true);
-
-            Log::debug('📦 Sizes received from request:', $sizes); // 👈 للّوغ
-
-            if (is_array($sizes)) {
-                $product->sizes()->createMany(array_filter($sizes, function ($size) {
-                    return !empty($size['value']) && !empty($size['price']);
-                }));
-            }
-        }
 
         // Handle image uploads
         if ($request->hasFile('images')) {
@@ -143,24 +125,14 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $categories = Category::all();
-        $product->load('images');
+        $product->load(['images', 'sizes', 'options']);
         return view('admin.products.edit', compact('product', 'categories'));
     }
 
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
         // Validate the request data
-        $validatedData = $request->validate([
-            'name_en' => 'required|string|max:255',
-            'name_ar' => 'required|string|max:255',
-            'description_en' => 'required|string',
-            'description_ar' => 'nullable|string',
-            'category_id' => 'required|exists:categories,id',
-            'status' => 'required|in:active,inactive',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'alt_text_en.*' => 'nullable|string|max:255',
-            'alt_text_ar.*' => 'nullable|string|max:255',
-        ]);
+        $validatedData = $request->validated();
 
         // Update product details
         $product->update($validatedData);
@@ -176,6 +148,59 @@ class ProductController extends Controller
                     'alt_text_en' => $request->input('alt_text_en')[$index] ?? null,
                     'alt_text_ar' => $request->input('alt_text_ar')[$index] ?? null,
                 ]);
+            }
+        }
+        if ($request->filled('sizes')) {
+            $sizes = json_decode($request->sizes, true);
+
+            if (is_array($sizes)) {
+            foreach ($sizes as $size) {
+                if (!empty($size['id'])) {
+                // Update existing size
+                $productSize = ProductSize::find($size['id']);
+                if ($productSize) {
+                    $productSize->update([
+                    'value' => $size['value'],
+                    'price' => $size['price'],
+                    ]);
+                }
+                } else {
+                // Create new size
+                if (!empty($size['value']) && !empty($size['price'])) {
+                    $product->sizes()->create([
+                    'value' => $size['value'],
+                    'price' => $size['price'],
+                    ]);
+                }
+                }
+            }
+            }
+        }
+
+        if ($request->filled('options')) {
+            $options = json_decode($request->options, true);
+
+            if (is_array($options)) {
+            foreach ($options as $option) {
+                if (!empty($option['id'])) {
+                // Update existing option
+                $productOption = $product->options()->find($option['id']);
+                if ($productOption) {
+                    $productOption->update([
+                    'name_en' => $option['name_en'],
+                    'name_ar' => $option['name_ar'],
+                    ]);
+                }
+                } else {
+                // Create new option
+                if (!empty($option['name_en']) && !empty($option['name_ar'])) {
+                    $product->options()->create([
+                    'name_en' => $option['name_en'],
+                    'name_ar' => $option['name_ar'],
+                    ]);
+                }
+                }
+            }
             }
         }
 

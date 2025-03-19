@@ -99,7 +99,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 // Shop routes
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
-// Route::get('/product/{slug}', [ShopController::class, 'show'])->name('product.show');
+Route::get('/product/{slug}', [ShopController::class, 'show'])->name('product.show');
 
 
 Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout.show');
