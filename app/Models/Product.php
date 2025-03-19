@@ -18,10 +18,6 @@ class Product extends Model
         'category_id',
         'status',
         'price',
-        'options',
-    ];
-    protected $casts = [
-        'options' => 'array',
     ];
 
 
@@ -50,6 +46,11 @@ class Product extends Model
     public function sizes()
     {
         return $this->hasMany(ProductSize::class);
+    }
+
+    public function options()
+    {
+        return $this->hasMany(ProductOption::class);
     }
 
     // Localized Attributes

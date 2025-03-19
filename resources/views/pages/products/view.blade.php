@@ -33,34 +33,6 @@
         </div>
     </div>
 
-    <form action="{{ url('cart/add', $product->id) }}" class="row" method="POST" id="add-to-cart-form">
-        @csrf
-        <div class="form-group col-4">
-            <select name="size_id" id="size" class="form-control">
-                <option value="">{{ __('view_product.select_size') }}</option>
-                @if (isset($product->sizes) && count($product->sizes) > 0)
-                    @foreach($product->sizes as $size)
-                        <option value="{{ $size->id }}">{{ $size->value }}</option>
-                    @endforeach
-
-                @endif
-            </select>
-        </div>
-        <div class="form-group col-4">
-            <div class="product-options">
-                <div class="product-info__quantity" style="direction: ltr">
-                    <div class="counter-box">
-                        <span class="counter-link counter-link__prev"><i class="sli-arrow-left"></i></span>
-                        {{-- <input type="text" class="counter-input" disabled value="1"> --}}
-                        <input type="number" name="quantity" id="quantity" class="form-control" value="1" min="1" disabled>
-                        <span class="counter-link counter-link__next"><i class="sli-arrow-right"></i></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <button type="button" class="btn btn-create" onclick="addToCart()">{{ __('Add to cart') }}</button>
-    </form>
-
     <!-- Slider Section -->
     <div id="slider-section" class="section-unique">
         <div class="content">

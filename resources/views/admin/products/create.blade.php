@@ -100,36 +100,33 @@
 
                    <!-- Product Options -->
                     <div class="mb-4">
-                        <label class="form-label">Product Options</label>
-                        <div id="optionsRepeater">
-                            <div class="row g-2 mb-2 option-row">
-                                <div class="col-10">
-                                    <input type="text" name="options[]" class="form-control" placeholder="e.g. Extra Chocolate">
-                                </div>
-                                <div class="col-2 d-flex align-items-center">
-                                    <button type="button" class="btn btn-danger btn-sm remove-option">×</button>
-                                </div>
-                            </div>
+                        <div class="d-flex justify-content-between">
+                            <label class="my-2">Product Options</label>
+                            <button type="button" id="addOptionRow" class="btn btn-sm btn-outline-secondary">+ Add</button>
                         </div>
-                        <button type="button" id="addOptionRow" class="btn btn-sm btn-outline-secondary mt-2">+ Add Option</button>
+
+                        <div id="optionsRepeater">
+                        </div>
                     </div>
 
 
                     <!-- Sizes -->
                     <div class="mb-4">
-                    <label class="form-label">Sizes & Prices</label>
-                    <div id="sizePriceRepeater">
-                        <div class="row g-2 mb-2 size-price-row">
-                            <div class="col-6">
-                                 <input type="text" name="size_value[]" class="form-control size-value" placeholder="Size (e.g. 250g)">
-                            </div>
-                            <div class="col-6">
-                                 <input type="number" name="size_price[]" class="form-control size-price" placeholder="Price (e.g. 4.99)" step="0.01">
+                        <div class="d-flex justify-content-between">
+                            <label class="form-label">Sizes & Prices</label>
+                            <button type="button" id="addSizeRow" class="btn btn-sm btn-outline-primary mt-2">+ Add </button>
+                        </div>
+                        <div id="sizePriceRepeater">
+                            <div class="row g-2 mb-2 size-price-row">
+                                <div class="col-6">
+                                    <input type="text" name="size_value[]" class="form-control size-value" placeholder="Size (e.g. 250g)">
+                                </div>
+                                <div class="col-6">
+                                    <input type="number" name="size_price[]" class="form-control size-price" placeholder="Price (e.g. 4.99)" step="0.01">
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <button type="button" id="addSizeRow" class="btn btn-sm btn-outline-primary mt-2">+ Add Size</button>
-                </div>
 
 
                     <!-- Submit -->
@@ -203,32 +200,6 @@ function validateImages() {
     imageError.style.display = (acceptedFiles.length < 1) ? 'inline' : 'none';
 }
 
-// ➕ Add new size row
-document.getElementById('addSizeRow').addEventListener('click', function () {
-    const container = document.getElementById('sizePriceRepeater');
-    const row = document.createElement('div');
-    row.className = 'row g-2 mb-2 size-price-row';
-    row.innerHTML = `
-        <div class="col-6">
-            <input type="text" class="form-control size-value" placeholder="Size (e.g. 250g)">
-        </div>
-        <div class="col-5">
-            <input type="number" class="form-control size-price" placeholder="Price" step="0.01">
-        </div>
-        <div class="col-1 d-flex align-items-center">
-            <button type="button" class="btn btn-danger btn-sm remove-size">×</button>
-        </div>
-    `;
-    container.appendChild(row);
-});
-
-// ❌ Remove size row
-document.addEventListener('click', function (e) {
-    if (e.target.classList.contains('remove-size')) {
-        e.target.closest('.size-price-row').remove();
-    }
-});
-
 // ✅ Submit form
 document.getElementById('submitBtn').addEventListener('click', function () {
     this.disabled = true;
@@ -269,13 +240,22 @@ document.getElementById('submitBtn').addEventListener('click', function () {
             sizes.push({ value: sizeInput, price: priceInput });
         }
     });
-
     if (sizes.length === 0) {
         alert("Please add at least one size and price.");
         this.disabled = false;
         return;
     }
 
+
+    const options = [];
+    document.querySelectorAll('.option-row').forEach(row => {
+        const nameEn = row.querySelector('.option-name-en')?.value.trim();
+        const nameAr = row.querySelector('.option-name-ar')?.value.trim();
+
+        if (nameEn && nameAr) {
+            options.push({ name_en: nameEn, name_ar: nameAr });
+        }
+    });
 
 
     if (!isValid) {
@@ -291,18 +271,8 @@ document.getElementById('submitBtn').addEventListener('click', function () {
     formData.append('description_ar', description_ar);
     formData.append('category_id', category_id);
     formData.append('status', status);
-    formData.append('sizes', JSON.stringify(sizes)); // <-- THIS IS CRITICAL
-
-    console.log("📦 Sizes:", JSON.stringify(sizes));
-
-
-    // ✅ Gather options
-    document.querySelectorAll('input[name="options[]"]').forEach((input, index) => {
-        if (input.value.trim()) {
-            formData.append(`options[${index}]`, input.value.trim());
-        }
-    });
-
+    formData.append('sizes', JSON.stringify(sizes)); 
+    formData.append('options', JSON.stringify(options));
 
     acceptedFiles.forEach((file, index) => {
         formData.append(`images[${index}]`, file);
@@ -313,47 +283,73 @@ document.getElementById('submitBtn').addEventListener('click', function () {
         headers: { 'Accept': 'application/json' },
         body: formData
     })
-    .then(response => response.text().then(text => {
-    console.log('🧾 Raw response:', text);
-    try {
-        const json = JSON.parse(text);
-        console.log('✅ Parsed JSON:', json);
-    } catch (err) {
-        console.error('❌ Not JSON:', err);
-    }
-}))
-    .then(() => {
-        window.location.href = "{{ route('admin.products.index') }}";
-    })
+    .then(response => response.json().then(data => {
+        if (response.ok) {
+            window.location.href = "{{ route('admin.products.index') }}";
+        } else {
+            console.error('Error:', data);
+            alert('Error: ' + (data.message || 'An error occurred while creating the product.'));
+            document.getElementById('submitBtn').disabled = false;
+        }
+    }).catch(err => {
+        console.error('Not JSON:', err);
+        alert('Error: An error occurred while creating the product.');
+        document.getElementById('submitBtn').disabled = false;
+    }))
     .catch(error => {
-        console.error('❌ Error:', error);
+        console.error('Error:', error);
         this.disabled = false;
     });
 });
 
 
-    // ➕ Add new option row
-    document.getElementById('addOptionRow').addEventListener('click', function () {
-        const container = document.getElementById('optionsRepeater');
-        const row = document.createElement('div');
-        row.className = 'row g-2 mb-2 option-row';
-        row.innerHTML = `
-            <div class="col-10">
-                <input type="text" name="options[]" class="form-control" placeholder="e.g. Extra Chocolate">
-            </div>
-            <div class="col-2 d-flex align-items-center">
-                <button type="button" class="btn btn-danger btn-sm remove-option">×</button>
-            </div>
-        `;
-        container.appendChild(row);
-    });
+// ➕ Add new size row
+document.getElementById('addSizeRow').addEventListener('click', function () {
+    const container = document.getElementById('sizePriceRepeater');
+    const row = document.createElement('div');
+    row.className = 'row g-2 mb-2 size-price-row';
+    row.innerHTML = `
+        <div class="col-6">
+            <input type="text" class="form-control size-value" placeholder="Size (e.g. 250g)">
+        </div>
+        <div class="col-5">
+            <input type="number" class="form-control size-price" placeholder="Price" step="0.01">
+        </div>
+        <button type="button" class="btn-close btn-close-white col-1 remove-size" aria-label="Close"></button>
+    `;
+    container.appendChild(row);
+});
 
-    // ❌ Remove option row
-    document.addEventListener('click', function (e) {
-        if (e.target.classList.contains('remove-option')) {
-            e.target.closest('.option-row').remove();
-        }
-    });
+// ❌ Remove size row
+document.addEventListener('click', function (e) {
+    if (e.target.classList.contains('remove-size')) {
+        e.target.closest('.size-price-row').remove();
+    }
+});
+
+// ➕ Add new option row
+document.getElementById('addOptionRow').addEventListener('click', function () {
+    const container = document.getElementById('optionsRepeater');
+    const row = document.createElement('div');
+    row.className = 'row g-2 mb-2 option-row';
+    row.innerHTML = `
+        <div class="">
+            <label for="option_name_en" class="d-flex justify-content-end">
+                <button type="button" class="btn-close btn-close-white remove-option " aria-label="Close"></button>
+            </label>
+            <input type="text" name="option_name_en[]" class="form-control option-name-en" placeholder="Name En">
+            <input type="text" name="option_name_ar[]" class="form-control option-name-ar" placeholder="Name Ar">
+        </div>
+    `;
+    container.appendChild(row);
+});
+
+// ❌ Remove option row
+document.addEventListener('click', function (e) {
+    if (e.target.classList.contains('remove-option')) {
+        e.target.closest('.option-row').remove();
+    }
+});
 </script>
 
 
