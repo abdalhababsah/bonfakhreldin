@@ -349,6 +349,48 @@ document.getElementById('addSizeRow').addEventListener('click', function () {
     container.appendChild(row);
 });
 
+
+    document.addEventListener('click', function (e) {
+        if (e.target.classList.contains('remove-option')) {
+            e.target.closest('.option-row').remove();
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+    const categorySelect = document.getElementById('category_id');
+    const subcategoryWrapper = document.getElementById('subcategory-wrapper');
+    const subcategorySelect = document.getElementById('subcategory_id');
+
+    
+    const subcategories = {
+        2: [ 
+            { id: 1, name: "Deluxe" },
+            { id: 2, name: "Gold" }
+        ]
+    };
+
+    categorySelect.addEventListener('change', function () {
+        const selectedId = categorySelect.value;
+
+        if (subcategories[selectedId]) {
+            subcategoryWrapper.style.display = 'block';
+            subcategorySelect.innerHTML = '<option value="" selected>Select Subcategory</option>';
+
+            subcategories[selectedId].forEach(sub => {
+                const option = document.createElement('option');
+                option.value = sub.id;
+                option.textContent = sub.name;
+                subcategorySelect.appendChild(option);
+            });
+        } else {
+            subcategoryWrapper.style.display = 'none';
+            subcategorySelect.innerHTML = '';
+        }
+    });
+});
+
+
+
 // ❌ Remove size row
 document.addEventListener('click', function (e) {
     if (e.target.classList.contains('remove-size')) {
@@ -373,12 +415,13 @@ document.getElementById('addOptionRow').addEventListener('click', function () {
     container.appendChild(row);
 });
 
-    // ❌ Remove option row
-    document.addEventListener('click', function (e) {
-        if (e.target.classList.contains('remove-option')) {
-            e.target.closest('.option-row').remove();
-        }
-    });
+// ❌ Remove option row
+document.addEventListener('click', function (e) {
+    if (e.target.classList.contains('remove-option')) {
+        e.target.closest('.option-row').remove();
+    }
+});
+
 </script>
 
 
