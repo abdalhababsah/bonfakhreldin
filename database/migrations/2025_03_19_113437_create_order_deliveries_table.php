@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Area;
+use App\Models\Order;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,11 +13,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cities', function (Blueprint $table) {
+        Schema::create('order_deliveries', function (Blueprint $table) {
             $table->id();
-            $table->string('name_en', 15);
-            $table->string('name_ar', 15);
-            $table->decimal('delivery_fee', 10, 2)->default(0);
+            $table->decimal('delivery_fee', 10, 2);
+            $table->text('address');
+            $table->foreignIdFor(Area::class);
+            $table->foreignIdFor(Order::class);
             $table->timestamps();
         });
     }
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cities');
+        Schema::dropIfExists('order_deliveries');
     }
 };

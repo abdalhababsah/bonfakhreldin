@@ -62,6 +62,19 @@ function removeItem(btn) {
             .catch(error => console.error('Error:', error));
 }
 
+function updateDeliveryFee(deliveryFee) {
+    // Update the delivery fee
+    document.getElementById('delivery_fee').textContent = deliveryFee;
+
+    // Get the subtotal value
+    let subtotal = parseFloat(document.getElementById('subtotal').textContent);
+
+    // Calculate the total
+    let total = subtotal + parseFloat(deliveryFee);
+
+    // Update the total value
+    document.getElementById('total').textContent = total;//.toFixed(2);
+}
 function getAreas(cityId) {
     fetch(`${appUrl}/areas/${cityId}`)
         .then(response => response.json())
@@ -77,3 +90,17 @@ function getAreas(cityId) {
         })
         .catch(error => console.error('Error:', error));
 }
+
+function toggleDeliveryMethod(value) {
+    if (value === 'delivery') {
+        document.getElementById('delivery_address').style.display = 'block';
+        document.getElementById('pickup_branch').style.display = 'none';
+    } else if (value === 'pickup') {
+        document.getElementById('delivery_address').style.display = 'none';
+        document.getElementById('pickup_branch').style.display = 'block';
+    } else {
+        document.getElementById('delivery_address').style.display = 'none';
+        document.getElementById('pickup_branch').style.display = 'none';
+    }
+}
+

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\OrderDeliverableEnums;
 use App\Enums\OrderStatusEnums;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,22 +14,25 @@ class Order extends Model
         'email',
         'phone',
         'status',
+        'deliverable',
         'notes',
         'total_price',
-        'delivery_fee',
-        'address',
-        'area_id',
     ];
 
     protected $casts = [
         'status' => OrderStatusEnums::class,
+        'deliverable' => OrderDeliverableEnums::class,
         'total_price' => 'decimal:2',
-        'delivery_fee' => 'decimal:2',
     ];
 
     //relationship
-    public function area()
+    public function delivery()
     {
-        return $this->belongsTo(Area::class);
+        return $this->hasOne(OrderDelivery::class);
+    }
+
+    public function pickup()
+    {
+        return $this->hasOne(OrderPickup::class);
     }
 }

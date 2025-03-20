@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\OrderDeliverableEnums;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class OrderRequest extends FormRequest
 {
@@ -20,8 +22,10 @@ class OrderRequest extends FormRequest
             'notes' => ['nullable', 'max:500'],
             // 'total_price' => ['required', 'numeric', 'lt:0'],
             // 'delivery_fee' => ['required', 'numeric', 'lt:0'],
-            'address' => ['required', 'max:500'],
-            'area_id' => ['required', 'exists:areas,id'],
+            'address' => ['required_if:deliverable,'.OrderDeliverableEnums::Delivery, 'max:500'],
+            'area_id' => ['required_if:deliverable,'.OrderDeliverableEnums::Delivery, 'exists:areas,id'],
+            'branch' => ['required_if:deliverable,'.OrderDeliverableEnums::Pickup],
+            'deliverable' => ['required', Rule::in(OrderDeliverableEnums::cases())]
         ];
     }
 }

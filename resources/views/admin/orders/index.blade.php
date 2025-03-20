@@ -53,7 +53,6 @@
                                             <td>{{ $order->email }}</td>
                                             <td>{{ $order->phone }}</td>
                                             <td>{{ $order->status }}</td>
-
                                             <td>{{ $order->created_at->format('d M Y, h:i A') }}</td>
                                             <td>
                                                 <!-- View Button -->

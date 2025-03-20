@@ -34,6 +34,7 @@ class OrderController extends Controller
 
     public function store(OrderRequest $request)
     {
+        // dd($del);
         $cart = $this->cartService->getCartDetails();
 
         $order = Order::create([
@@ -44,10 +45,17 @@ class OrderController extends Controller
             'status' => OrderStatusEnums::Pending,
             'notes' => $request->notes,
             'total_price' => $cart['totalPrice'],
-            'delivery_fee' => $cart['delivery_fee'] ?? 0,
-            'address' => $request->address,
-            'area_id' => $request->area_id,
+            'deliverable' => $request->deliverable,
+            // 'delivery_fee' => $cart['delivery_fee'] ?? 0,
+            // 'address' => $request->address,
+            // 'area_id' => $request->area_id,
         ]);
+
+        $delivery_fee = $order->city?->delivery_fee;
+        $deliverableData = array_merge($request->only('branch', 'area_id', 'address'), [
+            'delivery_fee' => $delivery_fee,
+        ]);
+        $order->{$request->deliverable}()->create($deliverableData);
 
         $orderProducts = [];
         foreach ($cart['items'] as $product) {
