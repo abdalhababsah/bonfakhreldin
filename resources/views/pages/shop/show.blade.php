@@ -31,10 +31,7 @@
             <div class="mt-4">
                 {{ $products->withQueryString()->links() }}
             </div>
-
-
-
-
+            
 <!-- Product Modal -->
 <div class="modal fade" id="productOptionsModal" tabindex="-1" aria-labelledby="productOptionsModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
