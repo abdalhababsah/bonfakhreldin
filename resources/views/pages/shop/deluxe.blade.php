@@ -1,6 +1,6 @@
 @extends('layout.mainlayout')
 
-@section('title', 'Shop')
+@section('title', __('Shop'))
 
 <link rel="stylesheet" href="{{ asset('assets/css/shop.css') }}">
 

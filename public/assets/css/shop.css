@@ -1,7 +1,7 @@
 
 .product-card {
-      height: 14px;
-      margin: 43px;
+    height: 14px;
+    margin: 43px;
 }
 
 /* Subtle hover lift and shadow */
@@ -81,11 +81,11 @@
 
 
 .category-box {
-    width: 472px;
-    min-height: 283px;
+    /* width: 472px; */
+    /* min-height: 283px; */
     background-size: cover;
     background-position: center;
-    border-radius: 1.25rem;
+    /* border-radius: 1.25rem; */
     transition: all 0.3s ease;
     display: flex;
     justify-content: center;
@@ -113,7 +113,6 @@
     position: relative;
     font-size: 2rem;
     margin-top: 131px;
-    font-family: 'simple-line-icons';
 }
 
 .see-options-btn {
@@ -126,6 +125,4 @@
   .see-options-btn:hover {
     background-color: #218838 !important; /* or any hover color */
   }
-  
-
   

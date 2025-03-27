@@ -117,9 +117,9 @@ Route::get('/cart/count', [CartController::class, 'countItem']);
 Route::delete('/cart/remove/{key}', [CartController::class, 'delete']);
 
 
-Route::get('/shop/chocolate', [ShopController::class, 'chocolate'])->name('shop.chocolate');
-Route::get('/shop/gold', [ShopController::class, 'gold'])->name('shop.gold');
-Route::get('/shop/deluxe', [ShopController::class, 'deluxe'])->name('shop.deluxe');
-Route::get('/shop/gift', [ShopController::class, 'gift'])->name('shop.gift');
-Route::get('/shop/coffee', [ShopController::class, 'coffee'])->name('shop.coffee');
-Route::get('/shop/nuts', [ShopController::class, 'nuts'])->name('shop.nuts');
+Route::get('/shop/{slug}', [ShopController::class, 'category']);
+// Route::get('/shop/gold', [ShopController::class, 'gold'])->name('shop.gold');
+// Route::get('/shop/deluxe', [ShopController::class, 'deluxe'])->name('shop.deluxe');
+// Route::get('/shop/gift', [ShopController::class, 'gift'])->name('shop.gift');
+// Route::get('/shop/coffee', [ShopController::class, 'coffee'])->name('shop.coffee');
+// Route::get('/shop/nuts', [ShopController::class, 'nuts'])->name('shop.nuts');

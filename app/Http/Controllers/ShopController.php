@@ -13,24 +13,18 @@ class ShopController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Product::query()
-
-            ->with(['sizes', 'images'])
-            ->where('status', 'active');
-
-
-        $products = $query->paginate(9);
-
-
         $categories = Category::all();
 
-        return view('pages.shop.index', compact('products', 'categories'));
-
+        return view('pages.shop.index', compact('categories'));
     }
 
-    public function chocolate(){
-        return view('pages.shop.chocolate');
-    
+    public function category($slug){
+        $category = Category::where('slug', $slug)->first();
+
+        if ($category->has('subcategories')){
+            return view('pages.shop.subcategories', compact('category'));
+        }
+        return view('pages.shop.products');
     }
 
     public function gold(Request $request){

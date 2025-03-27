@@ -18,14 +18,16 @@ class CartService
     }
 
     /**
-     * Add a product to the cart.
+     * Add a product to the cart with options and additions.
      *
      * @param int $productId
      * @param int $quantity
-     * @param int $sizeId
+     * @param int|null $sizeId
+     * @param int|null $option
+     * @param array $additions
      * @return array
      */
-    public function add($productId, $quantity = 1, $sizeId = null)
+    public function add($productId, $quantity = 1, $sizeId = null, $option = null, $additions = [])
     {
         $product = Product::find($productId);
 
@@ -36,6 +38,20 @@ class CartService
 
         $cart = $this->getCookieCart();
         $cartItemKey = $productId . '-' . $sizeId;
+
+        // Include option in the cart key
+        if (!is_null($option)) {
+            $cartItemKey .= '-option:' . $option;
+        }
+
+        // Include additions in the cart key
+        if (!empty($additions)) {
+            $additionKeys = array_map(function ($addition) {
+                return $addition['id'] . 'x' . $addition['quantity'];
+            }, $additions);
+            $cartItemKey .= '-additions:' . implode(',', $additionKeys);
+        }
+
         $existingQty = isset($cart[$cartItemKey]) ? $cart[$cartItemKey] : 0;
         $newQuantity = $existingQty + $quantity;
 

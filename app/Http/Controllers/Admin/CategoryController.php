@@ -13,14 +13,14 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $categories = Category::paginate(10); // Adjust the per-page count as needed
-        return view('admin.categories.index', compact('categories')); // Ensure this view exists
+        $mainCategories = Category::whereNull('category_id')->get();
+
+        return view('admin.categories.index', compact('categories', 'mainCategories')); // Ensure this view exists
     }
 
     // Store a newly created category in storage
     public function store(Request $request)
     {
-
-        // dd($request);
         $request->validate([
             'description_en' => 'required|string|max:255',
             'description_ar' => 'nullable|string|max:255',

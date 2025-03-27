@@ -17,7 +17,6 @@ class Product extends Model
         'description_en',
         'description_ar',
         'category_id',
-        'subcategory_id',
         'status',
         'price',
     ];
@@ -64,9 +63,4 @@ class Product extends Model
     {
         return $this['name_' . app()->getLocale()];
     }
-    public function subcategory()
-    {
-        return $this->belongsTo(Subcategory::class);
-    }
-
 }

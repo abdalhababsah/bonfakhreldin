@@ -5832,10 +5832,10 @@ only screen and (max-width: 767px) {
 
 /* feasure section */
 .feature-section {
-  border-top-right-radius: 50px;
+  /* border-top-right-radius: 50px; */
   border: 1px solid;
   background-color: #126442;
-  border-bottom-left-radius: 50px;
+  /* border-bottom-left-radius: 50px; */
   padding: 30px;
   margin: 0px 0px 50px 0px;
 }
