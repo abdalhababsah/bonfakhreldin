@@ -41,6 +41,7 @@
                                         <th>ID</th>
                                         <th>Name (EN)</th>
                                         <th>Name (AR)</th>
+                                        <th>Delivery Fee</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -50,6 +51,7 @@
                                             <td>{{ $city->id }}</td>
                                             <td>{{ $city->name_en }}</td>
                                             <td>{{ $city->name_ar }}</td>
+                                            <td>{{ $city->delivery_fee }}</td>
                                             <td>
                                                 <!-- Edit Button -->
                                                 <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
@@ -111,6 +113,10 @@
                                 <label for="nameAr" class="form-label">Name (Arabic)</label>
                                 <input type="text" name="name_ar" id="nameAr" class="form-control" required>
                             </div>
+                            <div class="form-group mb-3">
+                                <label for="delivery_fee" class="form-label">Delivery Fee</label>
+                                <input type="number" step="0.05" name="delivery_fee" id="delivery_fee" class="form-control">
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Save</button>
@@ -145,6 +151,10 @@
                                 <label for="editNameAr" class="form-label">Name (Arabic)</label>
                                 <input type="text" name="name_ar" id="editNameAr" class="form-control" required>
                             </div>
+                            <div class="form-group mb-3">
+                                <label for="delivery_fee" class="form-label">Delivery Fee</label>
+                                <input type="number" step="0.05" name="delivery_fee" id="editDeliveryFee" class="form-control">
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Update</button>
@@ -170,6 +180,7 @@
             document.getElementById('editCityId').value = city.id;
             document.getElementById('editNameEn').value = city.name_en;
             document.getElementById('editNameAr').value = city.name_ar;
+            document.getElementById('editDeliveryFee').value = city.delivery_fee;
             document.getElementById('editCityForm').action = `/admin/cities/${city.id}`;
         }
     </script>

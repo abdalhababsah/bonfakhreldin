@@ -44,8 +44,9 @@
                             </td>
                             <td class="total">
                                 <span id="total-{{ $item['product_id'] }}-{{ $item['size_id'] }}">
-                                    {{ number_format($item['total'], 2) }} JOD
+                                    {{ number_format($item['total'], 2) }}
                                 </span>
+                                 JOD
                             </td>
                             <td>
                             <form action="{{ url('cart/remove', $item['product_id'] . '-' . $item['size_id']) }}" method="POST" class="remove-item-form">
@@ -68,7 +69,12 @@
                 <table class="table">
                     <tr>
                         <th>{{ __('Subtotal') }}</th>
-                        <td id="cart-subtotal">{{ number_format($cart['totalPrice'], 2) }} JOD</td>
+                        <td>
+                            <span id="cart-subtotal">
+                                {{ number_format($cart['totalPrice'], 2) }}
+                            </span>
+                             JOD
+                        </td>
                     </tr>
                 </table>
                 <a href="{{ url('cart/checkout') }}" class="btn btn-create">{{ __('Proceed to Checkout') }}</a>
@@ -131,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function () {
             subtotal += qty * price;
         });
 
-        document.getElementById('cart-subtotal').innerText = `$${subtotal.toFixed(2)}`;
+        document.getElementById('cart-subtotal').innerText = `${subtotal.toFixed(2)}`;
     }
 });
 

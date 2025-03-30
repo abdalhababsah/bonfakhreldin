@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\ProductSize;
 use App\Models\Category;
 use App\Models\ProductImage;
+use App\Models\ProductOption;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -53,14 +54,11 @@ class ProductController extends Controller
 
 // Store method
     public function store(Request $request)
-{
-
-
-        // Validate the request data (make 'description_en' required)
+    {
         $validatedData = $request->validate([
             'name_en' => 'required|string|max:255',
             'name_ar' => 'required|string|max:255',
-            'description_en' => 'required|string', // Changed from 'nullable' to 'required'
+            'description_en' => 'required|string', 
             'description_ar' => 'nullable|string',
             'category_id' => 'required|exists:categories,id',
             'subcategory_id' => 'nullable|integer',
@@ -69,12 +67,9 @@ class ProductController extends Controller
             'alt_text_en.*' => 'nullable|string|max:255',
             'alt_text_ar.*' => 'nullable|string|max:255',
             'sizes' => 'required|string',
-            // 'options' => 'array', // ✅ مو nullable، بس لازم تكون array إذا موجودة
-            // 'options.*' => 'string|max:255',
         ]);
 
-        // Generate a unique slug from 'description_en'
-        $slug = $this->generateUniqueSlug($request->input('description_en'));
+        // Generate a unique slug from 'name_en'
         $slug = $this->generateUniqueSlug($request->input('name_en'));
 
 
@@ -86,11 +81,10 @@ class ProductController extends Controller
             'description_en' => $validatedData['description_en'],
             'description_ar' => $validatedData['description_ar'] ?? null,
             'category_id' => $validatedData['category_id'],
-            'subcategory_id' => $validatedData['subcategory_id'] ?? null,
+            // 'subcategory_id' => $validatedData['subcategory_id'] ?? null,
             'status' => $validatedData['status'],
         ]);
 
-         // ✅ Save sizes (as JSON)
 
         // Handle image uploads
         if ($request->hasFile('images')) {
@@ -103,6 +97,50 @@ class ProductController extends Controller
                     'alt_text_en' => $request->input('alt_text_en')[$index] ?? null,
                     'alt_text_ar' => $request->input('alt_text_ar')[$index] ?? null,
                 ]);
+            }
+        }
+
+        // Handle sizes
+        // Check if sizes are provided and decode them
+        if ($request->filled('sizes')) {
+            $sizes = json_decode($request->sizes, true);
+            if (is_array($sizes)) {
+                $bulkInsertData = [];
+                foreach ($sizes as $size) {
+                    if (!empty($size['value']) && !empty($size['price'])) {
+                        $bulkInsertData[] = [
+                            'value' => $size['value'],
+                            'price' => $size['price'],
+                            'product_id' => $product->id, // Ensure the foreign key is included
+                        ];
+                    }
+                }
+        
+                if (!empty($bulkInsertData)) {
+                    // Perform a single bulk insert
+                    ProductSize::insert($bulkInsertData);
+                }
+            }
+        }
+
+        if ($request->filled('options')) {
+            $options = json_decode($request->options, true);
+            if (is_array($options)) {
+                $bulkInsertOptions = [];
+                foreach ($options as $option) {
+                    if (!empty($option['name_en']) && !empty($option['name_ar'])) {
+                        $bulkInsertOptions[] = [
+                            'name_en' => $option['name_en'],
+                            'name_ar' => $option['name_ar'],
+                            'product_id' => $product->id,
+                        ];
+                    }
+                }
+        
+                if (!empty($bulkInsertOptions)) {
+                    // Perform a single bulk insert
+                    ProductOption::insert($bulkInsertOptions);
+                }
             }
         }
 

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Product;
 use App\Models\ProductSize;
+use App\Models\ProductOption;
 use Illuminate\Support\Facades\Cookie;
 use Log;
 
@@ -27,7 +28,7 @@ class CartService
      * @param array $additions
      * @return array
      */
-    public function add($productId, $quantity = 1, $sizeId = null, $option = null, $additions = [])
+    public function add($productId, $quantity = 1, $sizeId = null, $optionId = null, $additions = [])
     {
         $product = Product::find($productId);
 
@@ -37,12 +38,7 @@ class CartService
         }
 
         $cart = $this->getCookieCart();
-        $cartItemKey = $productId . '-' . $sizeId;
-
-        // Include option in the cart key
-        if (!is_null($option)) {
-            $cartItemKey .= '-option:' . $option;
-        }
+        $cartItemKey = $productId . '-' . $sizeId . '-' . $optionId;
 
         // Include additions in the cart key
         if (!empty($additions)) {
@@ -124,13 +120,13 @@ class CartService
      */
     public function getItems($cart)
     {
-        // $cart = $this->getGuestCart();
         $items = [];
 
         foreach ($cart as $key => $quantity) {
             $keyParts = explode('-', $key);
             $productId = $keyParts[0];
             $productSize = isset($keyParts[1]) ? ProductSize::find($keyParts[1]) : null;
+            $productOption = isset($keyParts[2]) ? ProductOption::find($keyParts[2]) : null;
             $product = Product::find($productId);
 
             if ($product && $product->status == 'active') {
@@ -140,7 +136,7 @@ class CartService
                     'price' => $productSize?->price,
                     'size_id' => $productSize?->id,
                     'size' => $productSize?->value,
-                    'option' => '',
+                    'option' => $productOption?->name,
                     'quantity' => $quantity,
                     'total' => $quantity * $productSize->price,
                     'image_url' => $product->primaryImage ? asset('storage/' . $product->primaryImage->image_url) : 'https://via.placeholder.com/262x370',

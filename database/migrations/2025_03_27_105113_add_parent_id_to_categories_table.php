@@ -13,17 +13,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('categories', function (Blueprint $table) {
-            $table->foreignIdFor(Category::class)->nullable()->constrained()->cascadeOnDelete();
-        });
-    }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::table('categories', function (Blueprint $table) {
-            //
+            $table->after('description_ar', function (Blueprint $table) {
+                $table->foreignIdFor(Category::class)->nullable()->constrained()->cascadeOnDelete();
+                $table->string('image')->nullable();
+            });
         });
     }
 };

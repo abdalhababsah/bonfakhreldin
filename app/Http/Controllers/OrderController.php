@@ -34,9 +34,8 @@ class OrderController extends Controller
 
     public function store(OrderRequest $request)
     {
-        // dd($del);
         $cart = $this->cartService->getCartDetails();
-
+        
         $order = Order::create([
             'order_number' => uniqid('ORD-'),
             'name' => $request->name,
@@ -50,12 +49,13 @@ class OrderController extends Controller
             // 'address' => $request->address,
             // 'area_id' => $request->area_id,
         ]);
-
+        
         $delivery_fee = $order->city?->delivery_fee;
         $deliverableData = array_merge($request->only('branch', 'area_id', 'address'), [
             'delivery_fee' => $delivery_fee,
         ]);
         $order->{$request->deliverable}()->create($deliverableData);
+        // dd($order);
 
         $orderProducts = [];
         foreach ($cart['items'] as $product) {

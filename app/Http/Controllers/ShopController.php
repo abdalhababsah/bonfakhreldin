@@ -21,10 +21,14 @@ class ShopController extends Controller
     public function category($slug){
         $category = Category::where('slug', $slug)->first();
 
-        if ($category->has('subcategories')){
-            return view('pages.shop.subcategories', compact('category'));
-        }
-        return view('pages.shop.products');
+        // if ($category->has('subcategories')){
+        //     return view('pages.shop.subcategories', compact('category'));
+        // }
+        $products = $category->products()
+            ->with(['sizes', 'images', 'options'])
+            ->where('status', 'active')
+            ->paginate(9);
+        return view('pages.shop.products', compact('products'));
     }
 
     public function gold(Request $request){

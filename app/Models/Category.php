@@ -15,6 +15,8 @@ class Category extends Model
         'name_ar',
         'description_en',
         'description_ar',
+        'category_id',
+        'image',
     ];
     
     protected $appends = ['name'];

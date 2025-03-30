@@ -50,13 +50,14 @@ document.addEventListener('DOMContentLoaded', function () {
             const optionWrapper = document.getElementById('modal-options-wrapper');
             const optionSelect = document.getElementById('modal-option-select');
 
-            if (Array.isArray(product.options) && product.options.length > 0) {
+            if (product.options && product.options.length > 0) {
                 optionWrapper.style.display = 'block';
                 optionSelect.innerHTML = '';
+                
                 product.options.forEach(opt => {
                     const option = document.createElement('option');
-                    option.value = opt;
-                    option.textContent = opt;
+                    option.value = opt.id;
+                    option.textContent = opt.name;
                     optionSelect.appendChild(option);
                 });
             } else {
@@ -73,8 +74,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const sizeSelect = document.getElementById('modal-size-select');
         const selectedSizeOption = sizeSelect.options[sizeSelect.selectedIndex];
         const sizeId = selectedSizeOption.value;
-        const sizeName = selectedSizeOption.getAttribute('data-size-name');
-        const price = selectedSizeOption.getAttribute('data-price');
 
         const option = document.getElementById('modal-option-select')?.value || null;
         const quantity = parseInt(document.getElementById('modal-qty').value);
@@ -82,14 +81,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const payload = {
             product_id: product.id,
-            name: product.name_en,
-            image_url: product.image ? `/storage/${product.image}` : 'https://via.placeholder.com/150',
             size_id: sizeId,
-            size: sizeName,
-            price: parseFloat(price),
             quantity: quantity,
             option: option,
-            total: parseFloat(price) * quantity
         };
         
 
@@ -115,6 +109,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     timerProgressBar: true,
                     showConfirmButton: false,
                   }).then(() => {
+                    this.closest('.modal').modal('hide'); // Hide the modal
+
                     // window.location.href = "/shop";
                   });
             } else {

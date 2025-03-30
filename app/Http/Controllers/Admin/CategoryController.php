@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Traits\HandleImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
+    use HandleImage;
     // Display a listing of categories
     public function index(Request $request)
     {
@@ -26,10 +28,12 @@ class CategoryController extends Controller
             'description_ar' => 'nullable|string|max:255',
             'name_en' => 'required|string|max:255',
             'name_ar' => 'required|string|max:255',
+            'category_id'=> 'nullable|exists:categories,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust the max size as needed
         ]);
 
-        // Generate slug from description_en or fallback to description_ar
-        $slug = Str::slug($request->description_en ?? $request->description_ar);
+        // Generate slug from name_en or fallback to name_ar
+        $slug = Str::slug($request->name_en ?? $request->name_ar);
 
         Category::create([
             'slug' => $slug,
@@ -37,7 +41,13 @@ class CategoryController extends Controller
             'name_ar' => $request->name_ar,
             'description_en' => $request->description_en,
             'description_ar' => $request->description_ar,
+            'category_id' => $request->category_id,
         ]);
+
+        // Handle image upload if provided
+        if ($request->hasFile('image')) {
+            $this->uploadImage($request->file('image'), 'categories');
+        }
 
         // Redirect back to the current page
         $currentPage = $request->get('page', 1);
@@ -62,8 +72,8 @@ class CategoryController extends Controller
             'name_ar' => 'required|string|max:255',
         ]);
 
-        // Generate slug from updated description_en or fallback to description_ar
-        $slug = Str::slug($request->description_en ?? $request->description_ar);
+        // Generate slug from updated name_en or fallback to name_ar
+        $slug = Str::slug($request->name_en ?? $request->name_ar);
 
         $category->update([
             'slug' => $slug,
@@ -72,6 +82,12 @@ class CategoryController extends Controller
             'description_en' => $request->description_en,
             'description_ar' => $request->description_ar,
         ]);
+
+        // Handle image upload if provided
+        if ($request->hasFile('image')) {
+            $this->destroyImage($category->image);
+            $this->uploadImage($request->file('image'), 'categories');
+        }
 
         // Redirect back to the current page
         $currentPage = $request->get('page', 1);

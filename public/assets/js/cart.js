@@ -75,6 +75,7 @@ function updateDeliveryFee(deliveryFee) {
     // Update the total value
     document.getElementById('total').textContent = total;//.toFixed(2);
 }
+
 function getAreas(cityId) {
     fetch(`${appUrl}/areas/${cityId}`)
         .then(response => response.json())
