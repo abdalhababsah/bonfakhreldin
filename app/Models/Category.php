@@ -37,6 +37,11 @@ class Category extends Model
         return $this->hasMany(Product::class);
     }
 
+    public function additions()
+    {
+        return $this->hasMany(Addition::class);
+    }
+
     // Localized Attributes
     public function getNameAttribute()
     {

@@ -21,7 +21,7 @@ class ProductController extends Controller
     {
         $locale = app()->getLocale();
 
-        $categories = Category::select('id', "name_$locale as name")->get();
+        $categories = Category::select('id', "name_$locale as name")->whereNull("category_id")->get();
 
         $query = Product::where('status', 'active');
 
@@ -45,7 +45,7 @@ class ProductController extends Controller
     }
     public function show($slug)
     {
-    $locale = app()->getLocale();
+        $locale = app()->getLocale();
 
         $product = Product::where('slug', $slug)
             ->with(['images', 'category' => function ($query) use ($locale) {

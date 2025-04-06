@@ -54,6 +54,11 @@ class Product extends Model
         return $this->hasMany(ProductOption::class);
     }
 
+    public function additions()
+    {
+        return $this->hasManyThrough(Addition::class, Category::class, 'id', 'category_id', 'category_id', 'id');
+    }
+
     // Localized Attributes
     public function getDescriptionAttribute()
     {

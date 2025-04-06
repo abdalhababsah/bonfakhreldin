@@ -12,11 +12,4 @@ class AreaController extends Controller
 
         return response()->json($areas);
     }
-
-    public function show($id)
-    {
-        $area = Area::findOrFail($id);
-
-        return view('pages.areas.show', compact('area'));
-    }
 }

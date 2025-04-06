@@ -53,6 +53,9 @@
         <select id="modal-option-select" class="form-select"></select>
     </div>
 
+    <div class="mb-3" id="modal-addtions-wrapper" style="display: none;">
+    </div>
+
     <div class="mb-3">
         <label for="modal-qty" class="form-label">Quantity</label>
         <input type="number" id="modal-qty" class="form-control" min="1" value="1">

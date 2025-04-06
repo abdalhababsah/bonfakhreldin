@@ -55,7 +55,6 @@ class OrderController extends Controller
             'delivery_fee' => $delivery_fee,
         ]);
         $order->{$request->deliverable}()->create($deliverableData);
-        // dd($order);
 
         $orderProducts = [];
         foreach ($cart['items'] as $product) {
@@ -65,6 +64,7 @@ class OrderController extends Controller
                 'quantity' => $product['quantity'],
                 'size' => $product['size'],
                 'option' => $product['option'],
+                'additions' => $product['additions'],
                 'price' => $product['price'],
                 'total_price' => $product['total'],
             ];

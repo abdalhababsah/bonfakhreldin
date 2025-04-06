@@ -65,6 +65,66 @@ document.addEventListener('DOMContentLoaded', function () {
                 optionSelect.innerHTML = '';
             }
 
+            const addtionWrapper = document.getElementById('modal-addtions-wrapper');
+
+            if (product.additions && product.additions.length > 0) {
+                addtionWrapper.style.display = 'block';
+                
+                const additionsContainer = document.createElement('div');
+                additionsContainer.classList.add('additions-container');
+
+                product.additions.forEach(add => {
+                    const additionWrapper = document.createElement('div');
+                    additionWrapper.classList.add('addition-wrapper');
+
+                    const input = document.createElement('input');
+                    input.type = 'checkbox';
+                    input.name = 'addition';
+                    input.value = add.id;
+                    input.id = `addition-${add.id}`;
+
+                    const label = document.createElement('label');
+                    label.setAttribute('for', `addition-${add.id}`);
+                    label.textContent = add.name;
+
+                    additionWrapper.appendChild(input);
+                    additionWrapper.appendChild(label);
+                    
+                    let qtyInput;
+                    if (add.with_qty) {
+                        qtyInput = document.createElement('input');
+                        qtyInput.type = 'number';
+                        qtyInput.min = 1;
+                        qtyInput.value = 1;
+                        qtyInput.classList.add('addition-qty');
+                        qtyInput.disabled = true; // Initially disabled
+                        additionWrapper.appendChild(qtyInput);
+                    }
+
+                    input.addEventListener('change', function () {
+                        // Uncheck all other checkboxes
+                        document.querySelectorAll('.additions-container input[type="checkbox"]').forEach(checkbox => {
+                            if (checkbox !== this) {
+                                checkbox.checked = false;
+                                const siblingQtyInput = checkbox.closest('.addition-wrapper').querySelector('.addition-qty');
+                                if (siblingQtyInput) {
+                                    siblingQtyInput.disabled = true; // Disable other qty inputs
+                                }
+                            }
+                        });
+
+                        if (qtyInput) {
+                            qtyInput.disabled = !this.checked; // Enable/disable qty input based on checkbox state
+                        }
+                    });
+
+                    additionsContainer.appendChild(additionWrapper);
+                });
+
+                addtionWrapper.innerHTML = '';
+                addtionWrapper.appendChild(additionsContainer);
+            }
+
             document.getElementById('modal-qty').value = 1;
         });
     });
@@ -83,11 +143,11 @@ document.addEventListener('DOMContentLoaded', function () {
             product_id: product.id,
             size_id: sizeId,
             quantity: quantity,
-            option: option,
+            option_id: option,
         };
         
 
-        fetch("/cart/add", {
+        fetch(appUrl + "/cart/add", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -96,11 +156,23 @@ document.addEventListener('DOMContentLoaded', function () {
             body: JSON.stringify(payload)
         })
         .then(response => {
+                if (response.headers.get('content-type').includes('application/json')) {
+                    return response.json();
+                } else {
+                    console.log(response);
+                    
+                    throw new Error('Response is not JSON');
+                }
             if (!response.ok) throw new Error("Network response was not ok");
             return response.json();
+        // })
+        // .then(response => {
         })
         .then(data => {
-            if (data.message === 'Added to cart') {
+        if (data.errors) {
+            console.log('Validation errors:', data.errors);
+        } else {
+            console.log('Success:', data);
                 Swal.fire({
                     title: "Done!",
                     text: "Added To Cart successfully!",
@@ -113,13 +185,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     // window.location.href = "/shop";
                   });
-            } else {
-                alert("There was an issue adding this product to your cart.");
-            }
+        }
         })
         .catch(error => {
-            console.error("❌ Error adding to cart:", error);
-            alert("There was an error processing your request.");
+        console.error('Error:', error);
         });
         
     });

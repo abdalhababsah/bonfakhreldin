@@ -14,7 +14,7 @@
 <!-- Language Switcher Banner End -->
 
 <!-- Header Section Start -->
-<div style="z-index: 6000;" class="header sticky-header section">
+<div class="header sticky-header section">
     <div class="container-fluid">
         <div class="row align-items-center">
             <!-- Menu Start -->

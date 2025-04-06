@@ -1,36 +1,4 @@
 
-function addToCart(){
-    let form = document.getElementById('add-to-cart-form');
-    const url = form.action;
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-        },
-        body: JSON.stringify({
-            size_id: form.querySelector('select[name="size_id"]').value,
-            quantity: form.querySelector('input[name="quantity"]').value
-        })
-        })
-        .then(response => {
-            if (response.headers.get('content-type').includes('application/json')) {
-                return response.json();
-            } else {
-                throw new Error('Response is not JSON');
-            }
-        })
-        .then(data => {
-        if (data.errors) {
-            console.log('Validation errors:', data.errors);
-        } else {
-            console.log('Success:', data);
-        }
-        })
-        .catch(error => {
-        console.error('Error:', error);
-        });
-}
 
 function removeItem(btn) {
     var form = btn.closest('form');
@@ -105,3 +73,85 @@ function toggleDeliveryMethod(value) {
     }
 }
 
+
+document.addEventListener('DOMContentLoaded', function () {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    document.querySelectorAll('.qty-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const input = this.closest('.product-quantity-count').querySelector('.product-quantity-box');
+            const isIncrement = this.classList.contains('inc');
+            let currentQty = parseInt(input.value);
+            const key = input.dataset.key;
+            const sizeId = input.dataset.sizeId;
+            const price = parseFloat(input.dataset.price);
+
+            if (isNaN(currentQty)) currentQty = 0;
+
+            const newQty = isIncrement ? currentQty + 1 : Math.max(currentQty - 1, 1);
+            input.value = newQty;
+
+            updateCartItem(key, newQty, price);
+        });
+    });
+
+    document.querySelectorAll('.product-quantity-box').forEach(input => {
+        input.addEventListener('input', function () {
+            const key = this.dataset.key;
+            const price = parseFloat(this.dataset.price);
+            let newQty = parseInt(this.value);
+
+            if (isNaN(newQty) || newQty < 1) {
+                newQty = 1;
+                this.value = newQty;
+            }
+
+            updateCartItem(key, newQty, price);
+        });
+    });
+
+    function updateCartItem(key, newQty, price) {
+        fetch(`/cart/update/${key}`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                quantity: newQty,
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                const newTotal = (newQty * price).toFixed(2);
+                document.getElementById(`total-${key}`).innerText = newTotal;
+
+                updateCartSubtotal();
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => console.error("Update failed", error));
+    }
+
+    function updateCartSubtotal() {
+        let subtotal = 0;
+        document.querySelectorAll('.quantity-input').forEach(input => {
+            const qty = parseFloat(input.value);
+            const price = parseFloat(input.dataset.price);
+            subtotal += qty * price;
+        });
+
+        document.getElementById('cart-subtotal').innerText = `${subtotal.toFixed(2)}`;
+    }
+});
+
+function confirmAndRemove(btn) {
+    if (confirm('Are you sure you want to remove this item?')) {
+        btn.closest('form').submit();
+        return true;
+    }
+    return false;
+}

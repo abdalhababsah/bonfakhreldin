@@ -332,17 +332,17 @@ const assetBase = `${appUrl}/storage/`;
         bottomSpacing: 60
     });
 
-    /* Product Quantity */
-    $('.product-quantity-count').on('click', '.qty-btn', function (e) {
-        e.preventDefault()
-        const $btn = $(this),
-            $box = $btn.siblings('.product-quantity-box')[0];
-        if ($btn.hasClass('inc')) {
-            $box.value = Number($box.value) + 1
-        } else if ($btn.hasClass('dec') && Number($box.value) > 1) {
-            $box.value = Number($box.value) - 1
-        }
-    })
+    // /* Product Quantity */
+    // $('.product-quantity-count').on('click', '.qty-btn', function (e) {
+    //     e.preventDefault()
+    //     const $btn = $(this),
+    //         $box = $btn.siblings('.product-quantity-box')[0];
+    //     if ($btn.hasClass('inc')) {
+    //         $box.value = Number($box.value) + 1
+    //     } else if ($btn.hasClass('dec') && Number($box.value) > 1) {
+    //         $box.value = Number($box.value) - 1
+    //     }
+    // })
 
     /* Shipping Form Toggle */
     if ($('[data-toggle-shipping]').length) {

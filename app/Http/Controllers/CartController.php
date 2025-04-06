@@ -31,10 +31,10 @@ class CartController extends Controller
         return view('pages.checkout.index', compact('cart', 'cities'));
     }
 
-    public function add(CartAddRequest $request, $id)
+    public function add(CartAddRequest $request)
     {
         try {
-            $msg = $this->cartService->add($id, $request->quantity, $request->size_id);
+            $msg = $this->cartService->add($request->product_id, $request->quantity, $request->size_id, $request->option_id, $request->additions);
         } catch (Exception $e) {
             $msg = [
                 'status' => 'error',
@@ -43,10 +43,10 @@ class CartController extends Controller
         }
         return $msg;
     }
-    public function update(CartAddRequest $request, $id)
+    public function update(Request $request, $key)
     {
         try {
-            $msg = $this->cartService->updateQuantity($id, $request->quantity, $request->size_id);
+            $msg = $this->cartService->updateQuantity($key, $request->quantity);
         } catch (Exception $e) {
             $msg = [
                 'status' => 'error',

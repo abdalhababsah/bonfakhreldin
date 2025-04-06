@@ -28,28 +28,51 @@
                             <td class="image">
                                 <img src="{{ $item['image_url'] }}" alt="{{ $item['name'] }}" style="width: 60px;">
                             </td>
-                            <td class="product">{{ $item['name'] }}</td>
+                            <td class="product">
+                                {{ $item['name'] }}
+                                @isset($item['option'])
+                                -
+                                <span>{{ $item['option'] }}</span>
+                                @endisset
+                                @if(!empty($item['additions']))
+                                <br>
+                                <ul>
+                                @foreach ($item['additions'] as $itemAddition)
+                                <li>
+                                    <small>{{ $itemAddition['name'] ?? 'NAN' }}</small>
+                                </li>
+                                @endforeach
+                                </ul>
+                                @endif
+                            </td>
                             <td class="size">{{ $item['size'] }}</td>
                             <td class="price">{{ number_format($item['price'], 2) }} JOD</td>
                             <td class="quantity">
-                                <input
-                                type="number" 
-                                name="quantity" 
-                                class="form-control quantity-input"
-                                data-product-id="{{ $item['product_id'] }}"
-                                data-size-id="{{ $item['size_id'] }}"
-                                data-price="{{ $item['price'] }}"
-                                value="{{ $item['quantity'] }}"
-                                >
+                                <div class="single-product-actions">
+                                    <div class="single-product-actions-item">
+                                        <div class="product-quantity-count">
+                                            <button class="dec qty-btn">-</button>
+                                            <input class="product-quantity-box quantity-input" type="number" name="quantity"
+                                            data-product-id="{{ $item['product_id'] }}"
+                                            data-size-id="{{ $item['size_id'] }}"
+                                            data-price="{{ $item['price'] }}"
+                                            data-key="{{ $item['key'] }}"
+                                            value="{{ $item['quantity'] }}"
+                                            >
+                                            <button class="inc qty-btn">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Removed redundant input to avoid conflicts -->
                             </td>
                             <td class="total">
-                                <span id="total-{{ $item['product_id'] }}-{{ $item['size_id'] }}">
+                                <span id="total-{{ $item['key'] }}">
                                     {{ number_format($item['total'], 2) }}
                                 </span>
                                  JOD
                             </td>
                             <td>
-                            <form action="{{ url('cart/remove', $item['product_id'] . '-' . $item['size_id']) }}" method="POST" class="remove-item-form">
+                            <form action="{{ url('cart/remove', $item['key']) }}" method="POST" class="remove-item-form">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn remove-item-btn" onclick="return confirmAndRemove(this);">
@@ -85,69 +108,4 @@
         </div>
     </div>
 </div>
-@endsection
-
-@section('scripts')
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-    document.querySelectorAll('.quantity-input').forEach(input => {
-        input.addEventListener('change', function () {
-            const productId = this.dataset.productId;
-            const sizeId = this.dataset.sizeId;
-            const newQty = parseInt(this.value);
-            const price = parseFloat(this.dataset.price);
-            const totalSpan = document.getElementById(`total-${productId}-${sizeId}`);
-
-            if (isNaN(newQty) || newQty < 1) return;
-
-            fetch(`/cart/update/${productId}-${sizeId}`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken,
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    quantity: newQty,
-                    size_id: sizeId
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    const newTotal = (newQty * parseFloat(this.dataset.price)).toFixed(2);
-                    document.getElementById(`total-${productId}-${sizeId}`).innerText = newTotal;
-
-                    updateCartSubtotal();
-                } else {
-                    alert(data.message);
-                }
-            })
-            .catch(error => console.error("Update failed", error));
-        });
-    });
-
-    function updateCartSubtotal() {
-        let subtotal = 0;
-        document.querySelectorAll('.quantity-input').forEach(input => {
-            const qty = parseFloat(input.value);
-            const price = parseFloat(input.dataset.price);
-            subtotal += qty * price;
-        });
-
-        document.getElementById('cart-subtotal').innerText = `${subtotal.toFixed(2)}`;
-    }
-});
-
-function confirmAndRemove(btn) {
-    if (confirm('Are you sure you want to remove this item?')) {
-        btn.closest('form').submit();
-        return true;
-    }
-    return false;
-}
-
-</script>
 @endsection

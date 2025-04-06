@@ -22,6 +22,7 @@ return new class extends Migration
             $table->decimal('total_price', 10, 2);
             $table->string('size')->nullable();
             $table->string('option')->nullable();
+            $table->json('additions')->nullable();
             $table->timestamps();
         });
     }

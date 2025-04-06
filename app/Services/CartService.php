@@ -2,11 +2,12 @@
 
 namespace App\Services;
 
+use App\Models\Addition;
 use App\Models\Product;
 use App\Models\ProductSize;
 use App\Models\ProductOption;
 use Illuminate\Support\Facades\Cookie;
-use Log;
+use Illuminate\Support\Facades\Log;
 
 class CartService
 {
@@ -45,7 +46,7 @@ class CartService
             $additionKeys = array_map(function ($addition) {
                 return $addition['id'] . 'x' . $addition['quantity'];
             }, $additions);
-            $cartItemKey .= '-additions:' . implode(',', $additionKeys);
+            $cartItemKey .= implode(',', $additionKeys);
         }
 
         $existingQty = isset($cart[$cartItemKey]) ? $cart[$cartItemKey] : 0;
@@ -88,26 +89,26 @@ class CartService
      * @param int $sizeId
      * @return array
      */
-    public function updateQuantity($productId, $quantity, $sizeId = null)
+    public function updateQuantity($key, $quantity)
     {
         if ($quantity < 1) {
             return ['status' => 'error', 'message' => __('cart.invalid_quantity')];
         }
 
-        $product = Product::find($productId);
+        // $product = Product::find($productId);
 
-        if (!$product || !$product->is_active) {
-            return ['status' => 'error', 'message' => __('cart.product_not_found')];
-        }
+        // if (!$product || !$product->is_active) {
+        //     return ['status' => 'error', 'message' => __('cart.product_not_found')];
+        // }
 
         $cart = $this->getCookieCart();
 
-        if (!isset($cart[$productId. '-' . $sizeId])) {
+        if (!isset($cart[$key])) {
             return ['status' => 'error', 'message' => __('cart.product_not_in_cart')];
         }
 
         // Update the quantity in the guest cart
-        $cart[$productId. '-' . $sizeId] = $quantity;
+        $cart[$key] = $quantity;
         $this->save($cart);
 
         return ['status' => 'success', 'message' => __('cart.cart_updated')];
@@ -127,19 +128,39 @@ class CartService
             $productId = $keyParts[0];
             $productSize = isset($keyParts[1]) ? ProductSize::find($keyParts[1]) : null;
             $productOption = isset($keyParts[2]) ? ProductOption::find($keyParts[2]) : null;
+            $productAdditions = isset($keyParts[3]) ? explode(',', str_replace('additions:', '', $keyParts[3])) : [];
+            $additionsDetails = [];
+
+            foreach ($productAdditions as $addition) {
+                list($additionId, $additionQuantity) = explode('x', $addition);
+                $additionModel = Addition::find($additionId);
+                $additionsTotal = 0;
+                if ($additionModel) {
+                    $additionsDetails[] = [
+                        'id' => $additionModel->id,
+                        'name' => $additionModel->name,
+                        'price' => $additionModel->price,
+                        'quantity' => $additionQuantity,
+                        'total' => $additionModel->price * $additionQuantity,
+                    ];
+                    $additionsTotal += $additionModel->price * $additionQuantity;
+                }
+            }
             $product = Product::find($productId);
 
             if ($product && $product->status == 'active') {
                 $items[] = [
                     'product_id' => $product->id,
+                    'key' => $key,
                     'name' => $product->name,
-                    'price' => $productSize?->price,
+                    'price' => $productSize?->price + ($additionsTotal ?? 0),
                     'size_id' => $productSize?->id,
                     'size' => $productSize?->value,
                     'option' => $productOption?->name,
+                    'additions' => $additionsDetails,
                     'quantity' => $quantity,
                     'total' => $quantity * $productSize->price,
-                    'image_url' => $product->primaryImage ? asset('storage/' . $product->primaryImage->image_url) : 'https://via.placeholder.com/262x370',
+                    'image_url' => $product->primaryImage ? asset('storage/' . $product->primaryImage->image_url) : 'https://placehold.co/262x370',
                 ];
             }
         }
@@ -156,7 +177,7 @@ class CartService
         $total = 0;
 
         foreach ($items as $item) {
-            $productTotal = $item['price'] * $item['quantity'];//discounted_
+            $productTotal = $item['price'] * $item['quantity'];
             $total += $productTotal;
         }
 
@@ -192,8 +213,10 @@ class CartService
         $items = $this->getItems($cart); // Fetch cart items
         $totalPrice = $this->getTotalPrice($items); // Calculate total price
 
-        $sessionCart = session()->get('cart', ['items' => [], 'totalPrice' => 0]);
-        return $sessionCart;
+        return [
+            'items' => $items,
+            'totalPrice' => $totalPrice,
+        ];
     }
 
     public function clear()

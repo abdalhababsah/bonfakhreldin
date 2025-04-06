@@ -41,8 +41,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     
-
-
     <link rel="stylesheet" href="{{ asset('assets/css/plugins/simple-line-icons.min.css') }}">
 
     <!-- Plugins CSS -->
@@ -56,6 +54,9 @@
         <!-- RTL CSS -->
         <link rel="stylesheet" href="{{ asset('assets/css/rtl.css') }}">
     @endif
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.10.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.10.0/mapbox-gl.js"></script>
+
     <!-- Open Graph Meta Tags for Facebook, WhatsApp, Instagram -->
     <meta property="og:title" content="bon fakhreldin - Coffee Shop">
     <meta property="og:description"

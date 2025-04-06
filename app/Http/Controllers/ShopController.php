@@ -3,17 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use App\Models\ProductSize;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Log;
-
 class ShopController extends Controller
 {
     public function index(Request $request)
     {
-        $categories = Category::all();
+        $categories = Category::whereNull("category_id")->with(["children"])->get();
 
         return view('pages.shop.index', compact('categories'));
     }
@@ -25,9 +21,10 @@ class ShopController extends Controller
         //     return view('pages.shop.subcategories', compact('category'));
         // }
         $products = $category->products()
-            ->with(['sizes', 'images', 'options'])
+            ->with(['sizes', 'images', 'options','additions'])
             ->where('status', 'active')
             ->paginate(9);
+
         return view('pages.shop.products', compact('products'));
     }
 
