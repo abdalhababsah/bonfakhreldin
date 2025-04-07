@@ -12,6 +12,21 @@
         </div>
         <form action="{{ url('orders/store') }}" method="POST">
             <div class="row">
+                
+                @if ($errors->any())
+                <div class="col-sm-12 mt-10">
+                    <div class="alert alert-danger alert-dismissible show" role="alert">
+                        <ul class="ul-validate">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+                @endif
                 <!-- Billing Details -->
                 <div class="col-lg-8">
                     <div class="checkout-box">
@@ -19,19 +34,19 @@
                         @csrf
                         <div class="form-group">
                             <label for="name">{{ __('Name') }}</label>
-                            <input type="text" name="name" id="name" class="form-field" value="{{old('name')}}" required>
+                            <input type="text" name="name" id="name" class="form-field" value="{{old('name')}}" required minlength="2" maxlength="75">
                         </div>
                         <div class="form-group">
                             <label for="email">{{ __('Email') }}</label>
-                            <input type="email" name="email" id="email" class="form-field" value="{{old('email')}}" required>
+                            <input type="email" name="email" id="email" class="form-field" value="{{old('email')}}" required minlength="5" maxlength="75">
                         </div>
                         <div class="form-group">
                             <label for="phone">{{ __('Phone') }}</label>
-                            <input type="text" name="phone" id="phone" class="form-field" value="{{old('phone')}}" required>
+                            <input type="text" name="phone" id="phone" class="form-field" value="{{old('phone')}}" required minlength="9" maxlength="15">
                         </div>
                         <div class="form-group">
                             <label for="notes">{{ __('Notes') }}</label>
-                            <textarea name="notes" id="notes" class="form-field"></textarea>
+                            <textarea name="notes" id="notes" class="form-field" maxlength="400"></textarea>
                         </div>
                     </div>
                 </div>
@@ -47,8 +62,7 @@
                                         <td>
                                             {{ $item['name'] }}-{{$item['size']}}
                                             @if ($item['option'])
-                                            <br>
-                                            <small>{{$item['option']}}</small>
+                                            -{{$item['option']}}
                                             @endif
                                         </td>
                                         {{-- <td>x {{ $item['quantity'] }}</td> --}}
@@ -102,31 +116,9 @@
                                     <label for="address">{{ __('Address') }}</label>
                                     <input type="text" name="address" id="address" class="form-field" value="{{old('address')}}">
                                 </div>
-                                <div id="map" style="width: 100%; height: 500px;"></div>
-                                <script>
-                                    // You should store your access token in an environment variable
-mapboxgl.accessToken = '{{ env('MAPBOX_ACCESS_TOKEN') }}';
-
-const map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/mapbox/streets-v12',
-    center: [-24, 42],
-    zoom: 1
-});
-
-// Add geolocate control to the map
-map.addControl(
-    new mapboxgl.GeolocateControl({
-        positionOptions: {
-            enableHighAccuracy: true
-        },
-        // When active the map will receive updates to the device's location as it changes
-        trackUserLocation: true,
-        // Draw an arrow next to the location dot to indicate which direction the device is heading
-        showUserHeading: true
-    })
-);
-                                </script>
+                                <div id="orderMap" class="my-3"></div>
+                                <input type="hidden" name="longitude" id="longitude">
+                                <input type="hidden" name="latitude" id="latitude">
                             </div>
                         </div>
                         <div id="pickup_branch" style="display: none;">
@@ -148,4 +140,8 @@ map.addControl(
             </div>
         </form>
     </div>
+@endsection
+
+@section('scripts')
+    <script src="{{url('/assets/js/checkout.js')}}"></script>
 @endsection

@@ -138,12 +138,20 @@ document.addEventListener('DOMContentLoaded', function () {
         const option = document.getElementById('modal-option-select')?.value || null;
         const quantity = parseInt(document.getElementById('modal-qty').value);
         const product = window.selectedProduct;
+        const additions = {};
+        document.querySelectorAll('.additions-container input[type="checkbox"]:checked').forEach(checkbox => {
+            const additionId = checkbox.value;
+            const qtyInput = checkbox.closest('.addition-wrapper').querySelector('.addition-qty');
+            const quantity = qtyInput ? parseInt(qtyInput.value) : 1;
+            additions[additionId] = quantity;
+        });
 
         const payload = {
             product_id: product.id,
             size_id: sizeId,
             quantity: quantity,
             option_id: option,
+            additions: additions,
         };
         
 
@@ -156,17 +164,15 @@ document.addEventListener('DOMContentLoaded', function () {
             body: JSON.stringify(payload)
         })
         .then(response => {
-                if (response.headers.get('content-type').includes('application/json')) {
-                    return response.json();
-                } else {
-                    console.log(response);
-                    
-                    throw new Error('Response is not JSON');
-                }
-            if (!response.ok) throw new Error("Network response was not ok");
-            return response.json();
-        // })
-        // .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            const contentType = response.headers.get('content-type');
+            if (contentType && contentType.includes('application/json')) {
+                return response.json();
+            } else {
+                throw new Error('Response is not JSON');
+            }
         })
         .then(data => {
         if (data.errors) {

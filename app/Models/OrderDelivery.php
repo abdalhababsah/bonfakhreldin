@@ -8,6 +8,8 @@ class OrderDelivery extends Model
 {
     protected $fillable =[
         'delivery_fee',
+        'longitude',
+        'latitude',
         'address',
         'area_id',
         'order_id',

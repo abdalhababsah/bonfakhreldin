@@ -34,7 +34,7 @@ class CartController extends Controller
     public function add(CartAddRequest $request)
     {
         try {
-            $msg = $this->cartService->add($request->product_id, $request->quantity, $request->size_id, $request->option_id, $request->additions);
+            $msg = $this->cartService->add($request->all());
         } catch (Exception $e) {
             $msg = [
                 'status' => 'error',

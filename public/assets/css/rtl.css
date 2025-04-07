@@ -239,11 +239,6 @@ input[type="text"] {
   overflow-y: auto !important;
 }
 
-#map {
-  width: 100% !important;
-  height: 600px !important;
-
-}
 select.form-field {
   text-align: right !important;
   background-position: center left 20px !important;

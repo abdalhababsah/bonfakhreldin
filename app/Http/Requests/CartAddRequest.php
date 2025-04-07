@@ -17,7 +17,6 @@ class CartAddRequest extends FormRequest
      */
     public function rules(): array
     {
-        Log::info('Adding to cart', request()->all());
         return [
             "size_id"=> ["required","integer",Rule::exists('product_sizes','id')->where('product_id', request('product_id'))],
             "option_id"=> ["nullable","integer",Rule::exists('product_options','id')->where('product_id', request('product_id'))],

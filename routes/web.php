@@ -19,6 +19,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HomeController;
+use App\Http\Middleware\CheckCartNotEmpty;
 use Illuminate\Support\Facades\Route;
 // Home Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -51,7 +52,7 @@ Route::controller(CartController::class)->prefix('cart')->group(function () {
     Route::delete('/remove/{key}', 'delete')->name('cart.remove');
     Route::post('/clear', 'clear')->name('cart.clear');
     Route::get('/countItem', 'countItem')->name('cart.countItem');
-    Route::get('/checkout', 'checkout')->name('cart.checkout');
+    Route::middleware(CheckCartNotEmpty::class)->get('/checkout', 'checkout')->name('cart.checkout');
 });
 
 
@@ -102,8 +103,8 @@ Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/product/{slug}', [ShopController::class, 'show'])->name('product.show');
 
 
-Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout.show');
-Route::post('/checkout', [CheckoutController::class, 'submit'])->name('checkout.submit');
+Route::middleware(CheckCartNotEmpty::class)->get('/checkout', [CheckoutController::class, 'show'])->name('checkout.show');
+Route::post('/checkout', [CheckoutController::class, 'submit'])->name('checkout.submit')->middleware(CheckCartNotEmpty::class);
 
 
 Route::post('/admin/products', [ProductController::class, 'store'])->name('admin.products.store');

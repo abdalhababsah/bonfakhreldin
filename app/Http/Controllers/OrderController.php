@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\OrderStatusEnums;
 use App\Http\Requests\OrderRequest;
+use App\Models\City;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Services\CartService;
@@ -45,13 +46,10 @@ class OrderController extends Controller
             'notes' => $request->notes,
             'total_price' => $cart['totalPrice'],
             'deliverable' => $request->deliverable,
-            // 'delivery_fee' => $cart['delivery_fee'] ?? 0,
-            // 'address' => $request->address,
-            // 'area_id' => $request->area_id,
         ]);
         
-        $delivery_fee = $order->city?->delivery_fee;
-        $deliverableData = array_merge($request->only('branch', 'area_id', 'address'), [
+        $delivery_fee = City::find($request->city_id)?->delivery_fee ?? 0;
+        $deliverableData = array_merge($request->only('branch', 'area_id', 'address', 'longitude', 'latitude'), [
             'delivery_fee' => $delivery_fee,
         ]);
         $order->{$request->deliverable}()->create($deliverableData);
@@ -63,8 +61,8 @@ class OrderController extends Controller
                 'product_id' => $product['product_id'],
                 'quantity' => $product['quantity'],
                 'size' => $product['size'],
-                'option' => $product['option'],
-                'additions' => $product['additions'],
+                'option' => $product['option'] ?? null,
+                'additions' => json_encode($product['additions'] ?? []),
                 'price' => $product['price'],
                 'total_price' => $product['total'],
             ];

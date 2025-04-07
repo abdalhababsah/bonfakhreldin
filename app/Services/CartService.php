@@ -22,16 +22,12 @@ class CartService
     /**
      * Add a product to the cart with options and additions.
      *
-     * @param int $productId
-     * @param int $quantity
-     * @param int|null $sizeId
-     * @param int|null $option
-     * @param array $additions
+     * @param array $data
      * @return array
      */
-    public function add($productId, $quantity = 1, $sizeId = null, $optionId = null, $additions = [])
+    public function add($data)
     {
-        $product = Product::find($productId);
+        $product = Product::find($data['product_id']);
 
         if (!$product || $product->status != 'active') {
             Log::error('Product not found or not active');
@@ -39,18 +35,19 @@ class CartService
         }
 
         $cart = $this->getCookieCart();
-        $cartItemKey = $productId . '-' . $sizeId . '-' . $optionId;
+        $cartItemKey = $data['product_id'] . '-' . $data['size_id'] . '-' . $data['option_id'];
 
         // Include additions in the cart key
-        if (!empty($additions)) {
-            $additionKeys = array_map(function ($addition) {
-                return $addition['id'] . 'x' . $addition['quantity'];
-            }, $additions);
-            $cartItemKey .= implode(',', $additionKeys);
+        if (!empty($data['additions'])) {
+            $additionKeys = array_map(function ($quantity, $key) {
+            return $key . 'x' . $quantity;
+            }, $data['additions'], array_keys($data['additions']));
+            Log::info('Addition keys', $additionKeys);
+            $cartItemKey .= '-' . implode(',', $additionKeys);
         }
 
         $existingQty = isset($cart[$cartItemKey]) ? $cart[$cartItemKey] : 0;
-        $newQuantity = $existingQty + $quantity;
+        $newQuantity = $existingQty + $data['quantity'];
 
         $cart[$cartItemKey] = $newQuantity;
         $this->save($cart);
@@ -128,7 +125,7 @@ class CartService
             $productId = $keyParts[0];
             $productSize = isset($keyParts[1]) ? ProductSize::find($keyParts[1]) : null;
             $productOption = isset($keyParts[2]) ? ProductOption::find($keyParts[2]) : null;
-            $productAdditions = isset($keyParts[3]) ? explode(',', str_replace('additions:', '', $keyParts[3])) : [];
+            $productAdditions = isset($keyParts[3]) ? explode(',',  $keyParts[3]) : [];
             $additionsDetails = [];
 
             foreach ($productAdditions as $addition) {
@@ -149,17 +146,18 @@ class CartService
             $product = Product::find($productId);
 
             if ($product && $product->status == 'active') {
+                $productPrice = $productSize ? $productSize->price + ($additionsTotal ?? 0) : 0;
                 $items[] = [
                     'product_id' => $product->id,
                     'key' => $key,
                     'name' => $product->name,
-                    'price' => $productSize?->price + ($additionsTotal ?? 0),
+                    'price' => $productPrice ,
                     'size_id' => $productSize?->id,
                     'size' => $productSize?->value,
                     'option' => $productOption?->name,
                     'additions' => $additionsDetails,
                     'quantity' => $quantity,
-                    'total' => $quantity * $productSize->price,
+                    'total' => $quantity * $productPrice,
                     'image_url' => $product->primaryImage ? asset('storage/' . $product->primaryImage->image_url) : 'https://placehold.co/262x370',
                 ];
             }

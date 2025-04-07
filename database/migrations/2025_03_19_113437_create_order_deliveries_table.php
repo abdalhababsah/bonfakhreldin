@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('order_deliveries', function (Blueprint $table) {
             $table->id();
             $table->decimal('delivery_fee', 10, 2);
+            $table->decimal('longitude', 11, 8)->nullable();
+            $table->decimal('latitude', 10, 8)->nullable();
             $table->text('address');
             $table->foreignIdFor(Area::class);
             $table->foreignIdFor(Order::class);

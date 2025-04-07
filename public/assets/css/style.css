@@ -6326,6 +6326,15 @@ only screen and (max-width: 575px) {
   height: 600px;
 }
 
+#orderMap {
+  width: 100%;
+  height: 300px;
+}
+
+#orderMap canvas{
+  width: 100%;
+  height: auto;
+}
 #branch-list {
   margin-top: 20px;
 }
