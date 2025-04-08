@@ -23,14 +23,6 @@ class CartController extends Controller
         return view('pages.cart.index', compact('cart'));
     }
 
-    public function checkout()
-    {
-        $cart = $this->cartService->getCartDetails();
-        $cities = City::all();
-
-        return view('pages.checkout.index', compact('cart', 'cities'));
-    }
-
     public function add(CartAddRequest $request)
     {
         try {

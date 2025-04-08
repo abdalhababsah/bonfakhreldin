@@ -181,15 +181,16 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log('Success:', data);
                 Swal.fire({
                     title: "Done!",
-                    text: "Added To Cart successfully!",
-                    icon: "success",
+                    text: data.message,
+                    icon: data.status,
                     timer: 1500, 
                     timerProgressBar: true,
                     showConfirmButton: false,
                   }).then(() => {
-                    this.closest('.modal').modal('hide'); // Hide the modal
-
-                    // window.location.href = "/shop";
+                    const modal = bootstrap.Modal.getInstance(this.closest('.modal'));
+                    if (modal) {
+                        modal.hide(); // Properly hide the modal using Bootstrap's method
+                    }
                   });
         }
         })

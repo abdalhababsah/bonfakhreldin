@@ -44,16 +44,32 @@ Route::get('/branches', [PageController::class, 'branches'])->name('branches');
 Route::get('/products', [UserProductController::class, 'index'])->name('products.index');
 Route::get('/products/data', [UserProductController::class, 'productData'])->name('products.data');
 
-// User fetch cart
-Route::controller(CartController::class)->prefix('cart')->group(function () {
-    Route::get('/', 'index')->name('cart.index');
-    Route::post('/add/{id}', 'add')->name('cart.add');
-    Route::post('/update', 'update')->name('cart.update');
-    Route::delete('/remove/{key}', 'delete')->name('cart.remove');
-    Route::post('/clear', 'clear')->name('cart.clear');
-    Route::get('/countItem', 'countItem')->name('cart.countItem');
-    Route::middleware(CheckCartNotEmpty::class)->get('/checkout', 'checkout')->name('cart.checkout');
+
+// Shop routes
+Route::controller(ShopController::class)->prefix('shop')->name('shop.')->group(function () {
+    Route::get('/',  'index')->name('index');
+    Route::get('/{slug}', 'category');
 });
+
+
+// User fetch cart
+Route::controller(CartController::class)->prefix('cart')->name('cart.')->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::post('/add', 'add')->name('add');
+    Route::post('/update/{key}', 'update')->name('update');
+    Route::delete('/remove/{key}', 'delete')->name('remove');
+    Route::post('/clear', 'clear')->name('clear');
+    Route::get('/count', 'countItem')->name('countItem');
+});
+
+Route::middleware(['throttle:web', CheckCartNotEmpty::class])->controller(CheckoutController::class)
+    ->prefix('checkout')->name('checkout.')->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::post('/', 'submit');
+});
+
+// User fetch areas
+Route::get('/areas/{city_id}', [UserAreaController::class, 'getByCity']);
 
 
 // User fetch orders
@@ -63,9 +79,6 @@ Route::controller(OrderController::class)->prefix('orders')->group(function () {
     Route::get('/data', 'orderData');
     Route::get('/{id}', 'show');
 });
-
-// User fetch areas
-Route::get('/areas/{city_id}', [UserAreaController::class, 'getByCity']);
 
 // Admin Authentication Routes
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -98,24 +111,5 @@ Route::prefix('admin')->name('admin.')->group(function () {
 });
 
 
-// Shop routes
-Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
-Route::get('/product/{slug}', [ShopController::class, 'show'])->name('product.show');
+// Route::post('/admin/products', [ProductController::class, 'store'])->name('admin.products.store');
 
-
-Route::middleware(CheckCartNotEmpty::class)->get('/checkout', [CheckoutController::class, 'show'])->name('checkout.show');
-Route::post('/checkout', [CheckoutController::class, 'submit'])->name('checkout.submit')->middleware(CheckCartNotEmpty::class);
-
-
-Route::post('/admin/products', [ProductController::class, 'store'])->name('admin.products.store');
-
-
-Route::post('/cart/add', [CartController::class, 'add']);
-Route::post('/cart/update/{id}', [CartController::class, 'update']);
-Route::get('/cart/count', [CartController::class, 'countItem']);
-
-
-Route::delete('/cart/remove/{key}', [CartController::class, 'delete']);
-
-
-Route::get('/shop/{slug}', [ShopController::class, 'category']);

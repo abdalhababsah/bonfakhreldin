@@ -21,7 +21,7 @@ class OrderRequest extends FormRequest
             'phone' => ['required', 'numeric', 'digits_between:9,15'],
             'notes' => ['nullable', 'max:500'],
             'address' => ['required_if:deliverable,'.OrderDeliverableEnums::Delivery->value, 'max:500'],
-            'area_id' => ['required_if:deliverable,'.OrderDeliverableEnums::Delivery->value, 'exists:areas,id'],
+            'area_id' => ['nullable', 'required_if:deliverable,'.OrderDeliverableEnums::Delivery->value, 'exists:areas,id'],
             'branch' => ['required_if:deliverable,'.OrderDeliverableEnums::Pickup->value],
             'deliverable' => ['required', Rule::in(OrderDeliverableEnums::cases())]
         ];
