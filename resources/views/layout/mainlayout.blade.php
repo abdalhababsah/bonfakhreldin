@@ -6,7 +6,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
     <!-- Dynamic Page Title -->
-    <title>@yield('title', 'bon fakhreldin - Coffee Shop')</title>
+    <title>{{__('bonfakhreldin')}} -@yield('title', ' Coffee Shop')</title>
 
     <!-- SEO Meta Tags -->
     <meta name="url" content="{{url('/')}}" />
@@ -16,7 +16,8 @@
         content="اكتشف رحلة قهوة فخر الدين، شبكتنا المزدهرة التي تضم أكثر من 25 فرعاً في الأردن. نحن ملتزمون بتقديم أفضل أنواع القهوة المحمصة بعناية لنكون جزءاً من يومك." />
     <meta name="keywords"
         content="قهوة, قهوة فخر الدين, بن فخر الدين, أفضل قهوة في الأردن, محمصة القهوة, مقهى, رحلة القهوة, قيم القهوة" />
-
+    @yield('meta')
+    
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Canonical URL -->
@@ -36,13 +37,13 @@
 
     <link rel="stylesheet" href="{{ asset('assets/css/vendor/bootstrap.min.css') }}">
 
-
+    
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     
     <link rel="stylesheet" href="{{ asset('assets/css/plugins/simple-line-icons.min.css') }}">
-
+    
     <!-- Plugins CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/plugins/swiper-bundle.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/plugins/magnific-popup.css') }}">
@@ -56,6 +57,7 @@
     @endif
     <link href="https://api.mapbox.com/mapbox-gl-js/v3.10.0/mapbox-gl.css" rel="stylesheet">
     <script src="https://api.mapbox.com/mapbox-gl-js/v3.10.0/mapbox-gl.js"></script>
+    @yield('styles')
 
     <!-- Open Graph Meta Tags for Facebook, WhatsApp, Instagram -->
     <meta property="og:title" content="bon fakhreldin - Coffee Shop">
@@ -145,7 +147,6 @@
     <!-- Activation JS -->
     <script src="{{ asset('assets/js/active.js') }}"></script>
 
-    <script src="{{asset('assets/js/cart.js')}}"></script>
     @yield('scripts')
 </body>
 

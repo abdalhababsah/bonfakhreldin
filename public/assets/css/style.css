@@ -4074,7 +4074,8 @@ only screen and (max-width: 575px) {
   flex: 1 0;
 }
 
-.single-product-variations li .value [class*=single-product-variation] input {
+.single-product-variations li .value [class*=single-product-variation] input[type="radio"],
+.single-product-variations li .value [class*=single-product-variation] input[type="checkbox"] {
   position: absolute;
   top: 0;
   left: 0;
@@ -4148,6 +4149,25 @@ only screen and (max-width: 575px) {
   max-height: 24px;
 }
 
+/* Product Variation others */
+.single-product-variation-wrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.single-product-variation-item {
+  position: relative;
+}
+
+.single-product-variation-item input:checked~label {
+  color: #126442;
+  border: solid #126442;
+}
+
 /* Product Variation Size */
 .single-product-variation-size-wrap {
   display: -webkit-box;
@@ -4178,13 +4198,13 @@ only screen and (max-width: 575px) {
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  width: 24px;
   height: 24px;
   cursor: pointer;
   -webkit-transition: all 0.4s ease 0s;
   transition: all 0.4s ease 0s;
   text-transform: uppercase;
   background-color: #eff1f4;
+  padding: 1px;
 }
 
 /* Product Variation Color */
@@ -4259,6 +4279,11 @@ only screen and (max-width: 575px) {
   transition: all 0.4s ease 0s;
   text-transform: capitalize;
   color: rgba(51, 51, 51, 0.65);
+}
+
+.addition-qty {
+  width: 20px;
+  text-align: center;
 }
 
 /* Single Product Description Area */
@@ -5400,6 +5425,7 @@ label {
   line-height: 1.25;
   display: block;
   margin-bottom: 10px;
+  padding: 10px;
 }
 
 /* Form Field Select */

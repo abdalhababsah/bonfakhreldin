@@ -442,4 +442,14 @@ const assetBase = `${appUrl}/storage/`;
 })(jQuery);
 
 
+function updateCartCount() {
+    fetch('/cart/count')
+        .then(response => response.json())
+        .then(data => {
+            document.querySelector('.cart-count').innerText = data.count;
+        })
+        .catch(error => console.error('Error updating cart count:', error));
+}
 
+// Call this function initially to sync the count
+updateCartCount();

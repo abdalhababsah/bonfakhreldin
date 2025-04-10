@@ -16,9 +16,8 @@ class CreateProductsTable extends Migration
             $table->text('description_en')->nullable();
             $table->text('description_ar')->nullable();
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
-            $table->timestamps();
             $table->enum('status', ['active', 'inactive'])->default('active');
-
+            $table->timestamps();
         });
     }
 

@@ -17,15 +17,14 @@ class ShopController extends Controller
     public function category($slug){
         $category = Category::where('slug', $slug)->first();
 
-        // if ($category->has('subcategories')){
-        //     return view('pages.shop.subcategories', compact('category'));
-        // }
         $products = $category->products()
-            ->with(['sizes', 'images', 'options','additions'])
+            ->with(['sizes', 'images', 'options', 'additions'])
             ->where('status', 'active')
+            ->where('in_shop', true) // Ensure the product is marked as in_shop
+            ->whereHas('sizes') // Ensure the product has sizes
             ->paginate(9);
 
-        return view('pages.shop.products', compact('products'));
+        return view('pages.shop.products', compact('products', 'category'));
     }
 
     public function gold(Request $request){

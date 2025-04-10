@@ -63,7 +63,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Removed redundant input to avoid conflicts -->
                             </td>
                             <td class="total">
                                 <span id="total-{{ $item['key'] }}">
@@ -72,14 +71,11 @@
                                  JOD
                             </td>
                             <td>
-                            <form action="{{ url('cart/remove', $item['key']) }}" method="POST" class="remove-item-form">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn remove-item-btn" onclick="return confirmAndRemove(this);">
-                                    <i class="sli-trash"></i>
-                                </button>
-                            </form>
-
+                                <form action="{{ url('cart/remove', $item['key']) }}" method="POST" class="remove-item-form">
+                                    <button type="button" class="btn remove-item-btn" onclick="return confirmAndRemove(this);">
+                                        <i class="sli-trash"></i>
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                         @endforeach
@@ -100,7 +96,7 @@
                         </td>
                     </tr>
                 </table>
-                <a href="{{ url('cart/checkout') }}" class="btn btn-create">{{ __('Proceed to Checkout') }}</a>
+                <a href="{{ url('/checkout') }}" class="btn btn-create">{{ __('Proceed to Checkout') }}</a>
             </div>
             @else
                 <p>{{ __('Your cart is currently empty.') }}</p>
@@ -108,4 +104,8 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script src="{{asset('assets/js/cart.js')}}"></script>
 @endsection

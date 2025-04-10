@@ -8,7 +8,7 @@
 <x-breadcrumb />
 
 <div class="container py-5">
-    <h2 class="text-center mb-5 fw-bold display-6">Shop by Category</h2>
+    <h2 class="text-center mb-5 fw-bold display-6">{{__('Shop by Category')}}</h2>
     <div class="row g-5 justify-content-center">
     @foreach ($categories as $category)
         <div class="col-md-6 d-flex justify-content-center">

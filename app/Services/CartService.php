@@ -123,45 +123,55 @@ class CartService
         foreach ($cart as $key => $quantity) {
             $keyParts = explode('-', $key);
             $productId = $keyParts[0];
-            $productSize = isset($keyParts[1]) ? ProductSize::find($keyParts[1]) : null;
-            $productOption = isset($keyParts[2]) ? ProductOption::find($keyParts[2]) : null;
-            $productAdditions = isset($keyParts[3]) ? explode(',',  $keyParts[3]) : [];
+            $productSizeId = $keyParts[1] ?? null;
+            $productOptionId = $keyParts[2] ?? null;
+            $productAdditions = isset($keyParts[3]) ? explode(',', $keyParts[3]) : [];
+
+            $product = Product::find($productId);
+            if (!$product || $product->status != 'active') {
+                continue; // Skip inactive or non-existent products
+            }
+
+            $productSize = $productSizeId ? ProductSize::find($productSizeId) : null;
+            $productOption = $productOptionId ? ProductOption::find($productOptionId) : null;
+
             $additionsDetails = [];
+            $additionsTotal = 0;
 
             foreach ($productAdditions as $addition) {
-                list($additionId, $additionQuantity) = explode('x', $addition);
+                [$additionId, $additionQuantity] = explode('x', $addition);
                 $additionModel = Addition::find($additionId);
-                $additionsTotal = 0;
+
                 if ($additionModel) {
+                    $additionTotal = (float)$additionModel->price * (int)$additionQuantity;
                     $additionsDetails[] = [
                         'id' => $additionModel->id,
                         'name' => $additionModel->name,
                         'price' => $additionModel->price,
                         'quantity' => $additionQuantity,
-                        'total' => $additionModel->price * $additionQuantity,
+                        'total' => $additionTotal,
                     ];
-                    $additionsTotal += $additionModel->price * $additionQuantity;
+                    $additionsTotal += $additionTotal;
                 }
             }
-            $product = Product::find($productId);
 
-            if ($product && $product->status == 'active') {
-                $productPrice = $productSize ? $productSize->price + ($additionsTotal ?? 0) : 0;
-                $items[] = [
-                    'product_id' => $product->id,
-                    'key' => $key,
-                    'name' => $product->name,
-                    'price' => $productPrice ,
-                    'size_id' => $productSize?->id,
-                    'size' => $productSize?->value,
-                    'option' => $productOption?->name,
-                    'additions' => $additionsDetails,
-                    'quantity' => $quantity,
-                    'total' => $quantity * $productPrice,
-                    'image_url' => $product->primaryImage ? asset('storage/' . $product->primaryImage->image_url) : 'https://placehold.co/262x370',
-                ];
-            }
+            $productPrice = ($productSize ? $productSize->price : $product->price) + $additionsTotal;
+
+            $items[] = [
+                'product_id' => $product->id,
+                'key' => $key,
+                'name' => $product->name,
+                'price' => $productPrice,
+                'size_id' => $productSize?->id,
+                'size' => $productSize?->value,
+                'option' => $productOption?->name,
+                'additions' => $additionsDetails,
+                'quantity' => $quantity,
+                'total' => $quantity * $productPrice,
+                'image_url' => $product->primary_image_url,
+            ];
         }
+
         return $items;
     }
 

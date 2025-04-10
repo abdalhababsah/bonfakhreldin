@@ -21,9 +21,7 @@
                                 <li>{{ $error }}</li>
                             @endforeach
                         </ul>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                 </div>
                 @endif
@@ -53,7 +51,7 @@
                 <!-- Order Summary -->
                 <div class="col-lg-4">
                     <div class="checkout-box">
-                        <h2>{{ __('Your Order') }}</h2>
+                        <h2>{{ __('Order Summary') }}</h2>
                         <hr>
                         <table class="checkout-summary-table">
                             <tbody>
@@ -87,9 +85,8 @@
                     <div class="checkout-box">
                         <h2>{{ __('Delivery Method') }}</h2>
                         <div class="form-group">
-                            <label for="deliverable">{{ __('Choose Delivery Method') }}</label>
                             <select name="deliverable" id="deliverable" class="form-field" required onchange="toggleDeliveryMethod(this.value)">
-                                <option value="">{{ __('Select Method') }}</option>
+                                <option value="">{{ __('Select') }} {{__('Method')}}</option>
                                 <option value="delivery">{{ __('Delivery') }}</option>
                                 <option value="pickup">{{ __('Pickup') }}</option>
                             </select>
@@ -100,7 +97,7 @@
                                 <div class="form-group">
                                     <label for="city">{{ __('City') }}</label>
                                     <select name="city_id" id="city" class="form-field" onchange="getAreas(this.value);updateDeliveryFee(this.selectedOptions[0].getAttribute('data-delivery-fee'));">
-                                        <option value="" data-delivery-fee=0>{{ __('Select City') }}</option>
+                                        <option value="" data-delivery-fee=0>{{ __('Select') }} {{__('City')}}</option>
                                         @foreach($cities as $city)
                                             <option value="{{ $city->id }}" data-delivery-fee="{{ $city->delivery_fee ?? 0.0 }}">{{ $city->name }} - {{ $city->delivery_fee ?? 0.00 }}</option>
                                         @endforeach
@@ -109,7 +106,7 @@
                                 <div class="form-group">
                                     <label for="area">{{ __('Area') }}</label>
                                     <select name="area_id" id="area" class="form-field">
-                                        <option value="">{{ __('Select Area') }}</option>
+                                        <option value="">{{ __('Select') }} {{__('Area')}}</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -124,9 +121,8 @@
                         <div id="pickup_branch" style="display: none;">
                             <h2>{{ __('Branch') }}</h2>
                             <div class="form-group">
-                                <label for="branch">{{ __('Choose Branch') }}</label>
                                 <select name="branch" id="branch" class="form-field">
-                                    <option value="">{{ __('Select Branch') }}</option>
+                                    <option value="">{{ __('Select') }} {{__('Branch')}}</option>
                                     @foreach(__('branches.branches') as $branch)
                                         <option value="{{ $branch['name'] }}">{{ $branch['name'] }}</option>
                                     @endforeach

@@ -16,16 +16,16 @@
 <!-- Header Section Start -->
 <div class="header sticky-header section">
     <div class="container-fluid">
-        <div class="row align-items-center">
+        <div class="row">
             <!-- Menu Start -->
-            <div class="col-lg-10 col">
+            <div class="col-lg-10 col align-content-center">
                 <nav class="navbar navbar-expand-lg ">
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div>
                         <a href="{{url('/cart')}}" class="cart-link">
-                            <span class="cart-count">{{ collect(session('cart.items', []))->sum('quantity') }}</span>
+                            <span class="cart-count"></span>
                             <i class="h4 sli-basket-loaded"></i>
                         </a>
                     </div>
@@ -74,7 +74,7 @@
 
 
 
-
+{{-- 
 <!-- Mobile Offcanvas Menu Start -->
 <div style="z-index: 60000;" class="offcanvas offcanvas-end" id="offcanvas-header">
     <div class="offcanvas-header">
@@ -104,18 +104,4 @@
     </div>
 </div>
 
-<!-- Mobile Offcanvas Menu End -->
-<script>
-    function updateCartCount() {
-    fetch('/cart/count')
-        .then(response => response.json())
-        .then(data => {
-            document.querySelector('.cart-count').innerText = data.count;
-        })
-        .catch(error => console.error('Error updating cart count:', error));
-}
-
-// Call this function initially to sync the count
-updateCartCount();
-
-</script>
+<!-- Mobile Offcanvas Menu End --> --}}

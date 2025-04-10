@@ -1,81 +1,97 @@
 document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.size-select').forEach(function (select) {
-        const productId = select.dataset.productId;
-        const priceDisplay = document.getElementById(`price-display-${productId}`);
-
-        function updatePrice() {
-            const selectedOption = select.options[select.selectedIndex];
-            const price = selectedOption.dataset.price;
-            if (price && priceDisplay) {
-                const parsedPrice = parseFloat(price);
-                if (!isNaN(parsedPrice)) {
-                    priceDisplay.textContent = `Price: ${parsedPrice.toFixed(2)} JOD`;
-                }
-            }
-        }
-
-        updatePrice();
-        select.addEventListener('change', updatePrice);
-    });
 
     document.querySelectorAll('.see-options-btn').forEach(button => {
         button.addEventListener('click', function () {
             const product = JSON.parse(this.getAttribute('data-product'));
             window.selectedProduct = product;
 
-            document.getElementById('modal-product-title').textContent = product.name_en;
-
-            const sizeSelect = document.getElementById('modal-size-select');
-            sizeSelect.innerHTML = '';
+            document.getElementById('modal-product-title').textContent = product.name;
+            document.getElementById('modal-product-description').textContent = product.description;
+            const sizeWrapper = document.getElementById('modal-size-wrapper');
+            sizeWrapper.innerHTML = '';
             if (product.sizes && product.sizes.length > 0) {
-                product.sizes.forEach(size => {
-                    const option = document.createElement('option');
-                    option.value = size.id;
-                    option.setAttribute('data-price', size.price);
-                    option.setAttribute('data-size-name', size.value);
-                    option.textContent = size.value;
-                    sizeSelect.appendChild(option);
+                const sizeContainer = document.createElement('div');
+                sizeContainer.classList.add('single-product-variation-size-wrap');
+
+                product.sizes.forEach((size, index) => {
+                    const sizeItem = document.createElement('div');
+                    sizeItem.classList.add('single-product-variation-size-item');
+
+                    const input = document.createElement('input');
+                    input.type = 'radio';
+                    input.name = 'qv-size';
+                    input.id = `qv-size-${size.id}`;
+                    input.value = size.id;
+                    input.setAttribute('data-price', size.price);
+                    input.setAttribute('data-size-name', size.value);
+                    if (index === 0) {
+                        input.checked = true; // Check the first size by default
+                        document.getElementById('modal-price-display').textContent = `${parseFloat(size.price).toFixed(2)} JOD`;
+                    }
+
+                    const label = document.createElement('label');
+                    label.setAttribute('for', `qv-size-${size.id}`);
+                    label.textContent = size.value;
+
+                    sizeItem.appendChild(input);
+                    sizeItem.appendChild(label);
+                    sizeContainer.appendChild(sizeItem);
+
+                    input.addEventListener('change', function () {
+                        const price = this.getAttribute('data-price');
+                        document.getElementById('modal-price-display').textContent = `${parseFloat(price).toFixed(2)} JOD`;
+                    });
                 });
 
-                const firstPrice = product.sizes[0].price;
-                document.getElementById('modal-price-display').textContent = `Price: ${parseFloat(firstPrice).toFixed(2)} JOD`;
+                sizeWrapper.appendChild(sizeContainer);
             }
-
-            sizeSelect.addEventListener('change', function () {
-                const selectedOption = this.options[this.selectedIndex];
-                const price = selectedOption.getAttribute('data-price');
-                document.getElementById('modal-price-display').textContent = `Price: ${parseFloat(price).toFixed(2)} JOD`;
-            });
-
             const optionWrapper = document.getElementById('modal-options-wrapper');
-            const optionSelect = document.getElementById('modal-option-select');
-
+            const optionLi = optionWrapper.closest('li'); // Get the parent <li> element
+            optionWrapper.innerHTML = '';
             if (product.options && product.options.length > 0) {
-                optionWrapper.style.display = 'block';
-                optionSelect.innerHTML = '';
-                
-                product.options.forEach(opt => {
-                    const option = document.createElement('option');
-                    option.value = opt.id;
-                    option.textContent = opt.name;
-                    optionSelect.appendChild(option);
+                const optionContainer = document.createElement('div');
+                optionContainer.classList.add('single-product-variation-wrap');
+
+                product.options.forEach((opt, index) => {
+                    const optionItem = document.createElement('div');
+                    optionItem.classList.add('single-product-variation-item');
+
+                    const input = document.createElement('input');
+                    input.type = 'radio';
+                    input.name = 'qv-option';
+                    input.id = `qv-option-${opt.id}`;
+                    input.value = opt.id;
+                    input.setAttribute('data-option-name', opt.name);
+                    if (index === 0) {
+                        input.checked = true; // Check the first option by default
+                    }
+
+                    const label = document.createElement('label');
+                    label.setAttribute('for', `qv-option-${opt.id}`);
+                    label.textContent = opt.name;
+
+                    optionItem.appendChild(input);
+                    optionItem.appendChild(label);
+                    optionContainer.appendChild(optionItem);
                 });
+
+                optionWrapper.appendChild(optionContainer);
+                optionLi.style.display = 'flex'; // Ensure the <li> is visible
             } else {
-                optionWrapper.style.display = 'none';
-                optionSelect.innerHTML = '';
+                optionLi.style.display = 'none'; // Hide the <li> if no options are available
             }
 
             const addtionWrapper = document.getElementById('modal-addtions-wrapper');
 
             if (product.additions && product.additions.length > 0) {
-                addtionWrapper.style.display = 'block';
+                addtionWrapper.closest('li').style.display = 'flex';
                 
                 const additionsContainer = document.createElement('div');
-                additionsContainer.classList.add('additions-container');
+                additionsContainer.classList.add('additions-container', 'text-secondary');
 
                 product.additions.forEach(add => {
                     const additionWrapper = document.createElement('div');
-                    additionWrapper.classList.add('addition-wrapper');
+                    additionWrapper.classList.add('single-product-variation-item', 'addition-wrapper');
 
                     const input = document.createElement('input');
                     input.type = 'checkbox';
@@ -86,6 +102,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     const label = document.createElement('label');
                     label.setAttribute('for', `addition-${add.id}`);
                     label.textContent = add.name;
+                    if (add.price > 0) {
+                        label.textContent += ` (+${parseFloat(add.price).toFixed(2)} JOD)`; // Append price to the label text
+                    }
 
                     additionWrapper.appendChild(input);
                     additionWrapper.appendChild(label);
@@ -98,7 +117,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         qtyInput.value = 1;
                         qtyInput.classList.add('addition-qty');
                         qtyInput.disabled = true; // Initially disabled
-                        additionWrapper.appendChild(qtyInput);
+                        label.textContent += ' x '; // Append 'x' to the label text
+                        label.appendChild(qtyInput);
                     }
 
                     input.addEventListener('change', function () {
@@ -131,12 +151,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Add to cart logic (Updated with alert)
     document.getElementById('add-to-cart-modal-btn').addEventListener('click', function () {
-        const sizeSelect = document.getElementById('modal-size-select');
-        const selectedSizeOption = sizeSelect.options[sizeSelect.selectedIndex];
-        const sizeId = selectedSizeOption.value;
+        const selectedSizeRadio = document.querySelector('input[name="qv-size"]:checked');
+        const sizeId = selectedSizeRadio ? selectedSizeRadio.value : null;
 
-        const option = document.getElementById('modal-option-select')?.value || null;
-        const quantity = parseInt(document.getElementById('modal-qty').value);
+        const selectedOption = document.querySelector('input[name="qv-option"]:checked');
+        const option = selectedOption ? selectedOption.value : null;
+
+        const qtyElement = document.getElementById('modal-qty');
+        const quantity = qtyElement ? parseInt(qtyElement.value) || 0 : 0;
         const product = window.selectedProduct;
         const additions = {};
         document.querySelectorAll('.additions-container input[type="checkbox"]:checked').forEach(checkbox => {
@@ -178,20 +200,20 @@ document.addEventListener('DOMContentLoaded', function () {
         if (data.errors) {
             console.log('Validation errors:', data.errors);
         } else {
-            console.log('Success:', data);
-                Swal.fire({
-                    title: "Done!",
-                    text: data.message,
-                    icon: data.status,
-                    timer: 1500, 
-                    timerProgressBar: true,
-                    showConfirmButton: false,
-                  }).then(() => {
-                    const modal = bootstrap.Modal.getInstance(this.closest('.modal'));
-                    if (modal) {
-                        modal.hide(); // Properly hide the modal using Bootstrap's method
-                    }
-                  });
+            Swal.fire({
+                title: "Done!",
+                text: data.message,
+                icon: data.status,
+                timer: 1500, 
+                timerProgressBar: true,
+                showConfirmButton: false,
+              }).then(() => {
+                updateCartCount();
+                const modal = bootstrap.Modal.getInstance(this.closest('.modal'));
+                if (modal) {
+                    modal.hide(); // Properly hide the modal using Bootstrap's method
+                }
+            });
         }
         })
         .catch(error => {
@@ -200,3 +222,16 @@ document.addEventListener('DOMContentLoaded', function () {
         
     });
 });
+
+
+    /* Product Quantity */
+    $('.product-quantity-count').on('click', '.qty-btn', function (e) {
+        e.preventDefault()
+        const $btn = $(this),
+            $box = $btn.siblings('.product-quantity-box')[0];
+        if ($btn.hasClass('inc')) {
+            $box.value = Number($box.value) + 1
+        } else if ($btn.hasClass('dec') && Number($box.value) > 1) {
+            $box.value = Number($box.value) - 1
+        }
+    })

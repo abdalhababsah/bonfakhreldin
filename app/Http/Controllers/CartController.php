@@ -33,7 +33,7 @@ class CartController extends Controller
                 'message' => $e->getMessage()
             ];
         }
-        return $msg;
+        return response()->json($msg);
     }
     public function update(Request $request, $key)
     {

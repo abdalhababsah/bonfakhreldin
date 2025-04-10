@@ -3,31 +3,37 @@ function removeItem(btn) {
     var formData = new FormData(form);
     var url = form.action;
 
-    fetch(url, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    var itemTotal = parseFloat(form.closest('tr').querySelector('.total').textContent);
-                    var cartSubtotal = parseFloat(document.getElementById('cart-subtotal').textContent);
-                    // var cartQuantity = parseInt(document.getElementById('cart-quantity').textContent);
-
-                    form.closest('tr').remove();
-
-                    document.getElementById('cart-subtotal').textContent = (cartSubtotal - itemTotal).toFixed(2);
-                    // document.getElementById('cart-quantity').textContent = cartQuantity - 1;
-                } else {
-                    alert(data.message);
-                }
-            })
-            .catch(error => console.error('Error:', error));
+    fetch(url, 
+        {
+            method: 'DELETE',
+            body: formData,
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                var itemTotal = parseFloat(form.closest('tr').querySelector('.total').textContent);
+                var cartSubtotal = parseFloat(document.getElementById('cart-subtotal').textContent);
+                form.closest('tr').remove();
+                
+                document.getElementById('cart-subtotal').textContent = (cartSubtotal - itemTotal).toFixed(2);
+                updateCartCount();
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => console.error('Error:', error));
 }
 
+function confirmAndRemove(btn) {
+    if (confirm('Are you sure you want to remove this item?')) {
+        removeItem(btn);
+        return true;
+    }
+    return false;
+}
 
 document.addEventListener('DOMContentLoaded', function () {
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -84,6 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.getElementById(`total-${key}`).innerText = newTotal;
 
                 updateCartSubtotal();
+                updateCartCount();
             } else {
                 alert(data.message);
             }
@@ -102,11 +109,3 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('cart-subtotal').innerText = `${subtotal.toFixed(2)}`;
     }
 });
-
-function confirmAndRemove(btn) {
-    if (confirm('Are you sure you want to remove this item?')) {
-        btn.closest('form').submit();
-        return true;
-    }
-    return false;
-}

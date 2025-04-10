@@ -17,7 +17,10 @@
                         <h2 class="sub-title">{{ __('contactUs.keep_in_touch') }}</h2>
                     </div>
                     <ul class="contact-info">
-                        <li><i class="sli-location-pin"></i> {{ __('contactUs.address') }}</li>
+                        <li>
+                            <i class="sli-location-pin"></i> {{ __('Amman') }}, {{__('Jordan')}} |
+                            <a href="{{url('/branches')}}" class="align-content-around small">{{ __('see branches') }}...</a>
+                        </li>
                         <li><i class="sli-envelope"></i> {{ __('contactUs.email') }}</li>
                         <li><i class="sli-phone"></i> {{ __('contactUs.phone') }}</li>
                     </ul>

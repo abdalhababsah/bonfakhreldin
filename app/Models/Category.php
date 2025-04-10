@@ -19,7 +19,7 @@ class Category extends Model
         'image',
     ];
     
-    protected $appends = ['name'];
+    protected $appends = ['name', 'description'];
 
     //relationship
     public function parent()
@@ -46,5 +46,10 @@ class Category extends Model
     public function getNameAttribute()
     {
         return $this['name_' . app()->getLocale()];
+    }
+
+    public function getDescriptionAttribute()
+    {
+        return $this['description_' . app()->getLocale()];
     }
 }
