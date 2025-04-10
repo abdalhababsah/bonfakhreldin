@@ -83,7 +83,7 @@ class CartController extends Controller
             $count = $this->cartService->getTotalQuantity();
             $msg = [
                 'status' => 'success',
-                'count' => $count
+                'count' => $count ?? 0
             ];
         } catch (Exception $e) {
             $msg = [

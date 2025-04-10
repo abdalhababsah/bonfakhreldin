@@ -26,7 +26,7 @@ class CartAddRequest extends FormRequest
             "option_id" => ["nullable", "integer", Rule::exists('product_options', 'id')->where('product_id', request('product_id'))],
             "quantity" => ["required", "integer", "min:1"],
             "additions" => ["nullable", "array"],
-            "additions.*" => [
+            "additions.*" => [// fix this to be for the index of the array cause this is for the value
             "integer",
             Rule::exists('additions', 'id')->where(function ($query) {
                 $query->where('product_id', request('product_id'));
