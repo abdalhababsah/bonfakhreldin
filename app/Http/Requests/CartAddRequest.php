@@ -3,14 +3,11 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Log as FacadesLog;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Log;
-// use Log;
 
 class CartAddRequest extends FormRequest
 {
-    
     protected $stopOnFirstFailure = true;
     /**
      * Get the validation rules that apply to the request.
@@ -19,27 +16,18 @@ class CartAddRequest extends FormRequest
      */
     public function rules(): array
     {
-        Log::info('cart', $this->all());
         return [
             "product_id" => ["required", "integer", Rule::exists('products', 'id')],
             "size_id" => ["required", "integer", Rule::exists('product_sizes', 'id')->where('product_id', request('product_id'))],
             "option_id" => ["nullable", "integer", Rule::exists('product_options', 'id')->where('product_id', request('product_id'))],
             "quantity" => ["required", "integer", "min:1"],
             "additions" => ["nullable", "array"],
-            "additions.*" => [// fix this to be for the index of the array cause this is for the value
-            "integer",
-            Rule::exists('additions', 'id')->where(function ($query) {
-                $query->where('product_id', request('product_id'));
-            }),
+            "additions.*.q" => [
+                "integer",
+                "min:1",
             ],
-            "additions" => [
-            function ($attribute, $value, $fail) {
-                foreach ($value as $key => $val) {
-                if (!is_int($key)) {
-                    $fail("The additions index must be an integer.");
-                }
-                }
-            },
+            "additions.*.id" => [
+                Rule::exists('additions', 'id'),
             ],
         ];
     }

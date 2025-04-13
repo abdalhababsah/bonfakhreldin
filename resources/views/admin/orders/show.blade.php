@@ -63,10 +63,22 @@
 
                     <hr>
 
+                    
+                    @if ($order->deliverable == App\Enums\OrderDeliverableEnums::Delivery)
                     <h6>Delivery Information</h6>
-                    <p><strong>City:</strong> {{ $order->area?->city?->name ?? 'N/A' }}</p>
-                    <p><strong>Area:</strong> {{ $order->area?->name ?? 'N/A' }}</p>
-                    <p><strong>Address:</strong> {{ $order->address ?? 'N/A' }}</p>
+                    <p><strong>City:</strong> {{ $order->delivery?->area?->city?->name ?? 'N/A' }}</p>
+                    <p><strong>Area:</strong> {{ $order->delivery?->area?->name ?? 'N/A' }}</p>
+                    <p><strong>Address:</strong> {{ $order->delivery?->address ?? 'N/A' }}</p>
+                        @if ($order->delivery->latitude && $order->delivery->longitude)
+                            <p><strong>Location:</strong> <a href="https://www.google.com/maps?q={{ $order->delivery->latitude }},{{ $order->delivery->longitude }}" target="_blank">{{ __('View on Map') }}</a></p>
+                        @endif
+                    @else
+                        <h6>Pickup Information</h6>
+                        <p><strong>Branch:</strong> {{ $order->pickup->branch ?? 'N/A' }}</p>
+                        {{-- <p><strong>{{__('Pickup Time')}}:</strong> {{ $order->pickup_time ?? 'N/A' }}</p> --}}
+                    @endif
+
+                    <hr>
 
                     <hr>
 

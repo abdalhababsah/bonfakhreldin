@@ -113,4 +113,9 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+    'notify' => [
+        'address' => env('MAIL_NOTIFY_ADDRESS', 'order+website@bonfakhreldin.com'),
+        'name' => env('MAIL_FROM_NAME', 'Example'),
+    ],
+
 ];

@@ -158,14 +158,21 @@ document.addEventListener('DOMContentLoaded', function () {
         const option = selectedOption ? selectedOption.value : null;
 
         const qtyElement = document.getElementById('modal-qty');
-        const quantity = qtyElement ? parseInt(qtyElement.value) || 0 : 0;
+        let quantity = qtyElement ? parseInt(qtyElement.value) || 1 : 1;
+        if (quantity <= 0) {
+            quantity = 1; // Set quantity to 1 if it is 0 or less
+            qtyElement.value = 1; // Update the input field to reflect the change
+        }
         const product = window.selectedProduct;
-        const additions = {};
+        const additions = [];
         document.querySelectorAll('.additions-container input[type="checkbox"]:checked').forEach(checkbox => {
             const additionId = checkbox.value;
             const qtyInput = checkbox.closest('.addition-wrapper').querySelector('.addition-qty');
             const quantity = qtyInput ? parseInt(qtyInput.value) : 1;
-            additions[additionId] = quantity;
+            additions.push({
+                id: additionId,
+                q: quantity
+            });
         });
 
         const payload = {

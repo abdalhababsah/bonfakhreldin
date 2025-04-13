@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Services\CartService;
 use Exception;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -46,6 +47,7 @@ class OrderController extends Controller
             'notes' => $request->notes,
             'total_price' => $cart['totalPrice'],
             'deliverable' => $request->deliverable,
+            'lang' => app()->getLocale(),
         ]);
         
         $delivery_fee = City::find($request->city_id)?->delivery_fee ?? 0;
@@ -70,6 +72,7 @@ class OrderController extends Controller
         OrderProduct::insert($orderProducts);
 
         $this->cartService->clear();
+        Mail::send(new \App\Mail\OrderMail($order));
 
         return redirect()->route('cart.index') // redirect to checkout success page
             ->with('success', 'Order created successfully.');

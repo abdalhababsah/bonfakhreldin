@@ -39,7 +39,7 @@
                                 <ul>
                                 @foreach ($item['additions'] as $itemAddition)
                                 <li>
-                                    <small>{{ $itemAddition['name'] ?? 'NAN' }}</small>
+                                    <small>{{ $itemAddition['name'] ?? 'NAN' }} {{ $itemAddition['quantity'] > 1 ? '× ' . $itemAddition['quantity']:''}}</small>
                                 </li>
                                 @endforeach
                                 </ul>
@@ -99,7 +99,11 @@
                 <a href="{{ url('/checkout') }}" class="btn btn-create">{{ __('Proceed to Checkout') }}</a>
             </div>
             @else
-                <p>{{ __('Your cart is currently empty.') }}</p>
+            <div class="align-items-center justify-content-center text-center">
+                <img src="{{url('assets/images/empty-cart.png')}}" alt="empty cart" class="img-fluid me-3" style="width: 200px;">
+                <h5 class="m-4">{{ __('Your cart is currently empty') }}.</h5>
+                <a href="{{ url('/shop') }}" class="btn btn-create">{{ __('Go shopping') }}</a>
+            </div>
             @endif
         </div>
     </div>

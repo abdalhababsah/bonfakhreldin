@@ -173,6 +173,11 @@ hr {
   background-color: #F6F6F6 !important;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
 /*----------------------------------------*/
 /*  02. Layout CSS
 /*----------------------------------------*/
@@ -4163,6 +4168,24 @@ only screen and (max-width: 575px) {
   position: relative;
 }
 
+.single-product-variation-item label {
+  line-height: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  height: 30px;
+  cursor: pointer;
+  -webkit-transition: all 0.4s ease 0s;
+  transition: all 0.4s ease 0s;
+  text-transform: uppercase;
+  color: grey;
+}
+
 .single-product-variation-item input:checked~label {
   color: #126442;
   border: solid #126442;
@@ -4282,7 +4305,7 @@ only screen and (max-width: 575px) {
 }
 
 .addition-qty {
-  width: 20px;
+  width: 30px;
   text-align: center;
 }
 

@@ -15,7 +15,7 @@
     <meta name="description"
         content="اكتشف رحلة قهوة فخر الدين، شبكتنا المزدهرة التي تضم أكثر من 25 فرعاً في الأردن. نحن ملتزمون بتقديم أفضل أنواع القهوة المحمصة بعناية لنكون جزءاً من يومك." />
     <meta name="keywords"
-        content="قهوة, قهوة فخر الدين, بن فخر الدين, أفضل قهوة في الأردن, محمصة القهوة, مقهى, رحلة القهوة, قيم القهوة" />
+        content="قهوة, قهوة فخر الدين, بن فخر الدين, أفضل قهوة في الأردن, محمصة القهوة, مقهى, رحلة القهوة, قيم القهوة, fakher aldeen coffee, fakher aldeen, coffee, bonfakhreldin, bon" />
     @yield('meta')
     
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">

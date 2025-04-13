@@ -39,9 +39,9 @@ class CartService
 
         // Include additions in the cart key
         if (!empty($data['additions'])) {
-            $additionKeys = array_map(function ($quantity, $key) {
-            return $key . 'x' . $quantity;
-            }, $data['additions'], array_keys($data['additions']));
+            $additionKeys = array_map(function ($addition) {
+            return $addition['id'] . 'x' . $addition['q'];
+            }, $data['additions']);
             Log::info('Addition keys', $additionKeys);
             $cartItemKey .= '-' . implode(',', $additionKeys);
         }
