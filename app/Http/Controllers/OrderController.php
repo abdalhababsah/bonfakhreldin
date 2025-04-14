@@ -72,11 +72,15 @@ class OrderController extends Controller
         OrderProduct::insert($orderProducts);
 
         $this->cartService->clear();
+        
+        // Send email to customer and admin
         Mail::send(new \App\Mail\OrderMail($order));
+        Mail::send(new \App\Mail\AdminOrderMail($order));
 
-        return redirect()->route('cart.index') // redirect to checkout success page
+        return redirect()->route('home') // redirect to checkout success page
             ->with('success', 'Order created successfully.');
     }
+
     public function updateStatus($id, $status)
     {
         $order = Order::findOrFail($id);

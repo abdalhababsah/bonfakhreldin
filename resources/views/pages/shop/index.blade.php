@@ -6,83 +6,11 @@
 
 @section('content')
 <x-breadcrumb />
-<div class="shop-product-section section section-padding">
+{{-- <div class="shop-product-section section section-padding">
     <div class="container">
 
         <!-- Shop Top Bar Start -->
         <div class="shop-top-bar">
-
-            <div class="shop-top-bar-item">
-                <label for="SortBy">Sort by :</label>
-                <select name="SortBy" id="SortBy">
-                    <option value="manual">Featured</option>
-                    <option value="best-selling">Best Selling</option>
-                    <option value="title-ascending">Alphabetically, A-Z</option>
-                    <option value="title-descending">Alphabetically, Z-A</option>
-                    <option value="price-ascending">Price, low to high</option>
-                    <option value="price-descending">Price, high to low</option>
-                    <option value="created-descending">Date, new to old</option>
-                    <option value="created-ascending">Date, old to new</option>
-                </select>
-            </div>
-
-            <div class="shop-top-bar-item">
-                <p>Showing 1 - 12 of 25 result</p>
-            </div>
-
-            <div class="shop-top-bar-item">
-                <label for="paginateBy">Show :</label>
-                <select name="paginateBy" id="paginateBy">
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12" selected="">12</option>
-                    <option value="13">13</option>
-                    <option value="14">14</option>
-                    <option value="15">15</option>
-                    <option value="16">16</option>
-                    <option value="17">17</option>
-                    <option value="18">18</option>
-                    <option value="19">19</option>
-                    <option value="20">20</option>
-                    <option value="21">21</option>
-                    <option value="22">22</option>
-                    <option value="23">23</option>
-                    <option value="24">24</option>
-                    <option value="25">25</option>
-                    <option value="26">26</option>
-                    <option value="27">27</option>
-                    <option value="28">28</option>
-                    <option value="29">29</option>
-                    <option value="30">30</option>
-                    <option value="31">31</option>
-                    <option value="32">32</option>
-                    <option value="33">33</option>
-                    <option value="34">34</option>
-                    <option value="35">35</option>
-                    <option value="36">36</option>
-                    <option value="37">37</option>
-                    <option value="38">38</option>
-                    <option value="39">39</option>
-                    <option value="40">40</option>
-                    <option value="41">41</option>
-                    <option value="42">42</option>
-                    <option value="43">43</option>
-                    <option value="44">44</option>
-                    <option value="45">45</option>
-                    <option value="46">46</option>
-                    <option value="47">47</option>
-                    <option value="48">48</option>
-                    <option value="49">49</option>
-                    <option value="50">50</option>
-                </select>
-            </div>
 
             <div class="shop-top-bar-item">
                 <div class="nav list-grid-toggle" role="tablist">
@@ -791,35 +719,38 @@
         <!-- Shop Bottom Bar End -->
 
     </div>
-</div>
+</div> --}}
 
 <div class="container py-5">
     <h2 class="text-center mb-5 fw-bold display-6">{{__('Shop by Category')}}</h2>
     <div class="row g-5 justify-content-center">
     @foreach ($categories as $category)
-        <div class="col-md-6 d-flex justify-content-center">
+        <div class="col-lg-3 col-sm-6 d-flex justify-content-center">
         @if ($category->children->isNotEmpty())
             <div class="w-100">
-            <div class="category-box elegant-hover shadow-lg"
-                 style="background-image: url('{{ asset($category->image ?:'assets/images/categories/'. $category->slug .'.jpg') }}')">
-                <h2 class="fw-bold">{{ $category->name }}</h2>
-            </div>
-            <ul class="list-group mt-3">
-                @foreach ($category->children as $child)
-                <li class="list-group-item">
-                    <a href="{{ url('shop', $child->slug) }}" class="text-decoration-none">
-                    {{ $child->name }}
-                    </a>
-                </li>
-                @endforeach
-            </ul>
+                <a href="javascript:void(0);" class="text-decoration-none w-100" 
+                onclick="document.getElementById('children-{{ $category->id }}').classList.toggle('d-none')">
+                    <div class="category-box elegant-hover shadow-lg"
+                    style="background-image: url('{{ asset($category->image ?:'assets/images/categories/'. $category->slug .'.jpg') }}')">
+                        <h3>{{ $category->name }}</h3>
+                    </div>
+                </a>
+                <ul id="children-{{ $category->id }}" class="list-group mt-3 d-none">
+                    @foreach ($category->children as $child)
+                    <li class="list-group-item">
+                        <a href="{{ url('shop', $child->slug) }}" class="text-decoration-none">
+                        {{ $child->name }}
+                        </a>
+                    </li>
+                    @endforeach
+                </ul>
             </div>
         @else
             <a href="{{ url('shop', $category->slug) }}" class="text-decoration-none w-100">
-            <div class="category-box elegant-hover shadow-lg"
-                 style="background-image: url('{{ asset($category->image ?:'assets/images/categories/'. $category->slug .'.jpg') }}')">
-                <h2 class="fw-bold">{{ $category->name }}</h2>
-            </div>
+                <div class="category-box elegant-hover shadow-lg"
+                    style="background-image: url('{{ asset($category->image ?:'assets/images/categories/'. $category->slug .'.jpg') }}')">
+                    <h3>{{ $category->name }}</h3>
+                </div>
             </a>
         @endif
         </div>

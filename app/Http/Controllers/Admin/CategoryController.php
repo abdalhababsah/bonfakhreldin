@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use App\Traits\HandleImage;
 use Illuminate\Http\Request;
@@ -21,16 +22,8 @@ class CategoryController extends Controller
     }
 
     // Store a newly created category in storage
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        $request->validate([
-            'description_en' => 'required|string|max:255',
-            'description_ar' => 'nullable|string|max:255',
-            'name_en' => 'required|string|max:255',
-            'name_ar' => 'required|string|max:255',
-            'category_id'=> 'nullable|exists:categories,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust the max size as needed
-        ]);
 
         // Generate slug from name_en or fallback to name_ar
         $slug = Str::slug($request->name_en ?? $request->name_ar);
@@ -63,14 +56,8 @@ class CategoryController extends Controller
     }
 
     // Update the specified category in storage
-    public function update(Request $request, Category $category)
+    public function update(CategoryRequest $request, Category $category)
     {
-        $request->validate([
-            'description_en' => 'required|string|max:255',
-            'description_ar' => 'nullable|string|max:255',
-            'name_en' => 'required|string|max:255',
-            'name_ar' => 'required|string|max:255',
-        ]);
 
         // Generate slug from updated name_en or fallback to name_ar
         $slug = Str::slug($request->name_en ?? $request->name_ar);

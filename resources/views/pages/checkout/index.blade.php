@@ -129,8 +129,29 @@
                                 </select>
                             </div>
                         </div>
+                        <button type="submit" class="btn btn-create mt-2 mx-auto" onclick="handleOrderSubmission(event)">{{ __('Place Order') }}</button>
 
-                        <button type="submit" class="btn btn-create mt-2 mx-auto">{{ __('Place Order') }}</button>
+                        <script>
+                            function handleOrderSubmission(event) {
+                                event.preventDefault();
+                                Swal.fire({
+                                    title: '{{ __("Order Placed!") }}',
+                                    text: '{{ __("Thank You for Your Order") }}',
+                                    icon: 'success',
+                                    confirmButtonText: '{{ __("OK") }}'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        event.target.closest('form').submit();
+                                        // Swal.fire({
+                                        //     title: '{{ __("Order Placed!") }}',
+                                        //     text: '{{ __("Your order has been placed successfully.") }}',
+                                        //     icon: 'success',
+                                        //     confirmButtonText: '{{ __("OK") }}'
+                                        // });
+                                    }
+                                });
+                            }
+                        </script>
                     </div>
                 </div>
             </div>

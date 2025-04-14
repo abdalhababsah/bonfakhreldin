@@ -100,7 +100,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.4); 
+    background: rgba(0, 0, 0, 0.55); 
     transition: background 0.3s ease;
 }
 
@@ -108,10 +108,10 @@
     background: rgba(0, 0, 0, 0.6);
 }
 
-.category-box h2 {
-    color: #000000;
+.category-box h3 {
+    color: #fafafa;
     position: relative;
-    font-size: 2rem;
+    /* font-size: 2rem; */
     margin-top: 131px;
 }
 

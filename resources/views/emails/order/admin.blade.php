@@ -22,6 +22,7 @@
             background-color: #f7f7f7;
         }
         .content {
+            {{ $order->lang == 'ar' ? 'direction: rtl;' : '' }}
             max-width: 600px;
             margin: auto;
             background-color: #ffffff;
@@ -85,33 +86,26 @@
         }
     </style>
 </head>
-<body style="background-color: #f7f7f7;"
-@if ($order->lang == 'ar')
-    dir="rtl"
-@endif
->
+<body style="background-color: #f7f7f7;" {{ $order->lang == 'ar' ? 'dir=rtl' : '' }}>
     <div class="container">
         <div class="content">
             <!-- Header Section with Logo -->
             <div class="header">
                 <a href="{{ url('/') }}">
-                    <img src="{{ asset('assets/images/logo/Logo-Bonfakhrladin.png') }}" alt="{{ config('app.name') }} Logo"
-                    style="max-width: 150px; height: auto; display: block; filter: brightness(50);">
+                    <img src="{{ asset('assets/images/logo/gold-bonfakhraldin.png') }}" alt="{{ config('app.name') }} Logo"
+                    style="max-width: 100px; height: auto; display: block; margin: auto;">
                 </a>
-                <h1>{{__('Thank You for Your Order')}}!</h1>
+                <h1>{{__('New Order')}}!</h1>
             </div>
-
-            <!-- Personalized Message -->
-            <p class="message">{{__('Our customer')}} {{ $order->name }},</p>
-
-            <p class="message">
-                {{__('We are excited to inform you that your order has been successfully placed. Below are the details of your order')}} ({{ $order->order_number }}):
-            </p>
 
             <!-- Order Details -->
             <div class="details">
-                <p><strong>{{__('Date')}}:</strong> {{ $order->created_at->format('Y-mm-dd') }}</p>
+                <p><strong>{{__('Date')}}:</strong> {{ $order->created_at->format('Y-m-d') }}</p>
                 <p><strong>{{__('Total')}}:</strong> {{ number_format($order->total_price, 2) }}JD</p>
+                @if ($order->deliverable == App\Enums\OrderDeliverableEnums::Delivery)
+                    <p><strong>{{__('Delivery Fee')}}:</strong> {{ number_format($order->delivery?->delivery_fee, 2) }}JD</p>
+                    <p><strong>{{__('Grand Total')}}:</strong> {{ number_format($order->total_price + $order->delivery?->delivery_fee, 2) }}JD</p>
+                @endif
 
                 <div class="card-body">
                     <div class="table-responsive">
@@ -165,12 +159,12 @@
 
                     <hr>
 
-                    {{-- <h6>Customer Information</h6>
+                    <h6>{{__('Customer Info')}}</h6>
                     <p><strong>{{__('Name')}}:</strong> {{ $order->name }}</p>
                     <p><strong>{{__('Email')}}:</strong> {{ $order->email }}</p>
                     <p><strong>{{__('Phone')}}:</strong> {{ $order->phone }}</p>
 
-                    <hr> --}}
+                    <hr>
 
                     @if ($order->deliverable == App\Enums\OrderDeliverableEnums::Delivery)
                         <h6>{{__('Delivery Info')}}</h6>
@@ -192,13 +186,9 @@
                 </div>
             </div>
 
-            <p class="message">
-                {{__('If you have any questions or need further assistance, feel free to contact our support team')}}.
-            </p>
-
             <!-- Closing Statement -->
-            <p class="message">{{__('Best regards')}},<br>
-            {{ config('app.name') }} {{__('Team')}}</p>
+            <p class="message">{{__('Best Regards')}}<br>
+                {{ config('app.name') }} {{__('Team')}}</p>
 
             <!-- Footer Section -->
             <div class="footer">

@@ -113,3 +113,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 // Route::post('/admin/products', [ProductController::class, 'store'])->name('admin.products.store');
 
+Route::fallback(function () {
+    return view('errors.404');
+});

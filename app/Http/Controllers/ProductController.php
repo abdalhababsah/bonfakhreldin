@@ -21,12 +21,15 @@ class ProductController extends Controller
     {
         $locale = app()->getLocale();
 
-        $categories = Category::select('id', "name_$locale as name")->whereNull("category_id")->get();
+        $categories = Category::select('id', "name_$locale")->whereNull("category_id")->get();
 
         $query = Product::where('status', 'active');
 
         if ($request->has('category_id') && $request->category_id) {
-            $query->where('category_id', $request->category_id);
+            $categoryIds = Category::where('id', $request->category_id)
+            ->orWhere('category_id', $request->category_id)
+            ->pluck('id');
+            $query->whereIn('category_id', $categoryIds);
         }
 
         if ($request->has('search') && $request->search) {

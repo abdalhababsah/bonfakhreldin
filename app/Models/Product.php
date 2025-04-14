@@ -22,7 +22,13 @@ class Product extends Model
     ];
 
 
-    protected $appends = ['name', 'description'];
+    protected $appends = ['name', 'description', 'primary_image_url'];
+    protected $hidden = [
+        'name_en',
+        'name_ar',
+        'description_en',
+        'description_ar',
+    ];
 
     // Remove eager loading of primaryImage to handle fallback logic manually
     protected $with = [];

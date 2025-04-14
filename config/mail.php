@@ -109,12 +109,13 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'address' => env('MAIL_FROM_ADDRESS', 'order@bonfakhreldin.com'),
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
     'notify' => [
-        'address' => env('MAIL_NOTIFY_ADDRESS', 'order+website@bonfakhreldin.com'),
+        'address' => env('MAIL_NOTIFY_ADDRESS', 'reem.hasan98@yahoo.com'),
+        // 'address' => env('MAIL_NOTIFY_ADDRESS', 'order+website@bonfakhreldin.com'),
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 

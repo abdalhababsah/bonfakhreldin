@@ -38,14 +38,14 @@
                             <li class="nav-item {{ request()->routeIs('products.index') || request()->routeIs('products.show') ? 'active' : '' }}">
                                 <a class="nav-link text-dark mx-2" href="{{ route('products.index') }}">{{ __('header.products') }}</a>
                             </li>
+                            <li class="nav-item {{ request()->routeIs('shop.index') ? 'active' : '' }}">
+                                <a class="nav-link text-dark mx-2" href="{{ route('shop.index') }}">{{ __('Shop') }}</a>
+                            </li>
                             <li class="nav-item {{ request()->routeIs('branches') ? 'active' : '' }}">
                                 <a class="nav-link text-dark mx-2" href="{{ route('branches') }}">{{ __('header.branches') }}</a>
                             </li>
                             <li class="nav-item {{ request()->routeIs('about.us') ? 'active' : '' }}">
                                 <a class="nav-link text-dark mx-2" href="{{ route('about.us') }}">{{ __('header.about_us') }}</a>
-                            </li>
-                            <li class="nav-item {{ request()->routeIs('shop.index') ? 'active' : '' }}">
-                                <a class="nav-link text-dark mx-2" href="{{ route('shop.index') }}">{{ __('Shop') }}</a>
                             </li>
                             <li class="nav-item {{ request()->routeIs('contactUs.index') ? 'active' : '' }}">
                                 <a class="nav-link text-dark mx-2" href="{{ route('contactUs.index') }}">{{ __('header.contact_us') }}</a>

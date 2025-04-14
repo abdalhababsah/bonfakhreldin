@@ -11,7 +11,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class OrderMail extends Mailable
+class AdminOrderMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -32,10 +32,9 @@ class OrderMail extends Mailable
     {
         return new Envelope(
             to: [
-                // new Address(config('mail.notify.address')),// notify to admin
-                new Address($this->order->email, $this->order->name),
+                new Address(config('mail.notify.address'), 'Admin'),// notify to admin
             ],
-            subject: 'Order Submitted: ' . $this->order->order_number,
+            subject: 'New Order Submitted: ' . $this->order->order_number,
         );
     }
 
@@ -45,7 +44,7 @@ class OrderMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.order.customer',
+            view: 'emails.order.admin',
             with: [
                 'order' => $this->order,
                 'details' => $this->order->products->load('product'),

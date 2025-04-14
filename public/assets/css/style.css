@@ -133,8 +133,9 @@ input[type=submit] {
 img {
   width: auto;
   max-width: 100%;
-  height: auto;
+  /* height: auto; */
   max-height: 100%;
+  object-fit: cover;
 }
 
 input::-webkit-input-placeholder,
@@ -820,7 +821,7 @@ margin: 0;
 /*-----------------------------------
     - Footer CSS
 -----------------------------------*/
-/* Footre Style One Section */
+/* Footer Style One Section */
 .footer-section {
   background-image: url(../images/footer/footer-bg.jpg);
   background-repeat: no-repeat;
@@ -828,7 +829,7 @@ margin: 0;
   background-size: cover;
 }
 
-/* Footre Style Two Section */
+/* Footer Style Two Section */
 .footer-2-section {
   background-color: #F6F6F6;
   background-image: url(../images/footer/footer-2-bg.png);
@@ -837,7 +838,7 @@ margin: 0;
   background-size: cover;
 }
 
-/* Footre Top Section */
+/* Footer Top Section */
 .footer-top {
   padding: 0px 0px 0px;
 }
@@ -1008,7 +1009,7 @@ margin: 0;
   color: #fff;
 }
 
-/* Footre Bottom Section */
+/* Footer Bottom Section */
 .footer-bottom {
   padding: 20px 0;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
@@ -1489,10 +1490,15 @@ only screen and (min-width: 992px) and (max-width: 1199px) {
   line-height: 1;
 }
 
+.active>.page-link,
 .pagination li a.active {
   cursor: not-allowed !important;
   color: #fff !important;
-  background-color: #C7A17A !important;
+  background-color: #126442 !important;
+  border: transparent solid;
+  border-radius: 50%;
+  width: 44px;
+  text-align: center;
 }
 
 .pagination li:not(:first-child):not(:last-child) a {
