@@ -735,7 +735,7 @@
                         <h3>{{ $category->name }}</h3>
                     </div>
                 </a>
-                <ul id="children-{{ $category->id }}" class="list-group mt-3 d-none">
+                <ul id="children-{{ $category->id }}" class="list-group mt-3 d-none p-0">
                     @foreach ($category->children as $child)
                     <li class="list-group-item">
                         <a href="{{ url('shop', $child->slug) }}" class="text-decoration-none">

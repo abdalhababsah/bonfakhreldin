@@ -1507,13 +1507,18 @@ only screen and (min-width: 992px) and (max-width: 1199px) {
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
 }
 
-.pagination li:not(.disabled) a:hover {
+.pagination li:not(.disabled):not(:first-child):not(:last-child) a:hover {
   color: #fff;
   background-color: #C7A17A;
 }
 
 .pagination li.disabled a {
   cursor: not-allowed;
+}
+
+.page-item:last-child .page-link,
+.page-item:first-child .page-link {
+  border: unset;
 }
 
 /*-----------------------------------

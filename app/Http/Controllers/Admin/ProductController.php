@@ -336,4 +336,24 @@ class ProductController extends Controller
             'images' => $product->images,
         ], 200);
     }
+
+    public function updateInShop(Request $request)
+    {
+        $validatedData = $request->validate([
+            'data.*.id' => 'required|exists:products,id',
+            'data.*.in_shop' => 'required|boolean',
+        ]);
+
+        // return $request->input('data');
+        foreach ($request->input('data') as $item) {
+            Product::where('id', $item['id'])->update([
+            'in_shop' => $item['in_shop'],
+            ]);
+        }
+        return response()->json([
+            'message' => 'Product updated successfully.',
+            'product' => $request->all(),
+        ], 200);
+
+    }
 }

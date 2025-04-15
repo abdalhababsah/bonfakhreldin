@@ -22,7 +22,7 @@ class ShopController extends Controller
             ->where('status', 'active')
             ->where('in_shop', true) // Ensure the product is marked as in_shop
             ->whereHas('sizes') // Ensure the product has sizes
-            ->paginate(3);
+            ->paginate(12);
 
         return view('pages.shop.products1', compact('products', 'category'));
     }

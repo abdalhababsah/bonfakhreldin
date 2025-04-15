@@ -57,6 +57,10 @@
             align-items: center;
             margin: 10px 0;
         }
+        td, th {
+            padding: 10px;
+            text-align: center;
+        }
         .message {
             font-size: 16px;
             margin: 20px 0;
@@ -138,14 +142,16 @@
                                                         - {{ $item->option }}
                                                     @endif
                                                 </span>
-                                                <br>
-                                                <ul>
-                                                    @foreach ($item->additions as $itemAddition)
-                                                    <li>
-                                                        <small>{{ $itemAddition['name'] ?? 'NAN' }} {{ $itemAddition['quantity'] > 1 ? '×'.$itemAddition['quantity']:''}}</small>
-                                                    </li>
-                                                    @endforeach
-                                                </ul>
+                                                @if (!empty($item->additions))
+                                                    <br>
+                                                    <ul>
+                                                        @foreach ($item->additions as $itemAddition)
+                                                        <li>
+                                                            <small>{{ $itemAddition['name'] ?? 'NAN' }} {{ $itemAddition['quantity'] > 1 ? '×'.$itemAddition['quantity']:''}}</small>
+                                                        </li>
+                                                        @endforeach
+                                                    </ul>
+                                                @endif
                                             </div>
                                         </td>
                                         <td>{{ $item->price }}</td>

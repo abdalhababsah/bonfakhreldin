@@ -99,19 +99,19 @@
                                     <select name="city_id" id="city" class="form-field" onchange="getAreas(this.value);updateDeliveryFee(this.selectedOptions[0].getAttribute('data-delivery-fee'));">
                                         <option value="" data-delivery-fee=0>{{ __('Select') }} {{__('City')}}</option>
                                         @foreach($cities as $city)
-                                            <option value="{{ $city->id }}" data-delivery-fee="{{ $city->delivery_fee ?? 0.0 }}">{{ $city->name }} - {{ $city->delivery_fee ?? 0.00 }}</option>
+                                            <option value="{{ $city->id }}" data-delivery-fee="{{ $city->delivery_fee ?? 0.0 }}" data-name="{{ $city->name_en }}">{{ $city->name }} - {{ $city->delivery_fee ?? 0.00 }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="area">{{ __('Area') }}</label>
-                                    <select name="area_id" id="area" class="form-field">
+                                    <select name="area_id" id="area" class="form-field" required>
                                         <option value="">{{ __('Select') }} {{__('Area')}}</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="address">{{ __('Address') }}</label>
-                                    <input type="text" name="address" id="address" class="form-field" value="{{old('address')}}">
+                                    <input type="text" name="address" id="address" class="form-field" value="{{old('address')}}" required minlength="2" maxlength="100">
                                 </div>
                                 <div id="orderMap" class="my-3"></div>
                                 <input type="hidden" name="longitude" id="longitude">
@@ -121,7 +121,7 @@
                         <div id="pickup_branch" style="display: none;">
                             <h2>{{ __('Branch') }}</h2>
                             <div class="form-group">
-                                <select name="branch" id="branch" class="form-field">
+                                <select name="branch" id="branch" class="form-field" required>
                                     <option value="">{{ __('Select') }} {{__('Branch')}}</option>
                                     @foreach(__('branches.branches') as $branch)
                                         <option value="{{ $branch['name'] }}">{{ $branch['name'] }}</option>
@@ -135,19 +135,13 @@
                             function handleOrderSubmission(event) {
                                 event.preventDefault();
                                 Swal.fire({
-                                    title: '{{ __("Order Placed!") }}',
+                                    title: '{{ __("Confirm Order") }}!',
                                     text: '{{ __("Thank You for Your Order") }}',
                                     icon: 'success',
                                     confirmButtonText: '{{ __("OK") }}'
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         event.target.closest('form').submit();
-                                        // Swal.fire({
-                                        //     title: '{{ __("Order Placed!") }}',
-                                        //     text: '{{ __("Your order has been placed successfully.") }}',
-                                        //     icon: 'success',
-                                        //     confirmButtonText: '{{ __("OK") }}'
-                                        // });
                                     }
                                 });
                             }

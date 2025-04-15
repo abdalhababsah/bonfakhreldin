@@ -11,6 +11,7 @@
     <!-- SEO Meta Tags -->
     <meta name="url" content="{{url('/')}}" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <meta name="mapbox-token" content="{{ env('MAPBOX_ACCESS_TOKEN') }}" />
     <meta name="robots" content="index, follow" />
     <meta name="description"
         content="اكتشف رحلة قهوة فخر الدين، شبكتنا المزدهرة التي تضم أكثر من 25 فرعاً في الأردن. نحن ملتزمون بتقديم أفضل أنواع القهوة المحمصة بعناية لنكون جزءاً من يومك." />

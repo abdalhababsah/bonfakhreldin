@@ -92,6 +92,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('cities', CityController::class);
         Route::resource('areas', AreaController::class);
         Route::resource('products', ProductController::class);
+        Route::post('products/updateInShop', [ProductController::class, 'updateInShop'])->name('products.updateInShop');
         Route::post('products/{product}/upload-image', [ProductController::class, 'uploadImage'])->name('products.uploadImage');
         Route::delete('products/remove-image/{id}', [ProductController::class, 'removeImage'])->name('products.removeImage');
 
