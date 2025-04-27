@@ -17,21 +17,32 @@
 <div class="header sticky-header section">
     <div class="container-fluid">
         <div class="row">
-            <!-- Menu Start -->
-            <div class="col-lg-10 col align-content-center">
-                <nav class="navbar navbar-expand-lg ">
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div>
-                        <a href="{{url('/cart')}}" class="cart-link">
-                            <span class="cart-count"></span>
-                            <i class="h4 sli-basket-loaded"></i>
-                        </a>
-                    </div>
+            <!-- navbar Start -->
+            <div class="row align-items-center">
 
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav ">
+                <!-- Logo Start -->
+                <div class="col-lg-2 col">
+                    <div class="header-logo">
+                        <a href="{{ route('home') }}">
+                            <img id="logo" src="{{ asset('assets/images/logo/Logo-Bonfakhrladin.png') }}" alt="bon fakhreldin logo">
+                        </a>
+                        {{-- 
+                            <img src="./assets/images/logo/logo-dark.png" width="125" height="42" alt="kofi logo">
+                            <img class="light" src="./assets/images/logo/logo-light.png" width="125" height="42" alt="kofi logo">
+                         --}}
+                    </div>
+                </div>
+                <!-- Logo End -->
+
+                <!-- Menu Start -->
+                <div class="col">
+                    <nav class="justify-content-center navbar navbar-expand-lg ">
+                        <div class="header-action-item d-lg-none">
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                        </div>
+                        <ul class="navbar-nav collapse navbar-collapse align-items-start" id="navbarNav">
                             <li class="nav-item {{ request()->routeIs('home') ? 'active' : '' }}">
                                 <a class="nav-link text-dark mx-2" href="{{ route('home') }}">{{ __('header.home') }}</a>
                             </li>
@@ -51,20 +62,26 @@
                                 <a class="nav-link text-dark mx-2" href="{{ route('contactUs.index') }}">{{ __('header.contact_us') }}</a>
                             </li>
                         </ul>
-                    </div>
-                </nav>
-            </div>
-            <!-- Menu End -->
-            <!-- Logo Start -->
-            <div class="col-lg-2 col-auto">
-                <div class="float-end">
-                    <a href="{{ route('home') }}">
-                        <img id="logo" src="{{ asset('assets/images/logo/Logo-Bonfakhrladin.png') }}" alt="bon fakhreldin logo">
-                    </a>
+                    </nav>
                 </div>
-            </div>
-            <!-- Logo End -->
+                <!-- Menu End -->
 
+                <!-- Action Start -->
+                <div class="col-auto">
+                    <div class="header-action">
+                        <div class="header-action-item">
+                            <a href="{{url('/cart')}}" class="header-action-toggle">
+                                <i class="sli-basket-loaded">
+                                    <span class="cart-count count">0</span>
+                                </i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Action End -->
+
+            </div>
+            <!-- navbar End -->
         </div>
     </div>
 </div>

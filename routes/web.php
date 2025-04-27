@@ -21,11 +21,11 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HomeController;
 use App\Http\Middleware\CheckCartNotEmpty;
 use Illuminate\Support\Facades\Route;
+
 // Home Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Switch languages route
-
 Route::get('/lang/{locale}', [LocalizationController::class, 'switchLang'])->name('locale.switch');
 
 // User routes
@@ -110,9 +110,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     });
 });
-
-
-// Route::post('/admin/products', [ProductController::class, 'store'])->name('admin.products.store');
 
 Route::fallback(function () {
     return view('errors.404');

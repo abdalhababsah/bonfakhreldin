@@ -64,10 +64,9 @@ class Product extends Model
         $firstImage = $this->images()->first();
         return $firstImage ? 'storage/' .$firstImage->image_url : asset('images/default.png');
     }
-
     public function sizes()
     {
-        return $this->hasMany(ProductSize::class);
+        return $this->hasMany(ProductSize::class)->orderBy('price', 'asc');
     }
 
     public function options()

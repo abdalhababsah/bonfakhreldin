@@ -6,7 +6,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
     <!-- Dynamic Page Title -->
-    <title>{{__('bonfakhreldin')}} -@yield('title', ' Coffee Shop')</title>
+    <title>{{__('bonfakhreldin')}} - @yield('title', 'Coffee Shop')</title>
 
     <!-- SEO Meta Tags -->
     <meta name="url" content="{{url('/')}}" />
