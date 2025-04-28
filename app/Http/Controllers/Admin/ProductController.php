@@ -27,7 +27,8 @@ class ProductController extends Controller
 
     public function create()
     {
-        $categories = Category::all();
+        $categories = Category::whereDoesntHave('children')->get();
+        
         return view('admin.products.create', compact('categories'));
     }
 
@@ -61,7 +62,6 @@ class ProductController extends Controller
             'description_en' => 'required|string', 
             'description_ar' => 'nullable|string',
             'category_id' => 'required|exists:categories,id',
-            'subcategory_id' => 'nullable|integer',
             'status' => 'required|in:active,inactive',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'alt_text_en.*' => 'nullable|string|max:255',
@@ -81,7 +81,6 @@ class ProductController extends Controller
             'description_en' => $validatedData['description_en'],
             'description_ar' => $validatedData['description_ar'] ?? null,
             'category_id' => $validatedData['category_id'],
-            // 'subcategory_id' => $validatedData['subcategory_id'] ?? null,
             'status' => $validatedData['status'],
         ]);
 
@@ -339,17 +338,17 @@ class ProductController extends Controller
 
     public function updateInShop(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'data.*.id' => 'required|exists:products,id',
             'data.*.in_shop' => 'required|boolean',
         ]);
 
-        // return $request->input('data');
         foreach ($request->input('data') as $item) {
             Product::where('id', $item['id'])->update([
             'in_shop' => $item['in_shop'],
             ]);
         }
+
         return response()->json([
             'message' => 'Product updated successfully.',
             'product' => $request->all(),

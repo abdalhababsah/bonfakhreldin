@@ -65,10 +65,9 @@ Route::controller(CartController::class)->prefix('cart')->name('cart.')->group(f
 Route::middleware(['throttle:web', CheckCartNotEmpty::class])->controller(CheckoutController::class)
     ->prefix('checkout')->name('checkout.')->group(function () {
     Route::get('/', 'index')->name('index');
-    Route::post('/', 'submit');
 });
 
-// User fetch areas
+// User fetch areas AJAX in the checkout page
 Route::get('/areas/{city_id}', [UserAreaController::class, 'getByCity']);
 
 
@@ -77,7 +76,7 @@ Route::controller(OrderController::class)->prefix('orders')->group(function () {
     Route::get('/', 'index');
     Route::post('/store', 'store');
     Route::get('/data', 'orderData');
-    Route::get('/{id}', 'show');
+    Route::get('/{number}', 'show');
 });
 
 // Admin Authentication Routes
@@ -105,7 +104,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/data', 'orderData');
             Route::get('/{id}', 'show')->name('show');
-            Route::post('/{id}/update-status', 'updateStatus')->name('update_status');
+            Route::get('update-status/{status}/{id}', 'updateStatus')->name('update_status');
         });
 
     });

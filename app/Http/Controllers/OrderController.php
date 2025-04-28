@@ -10,8 +10,8 @@ use App\Models\City;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Services\CartService;
-use DB;
 use Exception;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
@@ -23,18 +23,11 @@ class OrderController extends Controller
         $this->cartService = $cartService;
     }
 
-    public function index()
+    public function show($number)
     {
-        $orders = Order::all();
+        $order = Order::where('order_number', $number)->firstOrFail();
 
-        return view('pages.admin.orders.index', compact('orders'));
-    }
-
-    public function show($id)
-    {
-        $order = Order::findOrFail($id);
-
-        return view('pages.admin.orders.show', compact('order'));
+        // return view('pages.orders.show', compact('order'));//need to build this view
     }
 
     public function store(OrderRequest $request)
@@ -99,12 +92,4 @@ class OrderController extends Controller
         }
     }
 
-    public function updateStatus($id, $status)
-    {
-        $order = Order::findOrFail($id);
-        $order->status = $status;
-        $order->save();
-
-        return redirect()->back();
-    }
 }

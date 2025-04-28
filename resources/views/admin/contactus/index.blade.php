@@ -40,7 +40,6 @@
                                         <th>ID</th>
                                         <th>Name</th>
                                         <th>Email</th>
-                                        <th>Message</th>
                                         <th>Received At</th>
                                         <th>Actions</th>
                                     </tr>
@@ -51,8 +50,6 @@
                                             <td>{{ $message->id }}</td>
                                             <td>{{ $message->name }}</td>
                                             <td>{{ $message->email }}</td>
-                                            <td>{{ Str::limit($message->message, 50) }}</td>
-
                                             <td>{{ $message->created_at->format('d M Y, h:i A') }}</td>
                                             <td>
                                                 <!-- View Button -->

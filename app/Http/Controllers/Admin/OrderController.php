@@ -11,7 +11,7 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $orders = Order::paginate();
+        $orders = Order::latest()->paginate();
 
         return view('admin.orders.index', compact('orders'));
     }
@@ -24,8 +24,15 @@ class OrderController extends Controller
         return view('admin.orders.show', compact('order', 'details'));
     }
 
-    public function updateStatus($id, $status)
+    public function updateStatus($status, $id)
     {
+        $validStatuses = OrderStatusEnums::values();
+
+        // Check if the provided status is valid
+        if (!in_array($status, $validStatuses)) {
+            return redirect()->back()->withErrors(['status' => 'Invalid status provided.']);
+        }
+        
         $order = Order::findOrFail($id);
         $order->status = $status;
         $order->save();
