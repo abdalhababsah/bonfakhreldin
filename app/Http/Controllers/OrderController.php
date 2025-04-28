@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Enums\OrderStatusEnums;
 use App\Http\Requests\OrderRequest;
+use App\Mail\OrderMail;
+use App\Mail\AdminOrderMail;
 use App\Models\City;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Services\CartService;
+use DB;
 use Exception;
 use Illuminate\Support\Facades\Mail;
 
@@ -36,49 +39,64 @@ class OrderController extends Controller
 
     public function store(OrderRequest $request)
     {
-        $cart = $this->cartService->getCartDetails();
-        
-        $order = Order::create([
-            'order_number' => uniqid('ORD-'),
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'status' => OrderStatusEnums::Pending,
-            'notes' => $request->notes,
-            'total_price' => $cart['totalPrice'],
-            'deliverable' => $request->deliverable,
-            'lang' => app()->getLocale(),
-        ]);
-        
-        $delivery_fee = City::find($request->city_id)?->delivery_fee ?? 0;
-        $deliverableData = array_merge($request->only('branch', 'area_id', 'address', 'longitude', 'latitude'), [
-            'delivery_fee' => $delivery_fee,
-        ]);
-        $order->{$request->deliverable}()->create($deliverableData);
+        try {
+            $cart = $this->cartService->getCartDetails();
 
-        $orderProducts = [];
-        foreach ($cart['items'] as $product) {
-            $orderProducts[] = [
-                'order_id' => $order->id,
-                'product_id' => $product['product_id'],
-                'quantity' => $product['quantity'],
-                'size' => $product['size'],
-                'option' => $product['option'] ?? null,
-                'additions' => json_encode($product['additions'] ?? []),
-                'price' => $product['price'],
-                'total_price' => $product['total'],
-            ];
+            if (empty($cart['items'])) {
+                return redirect()->back()->withErrors(['cart' => 'Your cart is empty.']);
+            }
+
+            $deliveryFee = City::find($request->city_id)?->delivery_fee ?? 0;
+
+            DB::beginTransaction();
+
+            $order = Order::create([
+                'order_number' => uniqid('ORD-'),
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'status' => OrderStatusEnums::Pending,
+                'notes' => $request->notes,
+                'total_price' => $cart['totalPrice'],
+                'deliverable' => $request->deliverable,
+                'lang' => app()->getLocale(),
+            ]);
+
+            $deliverableData = $request->only('branch', 'area_id', 'address', 'longitude', 'latitude');
+            $deliverableData['delivery_fee'] = $deliveryFee;
+
+            $order->{$request->deliverable}()->create($deliverableData);
+
+            $orderProducts = array_map(function ($product) use ($order) {
+                return [
+                    'order_id' => $order->id,
+                    'product_id' => $product['product_id'],
+                    'quantity' => $product['quantity'],
+                    'size' => $product['size'],
+                    'option' => $product['option'] ?? null,
+                    'additions' => json_encode($product['additions'] ?? []),
+                    'price' => $product['price'],
+                    'total_price' => $product['total'],
+                ];
+            }, $cart['items']);
+
+            OrderProduct::insert($orderProducts);
+
+            $this->cartService->clear();
+
+            // Send email to customer and admin
+            Mail::to($order->email)->send(new OrderMail($order));
+            Mail::to(config('mail.admin_email'))->send(new AdminOrderMail($order));
+
+            DB::commit();
+
+            return redirect()->route('home')
+                ->with('success', 'Order created successfully.');
+        } catch (Exception $e) {
+            DB::rollBack();
+            report($e);
+            return redirect()->back()->withErrors(['error' => 'An error occurred while processing your order. Please try again later.']);
         }
-        OrderProduct::insert($orderProducts);
-
-        $this->cartService->clear();
-        
-        // Send email to customer and admin
-        Mail::send(new \App\Mail\OrderMail($order));
-        Mail::send(new \App\Mail\AdminOrderMail($order));
-
-        return redirect()->route('home') // redirect to checkout success page
-            ->with('success', 'Order created successfully.');
     }
 
     public function updateStatus($id, $status)
