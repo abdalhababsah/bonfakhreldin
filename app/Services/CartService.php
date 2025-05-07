@@ -42,7 +42,6 @@ class CartService
             $additionKeys = array_map(function ($addition) {
             return $addition['id'] . 'x' . $addition['q'];
             }, $data['additions']);
-            Log::info('Addition keys', $additionKeys);
             $cartItemKey .= '-' . implode(',', $additionKeys);
         }
 

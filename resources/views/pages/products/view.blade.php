@@ -1,6 +1,8 @@
 @extends('layout.mainlayout')
 
 @section('title', $product->name)
+@section('meta_description', $product->description)
+@section('meta_keywords', $product->name . ', ' . $product->description . ', فخر الدين, منتجات, قهوة, حلويات, فخر الدين الأردن')
 
 @section('content')
     <link rel="stylesheet" href="{{ asset('assets/css/view-product.css') }}">

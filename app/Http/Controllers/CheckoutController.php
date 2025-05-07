@@ -23,5 +23,4 @@ class CheckoutController extends Controller
         return view('pages.checkout.index', compact('cart', 'cities'));
     }
 
-
 }

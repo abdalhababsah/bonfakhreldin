@@ -1,6 +1,8 @@
 @extends('layout.mainlayout')
 
 @section('title', __('Shop'))
+@section('meta_description', $category->description)
+@section('meta_keywords', 'فخر الدين, تسوق, قهوة, شوكولا, بن فخر الدين الأردن')
 
 <link rel="stylesheet" href="{{ asset('assets/css/shop.css') }}">
 

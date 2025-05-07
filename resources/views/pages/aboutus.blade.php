@@ -1,5 +1,9 @@
 @extends('layout.mainlayout')
+
 @section('title', __('about_us.title'))
+
+@section('meta_description', __('about_us.sections.section1.content'))
+
 @section('content')
 
     <x-breadcrumb />

@@ -2,6 +2,9 @@
 
 @section('title', __('Branches - Bonfkeralden'))
 
+@section('meta_description', __('Discover the Bon Fakhreldin branches across Jordan. Find your nearest branch and enjoy our premium coffee experience.'))
+@section('meta_keywords', __('Bon Fakhreldin, branches, coffee, Jordan, locations'))
+
 @section('content')
 
     <x-breadcrumb />

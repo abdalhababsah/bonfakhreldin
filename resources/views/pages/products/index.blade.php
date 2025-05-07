@@ -1,6 +1,8 @@
 @extends('layout.mainlayout')
 
 @section('title', __('products.title'))
+@section('meta_description', 'منتجاتنا في بن فخر الدين')
+@section('meta_keywords', 'فخر الدين, منتجات, قهوة, حلويات, فخر الدين الأردن')
 
 @section('content')
     <link rel="stylesheet" href="{{ asset('assets/css/products.css') }}">

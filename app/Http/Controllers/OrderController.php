@@ -11,6 +11,7 @@ use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Services\CartService;
 use Exception;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
@@ -36,55 +37,66 @@ class OrderController extends Controller
             $cart = $this->cartService->getCartDetails();
 
             if (empty($cart['items'])) {
-                return redirect()->back()->withErrors(['cart' => 'Your cart is empty.']);
+            return redirect()->back()->withErrors(['cart' => 'Your cart is empty.']);
             }
 
             $deliveryFee = City::find($request->city_id)?->delivery_fee ?? 0;
 
             DB::beginTransaction();
 
-            $order = Order::create([
-                'order_number' => uniqid('ORD-'),
-                'name' => $request->name,
-                'email' => $request->email,
-                'phone' => $request->phone,
-                'status' => OrderStatusEnums::Pending,
-                'notes' => $request->notes,
-                'total_price' => $cart['totalPrice'],
-                'deliverable' => $request->deliverable,
-                'lang' => app()->getLocale(),
-            ]);
+            $orderData = [
+            'order_number' => uniqid('ORD-'),
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'status' => OrderStatusEnums::Pending,
+            'notes' => $request->notes,
+            'total_price' => $cart['totalPrice'],
+            'deliverable' => $request->deliverable,
+            'lang' => app()->getLocale(),
+            ];
+
+            $order = Order::create($orderData);
 
             $deliverableData = $request->only('branch', 'area_id', 'address', 'longitude', 'latitude');
             $deliverableData['delivery_fee'] = $deliveryFee;
 
             $order->{$request->deliverable}()->create($deliverableData);
 
-            $orderProducts = array_map(function ($product) use ($order) {
-                return [
-                    'order_id' => $order->id,
-                    'product_id' => $product['product_id'],
-                    'quantity' => $product['quantity'],
-                    'size' => $product['size'],
-                    'option' => $product['option'] ?? null,
-                    'additions' => json_encode($product['additions'] ?? []),
-                    'price' => $product['price'],
-                    'total_price' => $product['total'],
-                ];
-            }, $cart['items']);
+            $orderProducts = [];
+            foreach ($cart['items'] as $product) {
+            $orderProducts[] = [
+                'order_id' => $order->id,
+                'product_id' => $product['product_id'],
+                'quantity' => $product['quantity'],
+                'size' => $product['size'],
+                'option' => $product['option'] ?? null,
+                'additions' => json_encode($product['additions'] ?? []),
+                'price' => $product['price'],
+                'total_price' => $product['total'],
+            ];
+            }
 
             OrderProduct::insert($orderProducts);
 
             $this->cartService->clear();
 
-            // Send email to customer and admin
-            Mail::to($order->email)->send(new OrderMail($order));
-            Mail::to(config('mail.admin_email'))->send(new AdminOrderMail($order));
-
             DB::commit();
 
+            // Dispatch email jobs to the queue
+            dispatch(function () use ($order) {
+            Mail::to($order->email)->send(new OrderMail($order));
+            Mail::to(config('mail.admin_email'))->send(new AdminOrderMail($order));
+            })->onQueue('emails');
+
+            // Run a server-side command when the order is created
+            Artisan::call('queue:work', [
+                '--queue' => 'emails',
+                '--once' => true,
+            ]);
+
             return redirect()->route('home')
-                ->with('success', 'Order created successfully.');
+            ->with('success', 'Order created successfully.');
         } catch (Exception $e) {
             DB::rollBack();
             report($e);

@@ -1,6 +1,8 @@
 @extends('layout.mainlayout')
 
 @section('title', __('Shop'))
+@section('meta_description', 'تسوق أفضل المنتجات من فخر الدين، قهوة، شوكولا، وهدايا بن فخر الدين، تسوق الآن واستمتع بأفضل الأسعار.')
+@section('meta_keywords', 'فخر الدين, تسوق, قهوة, شوكولا, فخر الدين الأردن')
 
 <link rel="stylesheet" href="{{ asset('assets/css/shop.css') }}">
 
@@ -22,11 +24,11 @@
                 </a>
                 <ul id="children-{{ $category->id }}" class="list-group mt-3 d-none p-0" style="overflow: hidden;">
                     @foreach ($category->children as $child)
-                    <li class="list-group-item">
-                        <a href="{{ url('shop', $child->slug) }}" class="text-decoration-none">
-                        {{ $child->name }}
-                        </a>
-                    </li>
+                    <a href="{{ url('shop', $child->slug) }}" class="text-decoration-none">
+                        <li class="list-group-item">
+                            {{ $child->name }}
+                        </li>
+                    </a>
                     @endforeach
                 </ul>
             </div>

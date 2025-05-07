@@ -2,6 +2,10 @@
 
 @section('title', __('contactUs.title'))
 
+@section('meta_description', __('contactUs.meta_description'))
+
+@section('meta_keywords', 'Amman, Jordan, contact us, coffee shop, Bon Fakhreldin, branches, coffee, customer service, عمان, الأردن, اتصل بنا, مقهى, فخر الدين, فروع, قهوة, خدمة العملاء')
+
 @section('content')
 
     <x-breadcrumb />
