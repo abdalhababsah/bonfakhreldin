@@ -52,8 +52,6 @@
         <!-- RTL CSS -->
         <link rel="stylesheet" href="{{ asset('assets/css/rtl.css') }}">
     @endif
-    <link href="https://api.mapbox.com/mapbox-gl-js/v3.10.0/mapbox-gl.css" rel="stylesheet">
-    <script src="https://api.mapbox.com/mapbox-gl-js/v3.10.0/mapbox-gl.js"></script>
     @yield('styles')
 
     <!-- Open Graph Meta Tags for Facebook, WhatsApp, Instagram -->

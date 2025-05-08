@@ -83,23 +83,17 @@ class OrderController extends Controller
 
             DB::commit();
 
-            // Dispatch email jobs to the queue
-            dispatch(function () use ($order) {
-            Mail::to($order->email)->send(new OrderMail($order));
-            Mail::to(config('mail.admin_email'))->send(new AdminOrderMail($order));
-            })->onQueue('emails');
+            // Dispatch email jobs to the queue without waiting for them to complete
+            Mail::queue(new OrderMail($order));
+            Mail::queue(new AdminOrderMail($order));
 
-            // Run a server-side command when the order is created
-            Artisan::call('queue:work', [
-                '--queue' => 'emails',
-                '--once' => true,
-            ]);
+            // Trigger the queue worker to process the jobs
+            Artisan::call('queue:work', ['--stop-when-empty' => true]);
 
             return redirect()->route('home')
             ->with('success', 'Order created successfully.');
         } catch (Exception $e) {
             DB::rollBack();
-            report($e);
             return redirect()->back()->withErrors(['error' => 'An error occurred while processing your order. Please try again later.']);
         }
     }
