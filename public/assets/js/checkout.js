@@ -1,7 +1,51 @@
-function activeDeliverymapbox(){
-    let script = document.createElement('script');
-    script.src = '../js/mapbox.js';
-    document.head.appendChild(script);
+function activeDeliverymapbox() {
+    const script = document.getElementById('mapboxScript');
+    if (script && script.dataset.loaded !== "true") {
+        // Initialize map
+        initMapbox();
+        script.dataset.loaded = "true";
+    }
+}
+function handleOrderSubmission(event) {
+    event.preventDefault();
+
+    let requiredFields = document.querySelectorAll('[required]');
+    let isValid = true;
+
+    requiredFields.forEach(field => {
+        if (isVisible(field)) {
+            if (!field.value.trim()) {
+                isValid = false;
+                field.classList.add('error'); // Add error class
+            } else {
+                field.classList.remove('error'); // Clear error class
+            }
+        }
+    });
+
+    if (!isValid) {
+        Swal.fire({
+            title: localSentence["validation_error"],
+            text: localSentence["please_fill_required"],
+            icon: 'error',
+        });
+        return;
+    }
+
+    Swal.fire({
+        title: localSentence["confirm_order"],
+        text: localSentence["thank_you_order"],
+        icon: 'success',
+        confirmButtonText: localSentence["confirm_order"]
+    }).then((result) => {
+        if (result.isConfirmed) {
+            event.target.closest('form').submit();
+        }
+    });
+}
+
+function isVisible(element) {
+    return !!(element.offsetWidth || element.offsetHeight || element.getClientRects().length);
 }
 
 function updateDeliveryFee(deliveryFee) {
@@ -36,21 +80,20 @@ function getAreas(cityId) {
         })
         .catch(error => console.error('Error:', error));
 }
-
 function toggleDeliveryMethod(value) {
+    const delivery = document.getElementById('delivery_address');
+    const pickup = document.getElementById('pickup_branch');
+
+    delivery.classList.add('hidden');
+    pickup.classList.add('hidden');
+
     if (value === 'delivery') {
-        document.getElementById('delivery_address').style.display = 'block';
-        document.getElementById('pickup_branch').style.display = 'none';
-        if (!document.querySelector('script[src="../js/mapbox.js"]')) {
-            activeDeliverymapbox();
-        }
+        delivery.classList.remove('hidden');
+        activeDeliverymapbox();
     } else if (value === 'pickup') {
-        document.getElementById('delivery_address').style.display = 'none';
-        document.getElementById('pickup_branch').style.display = 'block';
-        updateDeliveryFee(0); // Reset delivery fee to 0 for pickup
+        pickup.classList.remove('hidden');
+        updateDeliveryFee(0);
     } else {
-        document.getElementById('delivery_address').style.display = 'none';
-        document.getElementById('pickup_branch').style.display = 'none';
-        updateDeliveryFee(0); // Reset delivery fee to 0 for pickup
+        updateDeliveryFee(0);
     }
 }

@@ -136,6 +136,7 @@
 
     <!-- Activation JS -->
     <script src="{{ asset('assets/js/active.js') }}"></script>
+    <script src="{{ asset('assets/js/localization.js') }}"></script>
 
     @yield('scripts')
 </body>

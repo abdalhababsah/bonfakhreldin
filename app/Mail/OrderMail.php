@@ -11,7 +11,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class OrderMail extends Mailable
+class OrderMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -31,10 +31,6 @@ class OrderMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            to: [
-                // new Address(config('mail.notify.address')),// notify to admin
-                new Address($this->order->email, $this->order->name),
-            ],
             subject: 'Order Submitted: ' . $this->order->order_number,
         );
     }

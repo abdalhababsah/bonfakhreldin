@@ -91,7 +91,7 @@
                                 <option value="pickup">{{ __('Pickup') }}</option>
                             </select>
                         </div>
-                        <div id="delivery_address" style="display: none;">
+                        <div id="delivery_address" class="hidden">
                             <h2>{{ __('Address') }}</h2>
                             <div>
                                 <div class="form-group">
@@ -118,7 +118,7 @@
                                 <input type="hidden" name="latitude" id="latitude">
                             </div>
                         </div>
-                        <div id="pickup_branch" style="display: none;">
+                        <div id="pickup_branch" class="hidden">
                             <h2>{{ __('Branch') }}</h2>
                             <div class="form-group">
                                 <select name="branch" id="branch" class="form-field" required>
@@ -130,22 +130,6 @@
                             </div>
                         </div>
                         <button type="submit" class="btn btn-create mt-2 mx-auto" onclick="handleOrderSubmission(event)">{{ __('Place Order') }}</button>
-
-                        <script>
-                            function handleOrderSubmission(event) {
-                                event.preventDefault();
-                                Swal.fire({
-                                    title: '{{ __("Confirm Order") }}!',
-                                    text: '{{ __("Thank You for Your Order") }}',
-                                    icon: 'success',
-                                    confirmButtonText: '{{ __("OK") }}'
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        event.target.closest('form').submit();
-                                    }
-                                });
-                            }
-                        </script>
                     </div>
                 </div>
             </div>
@@ -154,5 +138,6 @@
 @endsection
 
 @section('scripts')
+    <script src="{{url('/js/mapbox.js')}}" defer id="mapboxScript" data-loaded="false"></script>
     <script src="{{url('/assets/js/checkout.js')}}"></script>
 @endsection

@@ -5539,6 +5539,10 @@ input.form-field:not([type=submit]):not([type=checkbox]):not([type=radio]):not([
   color: rgba(51, 51, 51, 0.7);
 }
 
+input.error {
+  border-color: red !important;
+}
+
 @media only screen and (min-width: 768px) and (max-width: 991px),
 only screen and (min-width: 992px) and (max-width: 1199px) {
   input.form-field:not([type=submit]):not([type=checkbox]):not([type=radio]):not([type=range]) {
@@ -6436,3 +6440,4 @@ only screen and (max-width: 575px) {
 }
 
 /*  */
+.hidden { display: none !important; }

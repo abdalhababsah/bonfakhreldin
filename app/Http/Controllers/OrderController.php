@@ -40,7 +40,7 @@ class OrderController extends Controller
             return redirect()->back()->withErrors(['cart' => 'Your cart is empty.']);
             }
 
-            $deliveryFee = City::find($request->city_id)?->delivery_fee ?? 0;
+            $deliveryFee = $request->city_id? City::find($request->city_id)?->delivery_fee ?? 0 : 0;
 
             DB::beginTransaction();
 
@@ -84,11 +84,11 @@ class OrderController extends Controller
             DB::commit();
 
             // Dispatch email jobs to the queue without waiting for them to complete
-            Mail::queue(new OrderMail($order));
+            Mail::to($request->email)->queue(new OrderMail($order));
             Mail::queue(new AdminOrderMail($order));
 
             // Trigger the queue worker to process the jobs
-            Artisan::call('queue:work', ['--stop-when-empty' => true]);
+            // Artisan::call('queue:work', ['--stop-when-empty' => true]);//instead open start-queue-worker
 
             return redirect()->route('home')
             ->with('success', 'Order created successfully.');

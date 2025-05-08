@@ -6,20 +6,6 @@ const pagination = document.getElementById('pagination');
 const defaultPlaceholder = document.getElementById('default-placeholder').src;
 const PRODUCTS_URL = appUrl + '/products/data';
 
-const lang = document.documentElement.lang;
-
-let sentence = {
-    ar :{
-        "error_loading": "خطأ في التحميل",
-        "not_found": "لم يتم العثور على منتجات",
-    },
-    en :{
-        "error_loading": "erro while loading",
-        "not_found": "no products found",
-    },
-};
-
-let localSentence = sentence[lang ?? 'en'];
 // Parse the category ID from the URL
 
 const urlParams = new URLSearchParams(window.location.search);
