@@ -2132,6 +2132,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 mapbox_gl__WEBPACK_IMPORTED_MODULE_0__.accessToken = document.querySelector('meta[name="mapbox-token"]').getAttribute('content');
+
+// Enable the RTL text plugin
+mapbox_gl__WEBPACK_IMPORTED_MODULE_0__.setRTLTextPlugin('https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js', null, true // Lazy load the plugin
+);
 var map = new mapbox_gl__WEBPACK_IMPORTED_MODULE_0__.Map({
   container: 'orderMap',
   // ID of the HTML element to render the map in

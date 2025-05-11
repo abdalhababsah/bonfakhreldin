@@ -1,8 +1,7 @@
 function activeDeliverymapbox() {
     const script = document.getElementById('mapboxScript');
     if (script && script.dataset.loaded !== "true") {
-        // Initialize map
-        initMapbox();
+
         script.dataset.loaded = "true";
     }
 }
