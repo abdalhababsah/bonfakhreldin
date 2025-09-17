@@ -4,10 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Enums\OrderStatusEnums;
 use App\Http\Requests\OrderRequest;
+use App\Mail\OrderMail;
+use App\Mail\AdminOrderMail;
+use App\Models\City;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Services\CartService;
 use Exception;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -18,26 +24,27 @@ class OrderController extends Controller
         $this->cartService = $cartService;
     }
 
-    public function index()
+    public function show($number)
     {
-        $orders = Order::all();
+        $order = Order::where('order_number', $number)->firstOrFail();
 
-        return view('pages.admin.orders.index', compact('orders'));
-    }
-
-    public function show($id)
-    {
-        $order = Order::findOrFail($id);
-
-        return view('pages.admin.orders.show', compact('order'));
+        // return view('pages.orders.show', compact('order'));//need to build this view
     }
 
     public function store(OrderRequest $request)
     {
-        // dd($del);
-        $cart = $this->cartService->getCartDetails();
+        try {
+            $cart = $this->cartService->getCartDetails();
 
-        $order = Order::create([
+            if (empty($cart['items'])) {
+            return redirect()->back()->withErrors(['cart' => 'Your cart is empty.']);
+            }
+
+            $deliveryFee = $request->city_id? City::find($request->city_id)?->delivery_fee ?? 0 : 0;
+
+            DB::beginTransaction();
+
+            $orderData = [
             'order_number' => uniqid('ORD-'),
             'name' => $request->name,
             'email' => $request->email,
@@ -46,42 +53,49 @@ class OrderController extends Controller
             'notes' => $request->notes,
             'total_price' => $cart['totalPrice'],
             'deliverable' => $request->deliverable,
-            // 'delivery_fee' => $cart['delivery_fee'] ?? 0,
-            // 'address' => $request->address,
-            // 'area_id' => $request->area_id,
-        ]);
+            'lang' => app()->getLocale(),
+            ];
 
-        $delivery_fee = $order->city?->delivery_fee;
-        $deliverableData = array_merge($request->only('branch', 'area_id', 'address'), [
-            'delivery_fee' => $delivery_fee,
-        ]);
-        $order->{$request->deliverable}()->create($deliverableData);
+            $order = Order::create($orderData);
 
-        $orderProducts = [];
-        foreach ($cart['items'] as $product) {
+            $deliverableData = $request->only('branch', 'area_id', 'address', 'longitude', 'latitude');
+            $deliverableData['delivery_fee'] = $deliveryFee;
+
+            $order->{$request->deliverable}()->create($deliverableData);
+
+            $orderProducts = [];
+            foreach ($cart['items'] as $product) {
             $orderProducts[] = [
                 'order_id' => $order->id,
                 'product_id' => $product['product_id'],
                 'quantity' => $product['quantity'],
                 'size' => $product['size'],
-                'option' => $product['option'],
+                'option' => $product['option'] ?? null,
+                'additions' => json_encode($product['additions'] ?? []),
                 'price' => $product['price'],
                 'total_price' => $product['total'],
             ];
-        }
-        OrderProduct::insert($orderProducts);
+            }
 
-        $this->cartService->clear();
+            OrderProduct::insert($orderProducts);
 
-        return redirect()->route('cart.index') // redirect to checkout success page
+            $this->cartService->clear();
+
+            DB::commit();
+
+            // Dispatch email jobs to the queue without waiting for them to complete
+            Mail::to($request->email)->queue(new OrderMail($order));
+            Mail::queue(new AdminOrderMail($order));
+
+            // Trigger the queue worker to process the jobs
+            // Artisan::call('queue:work', ['--stop-when-empty' => true]);//instead open start-queue-worker
+
+            return redirect()->route('home')
             ->with('success', 'Order created successfully.');
+        } catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->withErrors(['error' => 'An error occurred while processing your order. Please try again later.']);
+        }
     }
-    public function updateStatus($id, $status)
-    {
-        $order = Order::findOrFail($id);
-        $order->status = $status;
-        $order->save();
 
-        return redirect()->back();
-    }
 }

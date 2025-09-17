@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('name', 100);
             $table->string('email', 100)->nullable();
             $table->string('phone', 20);
+            $table->string('lang', 2)->default('en');
             $table->string('status', 12)->default(OrderStatusEnums::Pending);
             $table->string('deliverable', 12)->default(OrderDeliverableEnums::Delivery);
             $table->decimal('total_price', 10, 2);

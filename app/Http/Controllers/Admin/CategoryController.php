@@ -3,33 +3,30 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
+use App\Traits\HandleImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
+    use HandleImage;
     // Display a listing of categories
     public function index(Request $request)
     {
         $categories = Category::paginate(10); // Adjust the per-page count as needed
-        return view('admin.categories.index', compact('categories')); // Ensure this view exists
+        $mainCategories = Category::whereNull('category_id')->get();
+
+        return view('admin.categories.index', compact('categories', 'mainCategories')); // Ensure this view exists
     }
 
     // Store a newly created category in storage
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
 
-        // dd($request);
-        $request->validate([
-            'description_en' => 'required|string|max:255',
-            'description_ar' => 'nullable|string|max:255',
-            'name_en' => 'required|string|max:255',
-            'name_ar' => 'required|string|max:255',
-        ]);
-
-        // Generate slug from description_en or fallback to description_ar
-        $slug = Str::slug($request->description_en ?? $request->description_ar);
+        // Generate slug from name_en or fallback to name_ar
+        $slug = Str::slug($request->name_en ?? $request->name_ar);
 
         Category::create([
             'slug' => $slug,
@@ -37,7 +34,13 @@ class CategoryController extends Controller
             'name_ar' => $request->name_ar,
             'description_en' => $request->description_en,
             'description_ar' => $request->description_ar,
+            'category_id' => $request->category_id,
         ]);
+
+        // Handle image upload if provided
+        if ($request->hasFile('image')) {
+            $this->uploadImage($request->file('image'), 'categories');
+        }
 
         // Redirect back to the current page
         $currentPage = $request->get('page', 1);
@@ -53,17 +56,11 @@ class CategoryController extends Controller
     }
 
     // Update the specified category in storage
-    public function update(Request $request, Category $category)
+    public function update(CategoryRequest $request, Category $category)
     {
-        $request->validate([
-            'description_en' => 'required|string|max:255',
-            'description_ar' => 'nullable|string|max:255',
-            'name_en' => 'required|string|max:255',
-            'name_ar' => 'required|string|max:255',
-        ]);
 
-        // Generate slug from updated description_en or fallback to description_ar
-        $slug = Str::slug($request->description_en ?? $request->description_ar);
+        // Generate slug from updated name_en or fallback to name_ar
+        $slug = Str::slug($request->name_en ?? $request->name_ar);
 
         $category->update([
             'slug' => $slug,
@@ -72,6 +69,12 @@ class CategoryController extends Controller
             'description_en' => $request->description_en,
             'description_ar' => $request->description_ar,
         ]);
+
+        // Handle image upload if provided
+        if ($request->hasFile('image')) {
+            $this->destroyImage($category->image);
+            $this->uploadImage($request->file('image'), 'categories');
+        }
 
         // Redirect back to the current page
         $currentPage = $request->get('page', 1);

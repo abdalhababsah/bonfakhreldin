@@ -9,6 +9,7 @@ class City extends Model
     protected $fillable = [
         'name_en',
         'name_ar',
+        'delivery_fee',
     ];
 
     protected $appends = ['name'];

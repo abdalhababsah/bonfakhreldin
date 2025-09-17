@@ -4,31 +4,23 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Cart;
+use App\Models\City;
+use App\Services\CartService;
 
 class CheckoutController extends Controller
 {
-    public function show()
-{
-    $cartItems = Cart::with(['product', 'size'])->get(); // or session('cart')
-    $total = $cartItems->sum(fn($item) => $item->size->price);
-    return view('pages.checkout', compact('cartItems', 'total'));
-}
+    protected $cartService;
+    public function __construct(CartService $cartService)
+    {
+        $this->cartService = $cartService;
+    }
 
-public function addToCart(Request $request)
-{
-    $cart = session('cart', []);
+    public function index()
+    {
+        $cart = $this->cartService->getCartDetails();
+        $cities = City::all();
 
-    $cart[] = [
-        'product_id' => $request->product_id,
-        'product_name' => $request->product_name,
-        'size' => $request->size_value,
-        'price' => $request->price,
-        'quantity' => 1
-    ];
-
-    session(['cart' => $cart]);
-
-    return redirect()->route('checkout.show');
-}
+        return view('pages.checkout.index', compact('cart', 'cities'));
+    }
 
 }

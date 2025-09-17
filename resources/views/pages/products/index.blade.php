@@ -1,6 +1,8 @@
 @extends('layout.mainlayout')
 
 @section('title', __('products.title'))
+@section('meta_description', 'منتجاتنا في بن فخر الدين')
+@section('meta_keywords', 'فخر الدين, منتجات, قهوة, حلويات, فخر الدين الأردن')
 
 @section('content')
     <link rel="stylesheet" href="{{ asset('assets/css/products.css') }}">
@@ -58,6 +60,7 @@
     <img id="default-placeholder" src="{{ asset('assets/images/default-placeholder.png') }}" alt="Placeholder" style="display: none;">
 
 @endsection
+
 @section('scripts')
 <script src="{{url('assets/js/products.js')}}"></script>
 @endsection

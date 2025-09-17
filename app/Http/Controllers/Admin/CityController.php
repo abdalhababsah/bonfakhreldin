@@ -19,10 +19,7 @@ class CityController extends Controller
     // Store a newly created city in storage
     public function store(CityRequest $request)
     {
-        City::create([
-            'name_en' => $request->name_en,
-            'name_ar' => $request->name_ar,
-        ]);
+        City::create($request->validated());
 
         return redirect()->route('admin.cities.index')
             ->with('success', 'City created successfully.');
@@ -37,10 +34,7 @@ class CityController extends Controller
     // Update the specified city in storage
     public function update(CityRequest $request, City $city)
     {
-        $city->update([
-            'name_en' => $request->name_en,
-            'name_ar' => $request->name_ar,
-        ]);
+        $city->update($request->validated());
 
         return redirect()->route('admin.cities.index')
             ->with('success', 'City updated successfully.');

@@ -17,6 +17,7 @@ class Order extends Model
         'deliverable',
         'notes',
         'total_price',
+        'lang',
     ];
 
     protected $casts = [
@@ -34,5 +35,10 @@ class Order extends Model
     public function pickup()
     {
         return $this->hasOne(OrderPickup::class);
+    }
+
+    public function products()
+    {
+        return $this->hasMany(OrderProduct::class);
     }
 }

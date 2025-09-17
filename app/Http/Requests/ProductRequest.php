@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Log;
+use Illuminate\Support\Facades\Auth;
 
 final class ProductRequest extends FormRequest
 {
@@ -12,7 +12,7 @@ final class ProductRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check();
+        return Auth::check();
     }
 
     /**
@@ -22,7 +22,7 @@ final class ProductRequest extends FormRequest
      */
     public function rules(): array
     {
-        Log::info('req:',request()->all());
+        // Log::info('req:',request()->all());
         return [
             'name_en' => 'required|string|max:255',
             'name_ar' => 'required|string|max:255',

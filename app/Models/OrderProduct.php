@@ -14,11 +14,13 @@ class OrderProduct extends Model
         'total_price',
         'size',
         'option',
+        'additions',
     ];
-
+    
     protected $casts = [
         'total_price' => 'decimal:2',
         'price' => 'decimal:2',
+        'additions' => 'array',
     ];
 
     protected $with = ['product'];

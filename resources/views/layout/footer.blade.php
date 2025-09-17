@@ -1,15 +1,4 @@
 
-
-    <style>
-        .footer-3-section {
-            position: relative;
-            z-index: 1;
-        }
-
-        ul li {
-            list-style: none;
-        }
-    </style>
     <div class="footer-3-section section bg-light">
         <!-- Footer Top Section Start -->
         <div class="footer-top section">
@@ -23,7 +12,7 @@
                     </div>
                     <div class="">
                         <div class="footer-widget">
-                            <ul class="d-flex gap-3">
+                            <ul class="d-flex gap-3 list-unstyled">
                                 <li><a href="{{ route('home') }}">{{ __('footer.home') }}</a></li>
                                 <li><a href="{{ route('about.us') }}">{{ __('footer.about_us') }}</a></li>
                                 <li><a href="{{ route('branches') }}">{{ __('header.branches') }}</a></li>

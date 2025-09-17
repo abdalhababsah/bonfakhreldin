@@ -15,10 +15,41 @@ class Category extends Model
         'name_ar',
         'description_en',
         'description_ar',
+        'category_id',
+        'image',
     ];
+    
+    protected $appends = ['name', 'description'];
+
+    //relationship
+    public function parent()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(Category::class, 'category_id');
+    }
 
     public function products()
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function additions()
+    {
+        return $this->hasMany(Addition::class);
+    }
+
+    // Localized Attributes
+    public function getNameAttribute()
+    {
+        return $this['name_' . app()->getLocale()];
+    }
+
+    public function getDescriptionAttribute()
+    {
+        return $this['description_' . app()->getLocale()];
     }
 }

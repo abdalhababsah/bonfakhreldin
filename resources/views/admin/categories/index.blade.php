@@ -126,6 +126,15 @@
                                 <label for="descriptionAr" class="form-label">Description (Arabic)</label>
                                 <textarea name="description_ar" id="descriptionAr" class="form-control" rows="3"></textarea>
                             </div>
+                            <div class="form-group mb-3">
+                                <label for="nameAr" class="form-label">Category</label>
+                                <select name="category_id" id="category_id" class="form-control">
+                                    <option value="">Main Category</option>
+                                    @foreach ($mainCategories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name_en }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Save</button>
@@ -151,7 +160,7 @@
                                 aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <input type="hidden" id="editCategoryId" name="id">
+                            <input type="hidden" id="editId" name="id">
                             <div class="form-group mb-3">
                                 <label for="editNameEn" class="form-label">Name (English)</label>
                                 <input type="text" name="name_en" id="editNameEn" class="form-control" required>
@@ -167,6 +176,15 @@
                             <div class="form-group mb-3">
                                 <label for="editDescriptionAr" class="form-label">Description (Arabic)</label>
                                 <textarea name="description_ar" id="editDescriptionAr" class="form-control" rows="3"></textarea>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="nameAr" class="form-label">Category</label>
+                                <select name="category_id" id="editCategoryId" class="form-control">
+                                    <option value="">Main Category</option>
+                                    @foreach ($mainCategories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name_en }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -190,11 +208,12 @@
 
     <script>
         function populateEditModal(category, page) {
-            document.getElementById('editCategoryId').value = category.id;
+            document.getElementById('editId').value = category.id;
             document.getElementById('editNameEn').value = category.name_en;
             document.getElementById('editNameAr').value = category.name_ar;
             document.getElementById('editDescriptionEn').value = category.description_en;
             document.getElementById('editDescriptionAr').value = category.description_ar;
+            document.getElementById('editCategoryId').value = category.category_id;
             document.getElementById('editPage').value = page;
             document.getElementById('editCategoryForm').action = `/admin/categories/${category.id}`;
         }

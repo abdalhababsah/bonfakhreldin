@@ -19,12 +19,13 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HomeController;
+use App\Http\Middleware\CheckCartNotEmpty;
 use Illuminate\Support\Facades\Route;
+
 // Home Route
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Switch languages route
-
 Route::get('/lang/{locale}', [LocalizationController::class, 'switchLang'])->name('locale.switch');
 
 // User routes
@@ -43,16 +44,31 @@ Route::get('/branches', [PageController::class, 'branches'])->name('branches');
 Route::get('/products', [UserProductController::class, 'index'])->name('products.index');
 Route::get('/products/data', [UserProductController::class, 'productData'])->name('products.data');
 
-// User fetch cart
-Route::controller(CartController::class)->prefix('cart')->group(function () {
-    Route::get('/', 'index')->name('cart.index');
-    Route::post('/add/{id}', 'add')->name('cart.add');
-    Route::post('/update', 'update')->name('cart.update');
-    Route::delete('/remove/{key}', 'delete')->name('cart.remove');
-    Route::post('/clear', 'clear')->name('cart.clear');
-    Route::get('/countItem', 'countItem')->name('cart.countItem');
-    Route::get('/checkout', 'checkout')->name('cart.checkout');
+
+// Shop routes
+Route::controller(ShopController::class)->prefix('shop')->name('shop.')->group(function () {
+    Route::get('/',  'index')->name('index');
+    Route::get('/{slug}', 'category');
 });
+
+
+// User fetch cart
+Route::controller(CartController::class)->prefix('cart')->name('cart.')->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::post('/add', 'add')->name('add');
+    Route::post('/update/{key}', 'update')->name('update');
+    Route::delete('/remove/{key}', 'delete')->name('remove');
+    Route::post('/clear', 'clear')->name('clear');
+    Route::get('/count', 'countItem')->name('countItem');
+});
+
+Route::middleware(['throttle:web', CheckCartNotEmpty::class])->controller(CheckoutController::class)
+    ->prefix('checkout')->name('checkout.')->group(function () {
+    Route::get('/', 'index')->name('index');
+});
+
+// User fetch areas AJAX in the checkout page
+Route::get('/areas/{city_id}', [UserAreaController::class, 'getByCity']);
 
 
 // User fetch orders
@@ -60,11 +76,8 @@ Route::controller(OrderController::class)->prefix('orders')->group(function () {
     Route::get('/', 'index');
     Route::post('/store', 'store');
     Route::get('/data', 'orderData');
-    Route::get('/{id}', 'show');
+    Route::get('/{number}', 'show');
 });
-
-// User fetch areas
-Route::get('/areas/{city_id}', [UserAreaController::class, 'getByCity']);
 
 // Admin Authentication Routes
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -78,6 +91,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('cities', CityController::class);
         Route::resource('areas', AreaController::class);
         Route::resource('products', ProductController::class);
+        Route::post('products/updateInShop', [ProductController::class, 'updateInShop'])->name('products.updateInShop');
         Route::post('products/{product}/upload-image', [ProductController::class, 'uploadImage'])->name('products.uploadImage');
         Route::delete('products/remove-image/{id}', [ProductController::class, 'removeImage'])->name('products.removeImage');
 
@@ -90,36 +104,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/data', 'orderData');
             Route::get('/{id}', 'show')->name('show');
-            Route::post('/{id}/update-status', 'updateStatus')->name('update_status');
+            Route::get('update-status/{status}/{id}', 'updateStatus')->name('update_status');
         });
 
     });
 });
 
-
-// Shop routes
-Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
-Route::get('/product/{slug}', [ShopController::class, 'show'])->name('product.show');
-
-
-Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout.show');
-Route::post('/checkout', [CheckoutController::class, 'submit'])->name('checkout.submit');
-
-
-Route::post('/admin/products', [ProductController::class, 'store'])->name('admin.products.store');
-
-
-Route::post('/cart/add', [CartController::class, 'add']);
-Route::post('/cart/update/{id}', [CartController::class, 'update']);
-Route::get('/cart/count', [CartController::class, 'countItem']);
-
-
-Route::delete('/cart/remove/{key}', [CartController::class, 'delete']);
-
-
-Route::get('/shop/chocolate', [ShopController::class, 'chocolate'])->name('shop.chocolate');
-Route::get('/shop/gold', [ShopController::class, 'gold'])->name('shop.gold');
-Route::get('/shop/deluxe', [ShopController::class, 'deluxe'])->name('shop.deluxe');
-Route::get('/shop/gift', [ShopController::class, 'gift'])->name('shop.gift');
-Route::get('/shop/coffee', [ShopController::class, 'coffee'])->name('shop.coffee');
-Route::get('/shop/nuts', [ShopController::class, 'nuts'])->name('shop.nuts');
+Route::fallback(function () {
+    return view('errors.404');
+});

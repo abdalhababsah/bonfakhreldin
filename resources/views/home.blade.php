@@ -208,7 +208,7 @@
         </div>
 
         <!-- Product Section Start -->
-        <div style="position: relative; z-index: 10;" class="h3-feature-section product-section section section-padding">
+        <div style="position: relative; " class="h3-feature-section product-section section section-padding">
             <div class="container">
                 <div class="section-title section-title-center">
                     <p class="title">@lang('home.our_products')</p>
@@ -217,7 +217,7 @@
             </div>
         </div>
 
-        <div style="z-index: 20" class="h1-product-section section  pt-0">
+        <div class="h1-product-section section  pt-0">
             <div class="container product-container">
                 <div class="row row-cols-lg-3 row-cols-md-2 row-cols-1 align-items-start gy-4">
                     <div class="col mb-8" style="min-height: 558px;">

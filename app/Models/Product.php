@@ -17,15 +17,21 @@ class Product extends Model
         'description_en',
         'description_ar',
         'category_id',
-        'subcategory_id',
         'status',
         'price',
     ];
 
 
-    protected $appends = ['name', 'description'];
+    protected $appends = ['name', 'description', 'primary_image_url'];
+    protected $hidden = [
+        'name_en',
+        'name_ar',
+        'description_en',
+        'description_ar',
+    ];
 
-    protected $with = ['primaryImage'];
+    // Remove eager loading of primaryImage to handle fallback logic manually
+    protected $with = [];
 
     public function category()
     {
@@ -38,21 +44,39 @@ class Product extends Model
     }
 
     /**
-     * Get the primary image for the product.
+     * Get the primary image for the product or fallback to the first image or a default image.
      */
     public function primaryImage()
     {
         return $this->hasOne(ProductImage::class)->where('is_primary', true);
     }
 
+    /**
+     * Get the primary image URL or fallback to the first image or a default image.
+     */
+    public function getPrimaryImageUrlAttribute()
+    {
+        $primaryImage = $this->primaryImage()->first();
+        if ($primaryImage) {
+            return 'storage/' .$primaryImage->image_url;
+        }
+
+        $firstImage = $this->images()->first();
+        return $firstImage ? 'storage/' .$firstImage->image_url : asset('images/default.png');
+    }
     public function sizes()
     {
-        return $this->hasMany(ProductSize::class);
+        return $this->hasMany(ProductSize::class)->orderBy('price', 'asc');
     }
 
     public function options()
     {
         return $this->hasMany(ProductOption::class);
+    }
+
+    public function additions()
+    {
+        return $this->hasManyThrough(Addition::class, Category::class, 'id', 'category_id', 'category_id', 'id');
     }
 
     // Localized Attributes
@@ -64,9 +88,4 @@ class Product extends Model
     {
         return $this['name_' . app()->getLocale()];
     }
-    public function subcategory()
-    {
-        return $this->belongsTo(Subcategory::class);
-    }
-
 }

@@ -2,6 +2,9 @@
 
 @section('title', __('Branches - Bonfkeralden'))
 
+@section('meta_description', __('Discover the Bon Fakhreldin branches across Jordan. Find your nearest branch and enjoy our premium coffee experience.'))
+@section('meta_keywords', __('Bon Fakhreldin, branches, coffee, Jordan, locations'))
+
 @section('content')
 
     <x-breadcrumb />
@@ -26,7 +29,7 @@
                 </div>
                 <!-- Map Container -->
                 <div class="col-md-8">
-                    <div id="map" style="width: 100%; height: 600px;"></div>
+                    <div id="map" style="width: 100%; height: 600px; z-index: 6;"></div>
                 </div>
 
             </div>

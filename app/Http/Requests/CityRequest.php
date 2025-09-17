@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class CityRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class CityRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check();
+        return Auth::check();
     }
 
     /**
@@ -24,6 +25,7 @@ class CityRequest extends FormRequest
         return [
             'name_en' => ['required','between:3,10'],
             'name_ar' => ['required','between:3,10'],
+            'delivery_fee' => ['nullable','numeric','min:0'],
         ];
     }
 }

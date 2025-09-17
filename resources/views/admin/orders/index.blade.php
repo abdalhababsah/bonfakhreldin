@@ -41,6 +41,7 @@
                                         <th>Email</th>
                                         <th>Phone</th>
                                         <th>Status</th>
+                                        <th></th>
                                         <th>Order At</th>
                                         <th>Actions</th>
                                     </tr>
@@ -50,15 +51,33 @@
                                         <tr>
                                             <td>{{ $order->order_number }}</td>
                                             <td>{{ $order->name }}</td>
-                                            <td>{{ $order->email }}</td>
-                                            <td>{{ $order->phone }}</td>
+                                            <td><a href="mailto:{{$order->email}}">{{ $order->email }}</a></td>
+                                            <td><a href="tel:{{$order->phone}}">{{ $order->phone }}</a></td>
                                             <td>{{ $order->status }}</td>
+                                            <td>
+                                                <!-- Update Status Button -->
+                                                @if ($order->status == \App\Enums\OrderStatusEnums::Pending)
+                                                    <a href="{{ route('admin.orders.update_status', [\App\Enums\OrderStatusEnums::Processing, $order]) }}" title="Accept Order">
+                                                        <i class="material-symbols-rounded opacity-5 text-success">check</i>
+                                                    </a>
+                                                    <a href="{{ route('admin.orders.update_status', [\App\Enums\OrderStatusEnums::Declined, $order]) }}" title="Reject Order">
+                                                        <i class="material-symbols-rounded opacity-5 text-danger">close</i>
+                                                    </a>
+                                                @elseif ($order->status == \App\Enums\OrderStatusEnums::Processing)
+                                                    <a href="{{ route('admin.orders.update_status', [\App\Enums\OrderStatusEnums::Completed, $order]) }}" title="Complete Order">
+                                                        <i class="material-symbols-rounded opacity-5 text-success">check_circle</i>
+                                                    </a>
+                                                @else
+                                                    <i class="material-symbols-rounded opacity-5 text-secondary">done_all</i>
+                                                @endif
+                                            </td>
                                             <td>{{ $order->created_at->format('d M Y, h:i A') }}</td>
                                             <td>
                                                 <!-- View Button -->
                                                 <a href="{{ route('admin.orders.show', $order) }}" class="btn btn-info btn-sm">
                                                     View
                                                 </a>
+                                                
                                             </td>
                                         </tr>
                                     @endforeach

@@ -1,7 +1,7 @@
 
 .product-card {
-      height: 14px;
-      margin: 43px;
+    height: 14px;
+    margin: 43px;
 }
 
 /* Subtle hover lift and shadow */
@@ -81,11 +81,11 @@
 
 
 .category-box {
-    width: 472px;
-    min-height: 283px;
+    /* width: 472px; */
+    /* min-height: 283px; */
     background-size: cover;
     background-position: center;
-    border-radius: 1.25rem;
+    /* border-radius: 1.25rem; */
     transition: all 0.3s ease;
     display: flex;
     justify-content: center;
@@ -100,7 +100,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.4); 
+    background: rgba(0, 0, 0, 0.55); 
     transition: background 0.3s ease;
 }
 
@@ -108,24 +108,19 @@
     background: rgba(0, 0, 0, 0.6);
 }
 
-.category-box h2 {
-    color: #000000;
+.category-box h3 {
+    color: #fafafa;
     position: relative;
-    font-size: 2rem;
+    /* font-size: 2rem; */
     margin-top: 131px;
-    font-family: 'simple-line-icons';
 }
 
 .see-options-btn {
-    margin-top: 35px;
     width: 20px;
     font-weight: 600 !important;
-    transition: background-color 0.3s ease;
-  }
-  
-  .see-options-btn:hover {
-    background-color: #218838 !important; /* or any hover color */
-  }
-  
+}
 
-  
+.see-options-btn:hover {
+    transform: scale(1.02);
+    cursor: pointer;
+}

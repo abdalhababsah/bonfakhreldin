@@ -4980,8 +4980,10 @@ fieldset:disabled .btn {
   display: flex;
   flex-direction: column;
   padding-left: 0;
+  padding-right: 0;
   margin-bottom: 0;
   list-style: none;
+  transition: height 0.5s ease-in-out;
 }
 
 .navbar-nav .nav-link.active,

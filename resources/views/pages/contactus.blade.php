@@ -2,6 +2,10 @@
 
 @section('title', __('contactUs.title'))
 
+@section('meta_description', __('contactUs.meta_description'))
+
+@section('meta_keywords', 'Amman, Jordan, contact us, coffee shop, Bon Fakhreldin, branches, coffee, customer service, عمان, الأردن, اتصل بنا, مقهى, فخر الدين, فروع, قهوة, خدمة العملاء')
+
 @section('content')
 
     <x-breadcrumb />
@@ -17,7 +21,10 @@
                         <h2 class="sub-title">{{ __('contactUs.keep_in_touch') }}</h2>
                     </div>
                     <ul class="contact-info">
-                        <li><i class="sli-location-pin"></i> {{ __('contactUs.address') }}</li>
+                        <li>
+                            <i class="sli-location-pin"></i> {{ __('Amman') }}, {{__('Jordan')}} |
+                            <a href="{{url('/branches')}}" class="align-content-around small">{{ __('see branches') }}...</a>
+                        </li>
                         <li><i class="sli-envelope"></i> {{ __('contactUs.email') }}</li>
                         <li><i class="sli-phone"></i> {{ __('contactUs.phone') }}</li>
                     </ul>

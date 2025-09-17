@@ -16,7 +16,6 @@
                 <div class="card-body">
                     <div id="productForm">
                         @csrf
-
                         <!-- Product Information Section -->
                         <section class="mb-4">
                             <h5 class="mb-3">Product Information</h5>
@@ -88,16 +87,6 @@
                         </select>
                         <span id="category_id_error" class="text-danger small" style="display:none;">Please select a category</span>
                     </div>
-
-
-                    <div class="mb-4" id="subcategory-wrapper" style="display: none;">
-                    <label for="subcategory_id" class="form-label">Subcategory</label>
-                    <select name="subcategory_id" id="subcategory_id" class="form-select styled-input">
-                        <option value="">Select Subcategory</option>
-                    </select>
-                </div>
-
-
 
                     <!-- Status -->
                     <div class="mb-4">
@@ -210,12 +199,9 @@ function validateImages() {
     imageError.style.display = (acceptedFiles.length < 1) ? 'inline' : 'none';
 }
 
-// ✅ Submit form
+// Handle form submission
 document.getElementById('submitBtn').addEventListener('click', function () {
     this.disabled = true;
-
-
-
 
     const name_en = document.getElementById('name_en').value.trim();
     const name_ar = document.getElementById('name_ar').value.trim();
@@ -243,7 +229,6 @@ document.getElementById('submitBtn').addEventListener('click', function () {
         imageError.style.display = 'none';
     }
 
-    // ✅ Get sizes and prices correctly
     const sizes = [];
     document.querySelectorAll('.size-price-row').forEach(row => {
         const sizeInput = row.querySelector('.size-value')?.value.trim();
@@ -259,7 +244,6 @@ document.getElementById('submitBtn').addEventListener('click', function () {
         return;
     }
 
-
     const options = [];
     document.querySelectorAll('.option-row').forEach(row => {
         const nameEn = row.querySelector('.option-name-en')?.value.trim();
@@ -270,24 +254,12 @@ document.getElementById('submitBtn').addEventListener('click', function () {
         }
     });
 
-
     if (!isValid) {
         this.disabled = false;
         return;
     }
 
     const formData = new FormData();
-
-
-    const subcategoryInput = document.getElementById('subcategory_id');
-
-if (subcategoryInput && subcategoryInput.value) {
-    formData.append('subcategory_id', subcategoryInput.value);
-    console.log("✅ Subcategory ID appended:", subcategoryInput.value);
-} else {
-    console.warn("⚠️ No subcategory selected or found");
-}
- 
 
     formData.append('_token', '{{ csrf_token() }}');
     formData.append('name_en', name_en);
@@ -303,8 +275,6 @@ if (subcategoryInput && subcategoryInput.value) {
     acceptedFiles.forEach((file, index) => {
         formData.append(`images[${index}]`, file);
     });
-
-
 
 
     fetch("{{ route('admin.products.store') }}", {
@@ -332,7 +302,7 @@ if (subcategoryInput && subcategoryInput.value) {
 });
 
 
-// ➕ Add new size row
+// Add new size row
 document.getElementById('addSizeRow').addEventListener('click', function () {
     const container = document.getElementById('sizePriceRepeater');
     const row = document.createElement('div');
@@ -349,56 +319,14 @@ document.getElementById('addSizeRow').addEventListener('click', function () {
     container.appendChild(row);
 });
 
-
-    document.addEventListener('click', function (e) {
-        if (e.target.classList.contains('remove-option')) {
-            e.target.closest('.option-row').remove();
-        }
-    });
-
-    document.addEventListener('DOMContentLoaded', function () {
-    const categorySelect = document.getElementById('category_id');
-    const subcategoryWrapper = document.getElementById('subcategory-wrapper');
-    const subcategorySelect = document.getElementById('subcategory_id');
-
-    
-    const subcategories = {
-        2: [ 
-            { id: 1, name: "Deluxe" },
-            { id: 2, name: "Gold" }
-        ]
-    };
-
-    categorySelect.addEventListener('change', function () {
-        const selectedId = categorySelect.value;
-
-        if (subcategories[selectedId]) {
-            subcategoryWrapper.style.display = 'block';
-            subcategorySelect.innerHTML = '<option value="" selected>Select Subcategory</option>';
-
-            subcategories[selectedId].forEach(sub => {
-                const option = document.createElement('option');
-                option.value = sub.id;
-                option.textContent = sub.name;
-                subcategorySelect.appendChild(option);
-            });
-        } else {
-            subcategoryWrapper.style.display = 'none';
-            subcategorySelect.innerHTML = '';
-        }
-    });
-});
-
-
-
-// ❌ Remove size row
+// Remove size row
 document.addEventListener('click', function (e) {
     if (e.target.classList.contains('remove-size')) {
         e.target.closest('.size-price-row').remove();
     }
 });
 
-// ➕ Add new option row
+// Add new option row
 document.getElementById('addOptionRow').addEventListener('click', function () {
     const container = document.getElementById('optionsRepeater');
     const row = document.createElement('div');
@@ -406,7 +334,7 @@ document.getElementById('addOptionRow').addEventListener('click', function () {
     row.innerHTML = `
         <div class="">
             <label for="option_name_en" class="d-flex justify-content-end">
-                <button type="button" class="btn-close btn-close-white remove-option " aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white remove-option" aria-label="Close"></button>
             </label>
             <input type="text" name="option_name_en[]" class="form-control option-name-en" placeholder="Name En">
             <input type="text" name="option_name_ar[]" class="form-control option-name-ar" placeholder="Name Ar">
@@ -415,7 +343,7 @@ document.getElementById('addOptionRow').addEventListener('click', function () {
     container.appendChild(row);
 });
 
-// ❌ Remove option row
+// Remove option row
 document.addEventListener('click', function (e) {
     if (e.target.classList.contains('remove-option')) {
         e.target.closest('.option-row').remove();
@@ -423,7 +351,5 @@ document.addEventListener('click', function (e) {
 });
 
 </script>
-
-
 
 @endsection

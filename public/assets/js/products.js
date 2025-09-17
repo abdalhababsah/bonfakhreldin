@@ -6,20 +6,6 @@ const pagination = document.getElementById('pagination');
 const defaultPlaceholder = document.getElementById('default-placeholder').src;
 const PRODUCTS_URL = appUrl + '/products/data';
 
-const lang = document.documentElement.lang;
-
-let sentence = {
-    ar :{
-        "error_loading": "خطأ في التحميل",
-        "not_found": "لم يتم العثور على منتجات",
-    },
-    en :{
-        "error_loading": "erro while loading",
-        "not_found": "no products found",
-    },
-};
-
-let localSentence = sentence[lang ?? 'en'];
 // Parse the category ID from the URL
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -65,6 +51,8 @@ function fetchProducts(url = PRODUCTS_URL, categoryId = initialCategoryId, searc
 function populateCategories(categories) {
     if (categoryDropdown.options.length === 1) { // Only populate if not already done
         categories.forEach(category => {
+            console.log(category);
+            
             const option = document.createElement('option');
             option.value = category.id;
             option.textContent = category.name;
@@ -81,10 +69,7 @@ function populateGridView(products) {
         products.data.forEach((product, index) => {
 
             const animationClass = index % 2 === 0 ? 'animate-slide-in-left' : 'animate-slide-in-right';
-            const primaryImage = product.primary_image && product.primary_image.image_url ?
-                `${assetBase}${product.primary_image.image_url}` :
-                defaultPlaceholder;
-
+            const primaryImage = product.primary_image_url;
 
             const productHtml = `
                 <div class="col products-card ${animationClass}">
